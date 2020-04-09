@@ -10,10 +10,14 @@ public final class Path {
 	
 	// pages
 	public static final String PAGE_LOGIN = "/login.jsp";
-	public static final String PAGE_ERROR_PAGE = "/WEB-INF/jsp/error_page.jsp";
-	public static final String PAGE_LIST_MENU = "/WEB-INF/jsp/client/list_menu.jsp";
-	public static final String PAGE_LIST_ORDERS = "/WEB-INF/jsp/admin/list_orders.jsp";
-	public static final String PAGE_SETTINGS = "/WEB-INF/jsp/settings.jsp";
+	public static final String PAGE_ERROR_PAGE = "/WEB-INF/view/error_page.jsp";
+	public static final String PAGE_ADMIN_MENU = "/WEB-INF/view/admin.jsp";
+	public static final String PAGE_REGISTRATION= "/registration.jsp";
+	public static final String PAGE_ROUTE_DETAILS= "/routeDetails.jsp";
+	public static final String PAGE_MAIN= "/main_page.jsp";
+	
+	public static final String PAGE_MAIN_REDIRECT = "controller?command=mapping&page=main_page";
+	public static final String PAGE_ADMIN_MENU_REDIRECT = "controller?command=mapping&page=admin";
 
 	// commands
 	public static final String COMMAND_LIST_ORDERS = "/controller?command=listOrders";

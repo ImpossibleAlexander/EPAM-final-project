@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+
+body {
+	background-image: url('train.gif');
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+}
+
+table {
+	font-size: 14px;
+}
+
+#wrapper {
+	width: 400px;
+	margin: 0 auto;
+	text-align: center;
+	background-color: #FFFFFF;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	box-shadow: 5px 5px 5px #898989;
+}
+
+#admin-panel {
+	width: 600px;
+	margin: 0 auto;
+	text-align: center;
+	background-color: #FFFFFF;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	box-shadow: 5px 5px 5px #898989;
+}
+
+#trains-result {
+	width: 700px;
+	margin: 0 auto;
+	text-align: center;
+	background-color: #FFFFFF;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	box-shadow: 5px 5px 5px #898989;
+}
+
+tr.odd {
+	background-color: #CEDDED;
+}
+
+tr.even {
+	background-color: #FFFFFF;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.button-accept {
+	color: white;
+	background-color: #333;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-weight: bold;
+	font-size: 16px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.tableStations { 
+     position: absolute; /* Абсолютное позиционирование */
+     top: 180px; /* Положение от верхнего края */
+     right: 65px; /* Положение от правого края */
+    }

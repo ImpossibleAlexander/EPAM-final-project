@@ -12,6 +12,8 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.apache.tomcat.dbcp.dbcp2.DelegatingCallableStatement;
+import ua.nure.kaplin.SummaryTask4.exception.DBException;
+import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
 public class DBManager {
 
@@ -34,8 +36,8 @@ public class DBManager {
 			dataSource = (DataSource) envContext.lookup("jdbc/final_project");
 			LOGGER.trace("Data source ==> " + dataSource);
 		} catch (NamingException ex) {
-			LOGGER.error("Connection exception");
-			throw new Exception("Connection exception");
+			LOGGER.error(Messages.ERR_CANNOT_OBTAIN_DATA_SOURCE, ex);
+			throw new DBException(Messages.ERR_CANNOT_OBTAIN_DATA_SOURCE, ex);
 		}
 	}
 	
@@ -44,8 +46,8 @@ public class DBManager {
 		try {
 			connnection = dataSource.getConnection();
 		} catch (SQLException ex) {
-			LOGGER.error("Connection exception");
-			throw new Exception("Connection exception");
+			LOGGER.error(Messages.ERR_CANNOT_OBTAIN_CONNECTION, ex);
+			throw new DBException(Messages.ERR_CANNOT_OBTAIN_CONNECTION, ex);
 		}
 		return connnection;
 	}
@@ -55,7 +57,7 @@ public class DBManager {
 			try {
 				connection.close();
 			} catch (SQLException ex) {
-				LOGGER.error("Can not close connection", ex);
+				LOGGER.error(Messages.ERR_CANNOT_CLOSE_CONNECTION, ex);
 			}
 		}
 	}
@@ -65,7 +67,7 @@ public class DBManager {
 			try {
 				cstmt.close();
 			} catch (SQLException ex) {
-				LOGGER.error("Can not close DelegatingCallableStatement", ex);
+				LOGGER.error(Messages.ERR_CANNOT_CLOSE_DELEGATING_CALLABLE_STATEMENT, ex);
 			}
 		}
 	}
@@ -75,7 +77,7 @@ public class DBManager {
 			try {
 				statement.close();
 			} catch (SQLException ex) {
-				LOGGER.error("Can not close Statement", ex);
+				LOGGER.error(Messages.ERR_CANNOT_CLOSE_STATEMENT, ex);
 			}
 		}
 	}
@@ -85,7 +87,7 @@ public class DBManager {
 			try {
 				resultSet.close();
 			} catch (SQLException ex) {
-				LOGGER.error("Can not close ResultSet", ex);
+				LOGGER.error(Messages.ERR_CANNOT_CLOSE_RESULTSET, ex);
 			}
 		}
 	}
@@ -106,7 +108,7 @@ public class DBManager {
 			try {
 				connection.rollback();
 			} catch (SQLException ex) {
-				LOGGER.error("Cannot rollback transaction", ex);
+				LOGGER.error(Messages.ERR_CANNOT_ROLLBACK_TRANSACTION, ex);
 			}
 		}
 	}
