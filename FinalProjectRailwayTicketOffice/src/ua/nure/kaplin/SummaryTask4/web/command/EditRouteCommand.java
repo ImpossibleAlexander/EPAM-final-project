@@ -114,13 +114,6 @@ public class EditRouteCommand extends Command{
 			}
 		}
 		
-		
-		if("createRoutePoint".equals(action)) {
-			System.out.println(action);
-			System.out.println(trainNumber);
-			page = Path.PAGE_ADMIN_MENU_REDIRECT;
-		}
-		
 		return page;
 	}
 	

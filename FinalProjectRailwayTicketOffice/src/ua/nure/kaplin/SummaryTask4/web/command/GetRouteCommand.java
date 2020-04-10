@@ -31,15 +31,12 @@ public class GetRouteCommand extends Command{
 	    daoRoute = new DaoRoute();
 	    
 	    
-	    System.out.println(departureStation + arriveStation);
-	    
 	    String page = Path.PAGE_ERROR_PAGE;
 	    String errorMessage = "Cannot find route between: " + departureStation + " and " + arriveStation;
 	    try {
 	    	trains = daoTrain.findTrainNumberByStationName(departureStation, arriveStation);
 	    	
 	    	for(Train train: trains) {
-	    		System.out.println(train.getTrainNumber());
 	    		routesBuf = new ArrayList<Route>(Route.setRouteDestinationDeparture(daoRoute.findRouteByTrainNumber(train.getTrainNumber()), departureStation, arriveStation));
 	    		routes.addAll(routesBuf);
 	    	}

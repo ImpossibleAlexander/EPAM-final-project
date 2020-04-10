@@ -66,7 +66,7 @@
 				№ поезда: <input type="text" name="trainNumber" value="${trainNumber}" />
 			</legend>
 			<legend>
-				Станция отправления: <input type="text" name="stationNames" />
+				Станция отправления: <input type="text" name="stationName" />
 			</legend>
 			<legend>
 				Дата/Время прибытия: <input type="text" name="destinationDateAndTime" />
@@ -75,8 +75,7 @@
 				Дата/Время отправления: <input type="text" name="departureDateAndTime" />
 			</legend>
 		</fieldset>	
-				<input type="hidden" name="command" value="editRoute">
-				<input type="hidden" name="action" value="createRoutePoint">			
+				<input type="hidden" name="command" value="createRoutePointCommand">			
 				<input type="submit" name="create" value="Добавить" class="button-accept">	
 		</form>
 		

@@ -51,7 +51,7 @@ public class Route {
 	public void setStationName(String stationName) {
 		this.stationName = stationName;
 	}
-	public String getDepartureDateAndTime() {
+	public String DepartureDateAndTime() {
 		return departureDateAndTime;
 	}
 	public void setDepartureDateAndTime(String departureDateAndTime) {
@@ -104,6 +104,10 @@ public class Route {
 	}
 	public void setDestinationStationName(String destinationStationName) {
 		this.destinationStationName = destinationStationName;
+	}
+	
+	public String getDepartureDateAndTime() {
+		return departureDateAndTime;
 	}
 	
 	public static List<Route> setRouteDestinationDeparture (List<Route> routePoints, String departureStation, String arriveStation) {

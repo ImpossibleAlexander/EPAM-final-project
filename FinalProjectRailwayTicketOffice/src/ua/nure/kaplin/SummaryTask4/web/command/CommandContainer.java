@@ -18,7 +18,7 @@ public class CommandContainer {
 	private static Map<String, Command> commands = new TreeMap<String, Command>();
 
 	static {
-		// common commands
+		// common commands CreateRoutePointCommand
 		commands.put("route", new GetRouteCommand());
 		commands.put("routeDetails", new GetRouteDetailsCommand());
 		commands.put("mapping", new PageMappingCommand());
@@ -28,6 +28,7 @@ public class CommandContainer {
 		commands.put("adminEditStation", new EditStationCommand());
 		commands.put("editRoute", new EditRouteCommand());
 		commands.put("routePointUpdateCommand", new RoutePointUpdateCommand());
+		commands.put("createRoutePointCommand", new CreateRoutePointCommand());
 		LOG.debug("Command container was successfully initialized");
 		LOG.trace("Number of commands --> " + commands.size());
 	}

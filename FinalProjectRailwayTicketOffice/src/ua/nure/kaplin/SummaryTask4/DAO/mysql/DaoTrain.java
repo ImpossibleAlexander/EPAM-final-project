@@ -19,6 +19,9 @@ public class DaoTrain {
 			+ "	WHERE name = ? OR name = ? GROUP BY train_number;";
 
 	private static final String SQL_INSERT_TRAIN = "";
+	
+	
+	private static final String SQL_SELECT_TRAIN_BY_NUMBER = "SELECT * FROM train WHERE train_number = ?";
 
 	public List<Train> findTrainNumberByStationName(String departureStation, String arriveStation) throws Exception {
 		List<Train> trains = new ArrayList<Train>();
@@ -57,7 +60,7 @@ public class DaoTrain {
 		try {
 			connection = db.getConnection();
 			connection.setAutoCommit(true);
-			preparedStatement = connection.prepareStatement(SQL_SELECT_TRAIN_BY_STATION_NAME);
+			preparedStatement = connection.prepareStatement(SQL_SELECT_TRAIN_BY_NUMBER);
 			preparedStatement.setInt(1, number);
 			resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
