@@ -136,25 +136,27 @@ public class DaoRoute {
 			connection = db.getConnection();
 			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(SQL_INSERT_DEPARTURE_AND_DESTINATION_STATIONS_OF_ROUTE);
-			
-			if(route.getDestinationDateAndTime().isEmpty()) {
-				route.setDestinationDateAndTime(date);
-			}
-			if(route.getDepartureDateAndTime().isEmpty()) {
-				route.setDepartureDateAndTime(date);
-			}
 				
 			int k = 1;
 			preparedStatement.setInt(k++, route.getTrainNumber());
 			preparedStatement.setInt(k++, route.getStationId());
 			
-			if(route.getDestinationDateAndTime().isEmpty()) {
+			if(route.getDestinationDateAndTime() == null || route.getDestinationDateAndTime().isEmpty()) {
 				preparedStatement.setString(k++, date);
+				System.out.println("preparedStatement.setString(k++, date)");
 			}
-			if(route.getDepartureDateAndTime().isEmpty()) {
+			else {
+				preparedStatement.setString(k++, route.getDestinationDateAndTime());
+				System.out.println("preparedStatement.setString(k++, route.getDestinationDateAndTime());");
+			}
+			if(route.getDepartureDateAndTime() == null || route.getDepartureDateAndTime().isEmpty()) {
 				preparedStatement.setString(k++, date);
-			}		
-		
+				System.out.println("preparedStatement.setString(k++, date);");
+			}
+			else {
+				preparedStatement.setString(k++, route.getDepartureDateAndTime());
+				System.out.println("preparedStatement.setString(k++, route.getDepartureDateAndTime());");
+			}			
 			preparedStatement.executeUpdate();
 			connection.commit();
 			

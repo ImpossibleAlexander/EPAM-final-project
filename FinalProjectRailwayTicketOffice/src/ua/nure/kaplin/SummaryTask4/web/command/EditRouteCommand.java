@@ -19,10 +19,7 @@ public class EditRouteCommand extends Command{
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
 		DaoRoute daoRoute = null;
-		DaoTrainStation daoStation = null;
 		Route route = null;
-		TrainStation departureStation = null;
-		TrainStation destinationStation = null;
 		StringBuilder errorMessageUpdate = new StringBuilder();
 		StringBuilder errorMessageInsertRoute = new StringBuilder();
 
@@ -35,14 +32,6 @@ public class EditRouteCommand extends Command{
 		String destinationStationName = request.getParameter("destinationStationName");
 		String destinationDateAndTime = request.getParameter("destinationDateAndTime");
 		String departureDateAndTime = request.getParameter("departureDateAndTime");
-		
-		String coupe = request.getParameter("coupe");
-		String reservedSeat = request.getParameter("reservedSeat");
-		String common = request.getParameter("common");
-		
-		String coupePrice = request.getParameter("coupePrice");
-		String reservedSeatPrice = request.getParameter("reservedSeatPrice");
-		String commonPrice = request.getParameter("commonPrice");
 			
 		String page = Path.PAGE_ERROR_PAGE;
 	    
@@ -82,37 +71,6 @@ public class EditRouteCommand extends Command{
 					.append("; destination station - ")
 					.append(destinationStationName);
 																
-		if("createRoute".equals(action)) {
-			try {
-				route = new Route();
-				daoStation = new DaoTrainStation();
-				daoRoute = new DaoRoute();
-				departureStation = new TrainStation();
-				destinationStation = new TrainStation();
-				departureStation = daoStation.findStationByName(departureStationName);
-				destinationStation = daoStation.findStationByName(destinationStationName);
-				
-				route.setTrainNumber(Integer.parseInt(trainNumber));
-				route.setCoupe(Integer.parseInt(coupe));
-				route.setReservedSeat(Integer.parseInt(reservedSeat));
-				route.setCommon(Integer.parseInt(common));	
-				route.setCoupePrice(Integer.parseInt(coupePrice));
-				route.setReservedSeat(Integer.parseInt(reservedSeatPrice));
-				route.setCommonPrice(Integer.parseInt(commonPrice));
-				
-				route.setStationId(departureStation.getId());
-				route.setDepartureDateAndTime(departureDateAndTime);
-				
-				route.setDestinationStationId(destinationStation.getId());
-				route.setDestinationDateAndTime(departureDateAndTime);
-				
-				daoRoute.insertRoute(route);
-			
-				page = Path.PAGE_MAIN_REDIRECT;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 		
 		return page;
 	}

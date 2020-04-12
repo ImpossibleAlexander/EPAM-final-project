@@ -37,7 +37,7 @@ public class GetRouteCommand extends Command{
 	    	trains = daoTrain.findTrainNumberByStationName(departureStation, arriveStation);
 	    	
 	    	for(Train train: trains) {
-	    		routesBuf = new ArrayList<Route>(Route.setRouteDestinationDeparture(daoRoute.findRouteByTrainNumber(train.getTrainNumber()), departureStation, arriveStation));
+	    		routesBuf = new ArrayList<Route>(setRouteDestinationDeparture(daoRoute.findRouteByTrainNumber(train.getTrainNumber()), departureStation, arriveStation));
 	    		routes.addAll(routesBuf);
 	    	}
 	    	if(routes.size() == 0) {
@@ -51,5 +51,32 @@ public class GetRouteCommand extends Command{
 		}	    
 		return page;
 	}
+	
+	private List<Route> setRouteDestinationDeparture (List<Route> routePoints, String departureStation, String arriveStation) {
+		List<Route> resultRoute = new ArrayList<Route>();
+		Route route = new Route();
+		
+		for(Route route2: routePoints) {
+			if(route2.getStationName().contains(departureStation)) {
+				route.setStationName(departureStation);
+				route.setDepartureDateAndTime(route2.getDepartureDateAndTime());
+			}
+			else if (route2.getStationName().contains(arriveStation)) {
+				route.setDestinationStationName(arriveStation);
+				route.setDestinationDateAndTime(route2.getDestinationDateAndTime());
+			}
+		}
+		route.setTrainNumber(routePoints.get(0).getTrainNumber());
+		route.setCoupe(routePoints.get(0).getCoupe());
+		route.setReservedSeat(routePoints.get(0).getReservedSeat());
+		route.setCommon(routePoints.get(0).getCommon());
+		route.setCoupePrice(routePoints.get(0).getCoupePrice());
+		route.setReservedSeatPrice(routePoints.get(0).getReservedSeatPrice());
+		route.setCommonPrice(routePoints.get(0).getCommonPrice());
+		resultRoute.add(route);
+		return resultRoute;
+	}
+	
+	
 
 }

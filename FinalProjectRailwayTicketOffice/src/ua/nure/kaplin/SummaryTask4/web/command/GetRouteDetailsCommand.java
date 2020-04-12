@@ -28,15 +28,15 @@ public class GetRouteDetailsCommand extends Command {
 		String stationName = request.getParameter("stationName");
 		String departureStation = request.getParameter("departureStation");
 		String destinationStation = request.getParameter("destinationStation");
-		List<Route> routes = new ArrayList<Route>();
+		List<Route> routes = null;
 		DaoRoute dao = new DaoRoute();
 
 		try {
 			if (userRole == Role.ADMIN) {
-				
+				routes = new ArrayList<Route>();
 				if(trainNumber != null) {
 					request.setAttribute("trainNumber", trainNumber);
-					routes = dao.findRouteByTrainNumber(Integer.parseInt(trainNumber));
+					routes = setRouteBetweenRoutePointsForAdmin(dao.findRouteByTrainNumber(Integer.parseInt(trainNumber)));
 					request.setAttribute("routes", routes);
 				}
 				if(stationName != null) {
@@ -44,7 +44,8 @@ public class GetRouteDetailsCommand extends Command {
 				}
 				page = Path.PAGE_ADMIN_MENU;
 			} else {
-				routes = Route.setRouteBetweenRoutePoints(dao.findRouteByTrainNumber(Integer.parseInt(trainNumber)),
+				routes = new ArrayList<Route>();
+				routes = setRouteBetweenRoutePoints(dao.findRouteByTrainNumber(Integer.parseInt(trainNumber)),
 						departureStation, destinationStation);
 				request.setAttribute("routes", routes);
 			}
@@ -53,6 +54,37 @@ public class GetRouteDetailsCommand extends Command {
 		}
 		
 		return page;
+	}
+	
+	private List<Route> setRouteBetweenRoutePoints (List<Route> routePoints, String departureStation, String destinationStation) {
+		int indexOfDepSt = 0;
+		int indexOfDestSt = 0;
+		for (int i = 0; i < routePoints.size(); i++) {
+			if(routePoints.get(i).getStationName().contains(departureStation) && !departureStation.isEmpty()) {
+				indexOfDepSt = i;
+			}
+			else if (routePoints.get(i).getStationName().contains(destinationStation) && !destinationStation.isEmpty()) {
+				indexOfDestSt = i+1;
+			}
+		}
+		routePoints = routePoints.subList(indexOfDepSt, indexOfDestSt);
+		for(int i = 0; i < routePoints.size()-1; i++) {
+			if( i < routePoints.size()) {
+				routePoints.get(i).setDestinationStationName(routePoints.get(i+1).getStationName());
+			}
+		}
+		
+		return routePoints;
+	}
+	
+	private List<Route> setRouteBetweenRoutePointsForAdmin (List<Route> routePoints) {
+		for(int i = 0; i < routePoints.size()-1; i++) {
+			if( i < routePoints.size()) {
+				routePoints.get(i).setDestinationStationName(routePoints.get(i+1).getStationName());
+			}
+		}
+		
+		return routePoints;
 	}
 
 }

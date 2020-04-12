@@ -26,7 +26,13 @@ public class CreateRoutePointCommand extends Command{
 		String departureStationName = request.getParameter("stationName");
 		String destinationDateAndTime = request.getParameter("destinationDateAndTime");
 		String departureDateAndTime = request.getParameter("departureDateAndTime");
-		String page = "";
+		
+		
+		String page = Path.PAGE_ERROR_PAGE;
+		
+		if(trainNumber == null || departureStationName == null || trainNumber.isEmpty() || departureStationName.isEmpty()) {
+			throw new AppException("Train number/station name cannot be empty");
+		}
 		
 		route = new Route();
 		daoTrain = new DaoTrain();
@@ -37,7 +43,6 @@ public class CreateRoutePointCommand extends Command{
 		route.setStationName(departureStationName);
 		route.setDestinationDateAndTime(destinationDateAndTime);
 		route.setDepartureDateAndTime(departureDateAndTime);
-		System.out.println("-------------------");
 		try {
 			route.setTrainId((daoTrain.findTrainByNumber(route.getTrainNumber())).getId());
 			route.setStationId((daoTrainStation.findStationByName(departureStationName).getId()));

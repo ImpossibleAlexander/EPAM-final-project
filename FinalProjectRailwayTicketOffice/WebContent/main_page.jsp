@@ -50,42 +50,41 @@
 			<c:choose>
   			  	<c:when test="${userRole == 'ADMIN'}">
        				 <form action="controller" method="post">
-						<input type="hidden" name="command" value="editRoute">
-						<input type="hidden" name="action" value="createRoute">
+						<input type="hidden" name="command" value="createRouteCommand">
 						<fieldset>
 						<legend><h3>Добавление/Редактирование поезда</h3></legend>
 							<legend>
-								№ поезда <input type="text" name="trainNumber" />
+								№ поезда <input type="text" name="trainNumber" required/>
 							</legend>
 							<legend>
-								Станция отправления: <input type="text" name="stationName" />
+								Станция отправления: <input type="text" name="stationName" required/>
 							</legend>
 							<legend>
-								Дата/Время отправления: <input type="text" name="departureDateAndTime" />
+								Дата/Время отправления: <input type="text" name="departureDateAndTime" required/>
 							</legend>
 							<legend>
-								Станция прибытия: <input type="text" name="destinationStationName" />
+								Станция прибытия: <input type="text" name="destinationStationName" required/>
 							</legend>
 							<legend>
-								Дата/Время прибытия: <input type="text" name="destinationDateAndTime" />
+								Дата/Время прибытия: <input type="text" name="destinationDateAndTime" required/>
 							</legend>
 							<legend>
-								Купе (свободно): <input type="text" name="coupe" />
+								Купе (свободно): <input type="text" name="coupe" required/>
 							</legend>
 							<legend>
-								Плацкарт (свободно): <input type="text" name="reservedSeat" />
+								Плацкарт (свободно): <input type="text" name="reservedSeat" required/>
 							</legend>
 							<legend>
-								Общий (свободно): <input type="text" name="common" />
+								Общий (свободно): <input type="text" name="common" required/>
 							</legend>
 							<legend>
-								Стоимость (купе): <input type="text" name="coupePrice" />
+								Стоимость (купе): <input type="text" name="coupePrice" required/>
 							</legend>
 							<legend>
-								Стоимость (плацкарт): <input type="text" name="reservedSeatPrice" />
+								Стоимость (плацкарт): <input type="text" name="reservedSeatPrice" required/>
 							</legend>
 							<legend>
-								Стоимость (общий): <input type="text" name="commonPrice" />
+								Стоимость (общий): <input type="text" name="commonPrice" required/>
 							</legend>
 						</fieldset>
 						<br /> <input type="submit" value="Добавить" class="button-accept">
@@ -182,7 +181,5 @@
 					</tr>
 				</c:forEach>
 			</table>
-	
-	
 </body>
 </html>

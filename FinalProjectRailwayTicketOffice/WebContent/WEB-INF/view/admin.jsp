@@ -63,10 +63,10 @@
 			<fieldset>
 			<legend><h3>Добавление точки маршрута</h3></legend>
 			<legend>
-				№ поезда: <input type="text" name="trainNumber" value="${trainNumber}" />
+				№ поезда: <input type="text" name="trainNumber" value="${trainNumber}" required/>
 			</legend>
 			<legend>
-				Станция отправления: <input type="text" name="stationName" />
+				Станция отправления: <input type="text" name="stationName" required/>
 			</legend>
 			<legend>
 				Дата/Время прибытия: <input type="text" name="destinationDateAndTime" />
