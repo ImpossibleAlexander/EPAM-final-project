@@ -18,7 +18,7 @@ public class DaoTrain {
 			+ "	INNER JOIN train_station ON train_station.id = route_point.train_station_id \r\n"
 			+ "	WHERE name = ? OR name = ? GROUP BY train_number;";
 
-	private static final String SQL_INSERT_TRAIN = "";
+	
 	
 	
 	private static final String SQL_SELECT_TRAIN_BY_NUMBER = "SELECT * FROM train WHERE train_number = ?";

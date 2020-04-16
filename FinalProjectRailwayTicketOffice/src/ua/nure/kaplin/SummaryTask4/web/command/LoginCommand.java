@@ -1,6 +1,8 @@
 package ua.nure.kaplin.SummaryTask4.web.command;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -11,19 +13,21 @@ import ua.nure.kaplin.SummaryTask4.exception.AppException;
 import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUser;
 import ua.nure.kaplin.SummaryTask4.db.Role;
+import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
 
 import org.apache.log4j.Logger;
 
-public class LoginCommand extends Command{
-	
+public class LoginCommand extends Command {
+
 	private static final Logger LOG = Logger.getLogger(LoginCommand.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
 		HttpSession session = request.getSession();
-
+		List<Route> routes = null;
+		
 		// obtain login and password from a request
 		DaoUser dao = new DaoUser();
 		String login = request.getParameter("login");
@@ -55,10 +59,15 @@ public class LoginCommand extends Command{
 		session.setAttribute("userRole", userRole);
 		LOG.trace("Set the session attribute: userRole --> " + userRole);
 
+		if (userRole == Role.CLIENT) {
+			routes = new ArrayList<Route>();
+			session.setAttribute("routesForBasket", routes);
+		}
+
 		LOG.info("User " + user + " logged as " + userRole.toString().toLowerCase());
 
 		LOG.debug("Command finished");
 		return Path.PAGE_MAIN_REDIRECT;
 	}
-	
+
 }

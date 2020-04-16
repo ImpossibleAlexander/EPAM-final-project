@@ -16,20 +16,14 @@ public class RoutePointUpdateCommand extends Command{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
-		
 		DaoRoute daoRoute = null;
 		Route route = null;
-		StringBuilder errorMessageUpdate = new StringBuilder();
+		
 		String trainId = request.getParameter("trainId");
 		String departureStationName = request.getParameter("stationName");
 		String destinationDateAndTime = request.getParameter("destinationDateAndTime");
 		String departureDateAndTime = request.getParameter("departureDateAndTime");
-			
-		String page = Path.PAGE_ERROR_PAGE;
-
-		errorMessageUpdate.append("Cannot update route point with station name - ")
-		  .append(departureStationName);
-		
+				
 			try {
 				daoRoute = new DaoRoute();
 				route = new Route();
@@ -44,13 +38,10 @@ public class RoutePointUpdateCommand extends Command{
 				}
 				route.setDepartureDateAndTime(departureDateAndTime);
 				daoRoute.updateRoutePoints(route);
-				page = Path.PAGE_ADMIN_MENU_REDIRECT;
 			} catch (Exception e) {
-				request.setAttribute("errorMessage", errorMessageUpdate.toString());
 				e.printStackTrace();
 			}
-			
-		return page;
+		return Path.PAGE_ADMIN_MENU_REDIRECT;
 	}
 
 }

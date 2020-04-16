@@ -31,9 +31,6 @@
   			  	<c:when test="${userRole == 'ADMIN'}">
        				<a href="controller?command=logout">Выйти</a>
     			</c:when>
-    			<c:when test="${userRole == 'CLIENT'}">
-       				<a href="controller?command=logout">Выйти</a>
-    			</c:when>
    			 	<c:otherwise>
         			<a href="login.jsp">Войти</a>
    				 </c:otherwise>

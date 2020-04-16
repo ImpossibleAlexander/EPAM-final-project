@@ -9,29 +9,6 @@ table {
 	font-size: 14px;
 }
 
-#wrapper {
-	width: 400px;
-	margin: 0 auto;
-	text-align: center;
-	background-color: #FFFFFF;
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-bottom: 15px;
-	padding-top: 15px;
-	box-shadow: 5px 5px 5px #898989;
-}
-
-#admin-panel {
-	width: 600px;
-	margin: 0 auto;
-	text-align: center;
-	background-color: #FFFFFF;
-	padding-left: 15px;
-	padding-right: 15px;
-	padding-bottom: 15px;
-	padding-top: 15px;
-	box-shadow: 5px 5px 5px #898989;
-}
 
 #trains-result {
 	width: 700px;
@@ -62,15 +39,10 @@ tr.even {
 	background-color: #333;
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
 	font-weight: bold;
-	font-size: 16px;
-	padding-left: 16px;
-	padding-right: 16px;
+	font-size: 14px;
+	padding-left: 9px;
+	padding-right: 9px;
 	padding-top: 3px;
 	padding-bottom: 3px;
 }
 
-.tableStations { 
-     position: fixed; /* Абсолютное позиционирование */
-     top: 70px; /* Положение от верхнего края */
-     right: 10px; /* Положение от правого края */
-    }

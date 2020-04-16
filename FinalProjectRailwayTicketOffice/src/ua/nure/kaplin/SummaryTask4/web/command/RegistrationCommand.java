@@ -42,7 +42,7 @@ public class RegistrationCommand extends Command {
 			}
 		}
 		
-		return Path.PAGE_LOGIN;
+		return Path.PAGE_LOGIN_REDIRECT;
 	}
 
 }

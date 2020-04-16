@@ -26,7 +26,8 @@
 		</ul>
 	</nav>
 
-	<table border="1" width="10%" cellpadding="5">
+	<div style="margin: auto; text-align: center">
+		<table border="1" width="10%" cellpadding="5"  align="center">
 				<tr>
 					<th>№ поезда</th>
 					<th>Пункт отправления</th>
@@ -40,17 +41,11 @@
 						<td>${route.stationName}</td>
 						<td>${route.destinationDateAndTime}</td>
 						<td>${route.departureDateAndTime}</td>
-						<td>${route.destinationStationName}</td>
-						<td>
-							<form action="controller" method="post">
-								<input type="hidden" name="command" value="routeDetails">
-								<input type="hidden" name="trainNumber" value="${route.trainNumber}">
-								<input type="submit" value="Купить" class="submit2">
-							</form>
-						</td>
+						<td>${route.destinationStationName}</td>				
 					</tr>
 				</c:forEach>
-			</table>
+			</table>			
 		<a href="javascript:history.back()">вернуться</a>
+	</div>
 </body>
 </html>

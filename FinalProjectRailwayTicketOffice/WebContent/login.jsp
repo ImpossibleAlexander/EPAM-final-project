@@ -15,12 +15,12 @@
         <h1>Login</h1>
 
         <div class="txtb">
-          <input type="text" name="login">
+          <input type="text" name="login" required>
           <span data-placeholder="Username"></span>
         </div>
 
         <div class="txtb">
-          <input type="password" name="password">
+          <input type="password" name="password" required>
           <span data-placeholder="Password"></span>
         </div>
         <input type="submit" class="logbtn" value="Sign In">

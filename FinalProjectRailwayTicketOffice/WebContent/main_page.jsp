@@ -30,6 +30,9 @@
   			  	<c:when test="${userRole == 'ADMIN'}">
        				 <a href="controller?command=mapping&page=admin">Редактировать</a>
     			</c:when>
+    			<c:when test="${userRole == 'CLIENT'}">
+       				 <a href="controller?command=mapping&page=basket">Корзина</a>
+    			</c:when>
 			</c:choose>
 			</li>
 			<li style="float: right">
@@ -38,7 +41,7 @@
        				<a href="controller?command=logout">Выйти</a>
     			</c:when>
     			<c:when test="${userRole == 'CLIENT'}">
-       				<a href="controller?command=logoutp">Выйти</a>
+       				<a href="controller?command=logout">Выйти</a>
     			</c:when>
    			 	<c:otherwise>
         			<a href="login.jsp">Войти</a>
@@ -47,6 +50,35 @@
 			</li>		
 		</ul>
 	</nav>
+	
+	
+	<div>
+		<table border="1" width="200px" cellpadding="5" align="right" >
+							<tr>
+								<th><h3>Станции</h3></th>
+							</tr>
+							<c:forEach var="station" items="${trainStationBean.getStations()}">
+			
+								<tr>
+									<td>${station.stationName}</td>
+										<c:choose>
+			  			  					<c:when test="${userRole == 'ADMIN'}">
+			  			  					<td>
+			       								<form action="controller" method="get">
+													<input type="hidden" name="command" value="routeDetails">
+													<input type="hidden" name="stationName" value="${station.stationName}">
+													<input type="submit" value="Редактировать" class="button-accept">																														
+												</form>
+												</td>
+			    							</c:when>
+			    						</c:choose>							
+								</tr>
+							</c:forEach>
+				</table>
+	</div>
+	
+	<div>
+		<div style="width: 450px">
 			<c:choose>
   			  	<c:when test="${userRole == 'ADMIN'}">
        				 <form action="controller" method="post">
@@ -54,7 +86,7 @@
 						<fieldset>
 						<legend><h3>Добавление/Редактирование поезда</h3></legend>
 							<legend>
-								№ поезда <input type="text" name="trainNumber" required/>
+								№ поезда: <input type="text" name="trainNumber" required/>
 							</legend>
 							<legend>
 								Станция отправления: <input type="text" name="stationName" required/>
@@ -91,7 +123,10 @@
 					</form>
     			</c:when>
 			</c:choose>
+			</div>
 			
+			
+	<div style="width: 450px">
 	<form action="controller" method="get">
 		<input type="hidden" name="command" value="route">
 		<fieldset>
@@ -105,6 +140,7 @@
 		</fieldset>
 		<br /> <input type="submit" value="Найти" class="button-accept">
 	</form>
+	</div>
 	<c:choose>
 		<c:when test="${empty routes}"/> 
 		<c:otherwise>
@@ -145,41 +181,32 @@
 								<input type="submit" value="Подробнее" class="button-accept">
 							</form>
 						</td>
+						
+						<c:choose>
+		  			  	<c:when test="${userRole == 'CLIENT'}">	  	
+		  			  			<td>
+								<form action="controller" method="post">
+									<input type="hidden" name="command" value="addToBasket">
+									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
+									<input type="hidden" name="departureStation" value="${route.stationName}">
+									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
+									<input type="hidden" name="destinationStationName" value="${route.destinationStationName}">
+									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
+									<input type="hidden" name="coupePrice" value="${route.coupePrice}">
+									<input type="hidden" name="reservedSeatPrice" value="${route.reservedSeatPrice}">
+									<input type="hidden" name="commonPrice" value="${route.commonPrice}">
+									<input type="submit" value="Добавить в корзину" class="button-accept">
+								</form>
+								</td>
+		    				</c:when>
+						</c:choose>
 					</tr>
 				</c:forEach>
 			</table>
 		</c:otherwise>
 	</c:choose>
+	</div>
 	
 	
-	<table border="1" width="10%" cellpadding="5" class="tableStations">
-				<tr>
-					<th>Станция</th>
-				</tr>
-				<c:forEach var="station" items="${trainStationBean.getStations()}">
-
-					<tr>
-						<td>${station.stationName}</td>
-						<td>
-							<c:choose>
-  			  					<c:when test="${userRole == 'ADMIN'}">
-       								<form action="controller" method="get">
-										<input type="hidden" name="command" value="routeDetails">
-										<input type="hidden" name="stationName" value="${station.stationName}">
-										<input type="submit" value="Редактировать" class="button-accept">																														
-									</form>
-    							</c:when>
-    							<c:otherwise>
-        							<form action="controller" method="get">
-										<input type="hidden" name="command" value="routeDetails">
-										<input type="hidden" name="stationName" value="${station.stationName}">
-										<input type="submit" value="Выбрать" class="button-accept">																														
-									</form>
-   								 </c:otherwise>
-    						</c:choose>		
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
 </body>
 </html>

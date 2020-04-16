@@ -5,12 +5,7 @@ import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
-/**
- * Holder for all commands.<br/>
- * 
- * @author D.Kolesnikov
- * 
- */
+
 public class CommandContainer {
 	
 	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
@@ -26,10 +21,11 @@ public class CommandContainer {
 		commands.put("login", new LoginCommand());
 		commands.put("logout", new LogoutCommand());
 		commands.put("adminEditStation", new EditStationCommand());
-		commands.put("editRoute", new EditRouteCommand());
 		commands.put("routePointUpdateCommand", new RoutePointUpdateCommand());
 		commands.put("createRoutePointCommand", new CreateRoutePointCommand());
 		commands.put("createRouteCommand", new CreateRouteCommand());
+		commands.put("addToBasket", new AddToBasketCommand());
+		commands.put("buyTicket", new BuyTicketCommand());
 		LOG.debug("Command container was successfully initialized");
 		LOG.trace("Number of commands --> " + commands.size());
 	}

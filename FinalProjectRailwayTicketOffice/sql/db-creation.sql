@@ -3,7 +3,10 @@ DROP TABLE IF EXISTS route_point;
 DROP TABLE IF EXISTS train_station;
 DROP TABLE IF EXISTS train;
 DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS user_tickets;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS tickets;
+
 CREATE TABLE train_station (
 	id INT PRIMARY KEY AUTO_INCREMENT ,
 	name VARCHAR(12) UNIQUE NOT NULL 
@@ -82,6 +85,26 @@ CREATE TABLE users(
 
 -- the same as previous but updating is used insted deleting
 		ON UPDATE RESTRICT
+);
+
+CREATE TABLE tickets (
+	id INT PRIMARY KEY AUTO_INCREMENT ,
+    train_number INT UNIQUE NOT NULL,
+    destinationStation VARCHAR(20) NOT NULL,
+    departureStation VARCHAR(20) NOT NULL,
+    arrive_datetime datetime,
+    depart_datetime datetime,
+    place VARCHAR(15) NOT NULL,
+    price INT NOT NULL
+);
+
+
+CREATE TABLE user_tickets (
+	user_id INT,
+	FOREIGN KEY (user_id)  REFERENCES users (id) ON DELETE CASCADE ON UPDATE cascade,
+	tickets_id INT,
+	FOREIGN KEY (tickets_id)  REFERENCES tickets (id) ON DELETE CASCADE ON UPDATE cascade,
+	PRIMARY KEY (user_id, tickets_id)
 );
 
 insert into users (login, email, password, first_name, last_name, role_id) 
