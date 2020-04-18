@@ -37,6 +37,9 @@ public class PageMappingCommand extends Command{
 		case "basket": 
 			url = Path.PAGE_BASKET;
 			break;
+		case "user_page": 
+			url = Path.PAGE_USER_PAGE;
+			break;
 		default:
 			url = "";
 			break;

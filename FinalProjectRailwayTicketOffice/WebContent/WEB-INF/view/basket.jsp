@@ -22,12 +22,16 @@
 			<li>
 				<a href="main_page.jsp">Контакты</a>
 			</li>
-			<li>
-				<a href="#">Корзина</a>
-			</li>
+
+    		<li>
+       			<a class="active" href="#">Корзина</a>
+       		</li>
+       		<li>
+       			<a href="controller?command=mapping&page=user_page">Личный кабинет</a>
+       		</li>	
 			<li style="float: right">
 				<c:choose>
-    			<c:when test="${userRole == 'CLIENT'}">
+  			  	<c:when test="${userRole == 'CLIENT'}">
        				<a href="controller?command=logout">Выйти</a>
     			</c:when>
    			 	<c:otherwise>
@@ -72,6 +76,13 @@
 								<input type="hidden" name="departureStation" value="${route.stationName}">
 								<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
 								<input type="submit" value="Подробнее" class="button-accept">
+							</form>
+						</td>
+						<td>
+							<form action="controller" method="get">
+								<input type="hidden" name="command" value="deleteFromBasket">
+								<input type="hidden" name="trainNumber" value="${route.trainNumber}">
+								<input type="submit" value="Удалить" class="button-accept">
 							</form>
 						</td>
 						<td>

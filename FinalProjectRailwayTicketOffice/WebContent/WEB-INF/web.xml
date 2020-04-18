@@ -63,7 +63,7 @@
 		</init-param>
 		<init-param>
 			<param-name>client</param-name>
-			<param-value>listMenu addToBasket buyTicket</param-value>
+			<param-value>listMenu addToBasket buyTicket deleteFromBasket</param-value>
 		</init-param>
 		<init-param>
 			<param-name>common</param-name>

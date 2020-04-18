@@ -22,7 +22,7 @@
 			<li>
 				<c:choose>
   			  	<c:when test="${userRole == 'ADMIN'}">
-       				 <a href="controller?command=mapping&page=admin">Редактировать</a>
+       				 <a class="active" href="#">Редактировать</a>
     			</c:when>
 			</c:choose>
 			</li>

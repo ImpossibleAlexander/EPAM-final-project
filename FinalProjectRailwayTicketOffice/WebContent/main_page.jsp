@@ -20,7 +20,7 @@
 	<nav>
 		<ul>
 			<li>
-				<a href="#">Расписание</a>
+				<a class="active" href="#">Расписание</a>
 			</li>
 			<li>
 				<a href="main_page.jsp">Контакты</a>
@@ -30,17 +30,22 @@
   			  	<c:when test="${userRole == 'ADMIN'}">
        				 <a href="controller?command=mapping&page=admin">Редактировать</a>
     			</c:when>
-    			<c:when test="${userRole == 'CLIENT'}">
-       				 <a href="controller?command=mapping&page=basket">Корзина</a>
-    			</c:when>
 			</c:choose>
 			</li>
+				<c:choose>
+    			<c:when test="${userRole == 'CLIENT'}">
+    				<li>
+       				 <a href="controller?command=mapping&page=basket">Корзина</a>
+       				</li>
+       				<li>
+       				 <a href="controller?command=mapping&page=user_page">Личный кабинет</a>
+       				</li>
+    			</c:when>
+			</c:choose>
+			
 			<li style="float: right">
 				<c:choose>
-  			  	<c:when test="${userRole == 'ADMIN'}">
-       				<a href="controller?command=logout">Выйти</a>
-    			</c:when>
-    			<c:when test="${userRole == 'CLIENT'}">
+  			  	<c:when test="${userRole == 'ADMIN'||userRole == 'CLIENT'}">
        				<a href="controller?command=logout">Выйти</a>
     			</c:when>
    			 	<c:otherwise>
@@ -131,6 +136,9 @@
 		<input type="hidden" name="command" value="route">
 		<fieldset>
 			<legend><h3>Поиск поезда</h3></legend>
+			<legend>
+				№ поезда: <input type="text" name="trainNumber" />
+			</legend>
 			<legend>
 				Станция отправления: <input type="text" name="departureStation" />
 			</legend>

@@ -37,6 +37,10 @@ public class Messages {
 	public static final String ERR_CANNOT_OBTAIN_USER_BY_LOGIN = "Cannot obtain a user by its login";
 
 	public static final String ERR_CANNOT_UPDATE_USER = "Cannot update a user";
+	
+	public static final String ERR_CANNOT_INSERT_USER = "Cannot insert a user";
+	
+	public static final String ERR_CANNOT_FIND_USER_BY_USER_ID = "Cannot find a user by id";
 
 	public static final String ERR_CANNOT_CLOSE_CONNECTION = "Cannot close a connection";
 

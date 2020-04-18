@@ -8,7 +8,7 @@ import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 
 public class TrainStationBean {
 	public List<TrainStation> getStations () {
-		List<TrainStation> stations = new ArrayList<TrainStation>();
+		List<TrainStation> stations = null;
 		DaoTrainStation dao = new DaoTrainStation();
 		try {
 			stations = dao.getStations();
