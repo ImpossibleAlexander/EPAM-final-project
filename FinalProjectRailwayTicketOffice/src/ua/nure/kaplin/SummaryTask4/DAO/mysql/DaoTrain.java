@@ -7,20 +7,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.Train;
+import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
 public class DaoTrain {
+	
+	private static final Logger LOG = Logger.getLogger(DBManager.class);
 
 	private static final String SQL_SELECT_TRAIN_BY_STATION_NAME = "SELECT train_number, count(1) as 'repeats'\r\n"
 			+ "	FROM route_point\r\n" + "	INNER JOIN train\r\n" + "	ON train.id = route_point.train_id \r\n"
 			+ "	INNER JOIN train_station ON train_station.id = route_point.train_station_id \r\n"
 			+ "	WHERE name = ? OR name = ? GROUP BY train_number;";
 
-	
-	
-	
 	private static final String SQL_SELECT_TRAIN_BY_NUMBER = "SELECT * FROM train WHERE train_number = ?";
 
 	public List<Train> findTrainNumberByStationName(String departureStation, String arriveStation) throws Exception {
@@ -44,7 +46,8 @@ public class DaoTrain {
 				}
 			}
 		} catch (SQLException e) {
-			throw new Exception("Can_not_select_train_number_by_station_name", e);
+			LOG.error(Messages.ERR_CANNOT_SELECT_TRAIN_NUMBER_BY_STATION_NAME, e);
+			throw new Exception(Messages.ERR_CANNOT_SELECT_TRAIN_NUMBER_BY_STATION_NAME, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
@@ -69,7 +72,8 @@ public class DaoTrain {
 				train.setTrainNumber(resultSet.getInt(2));
 			}
 		} catch (SQLException e) {
-			throw new Exception("Can_not_select_train_by_name", e);
+			LOG.error(Messages.ERR_CANNOT_SELECT_TRAIN_BY_TRAIN_NUMBER, e);
+			throw new Exception(Messages.ERR_CANNOT_SELECT_TRAIN_BY_TRAIN_NUMBER, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}

@@ -9,8 +9,14 @@ import java.util.List;
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.exception.DBException;
+import ua.nure.kaplin.SummaryTask4.exception.Messages;
+
+import org.apache.log4j.Logger;
 
 public class DaoRoute {
+	
+	private static final Logger LOG = Logger.getLogger(DBManager.class);
+	
 	private static final String SQL_SELECT_ROUTE_BY_TRAIN_NUMBER = "SELECT train_number, arrive_datetime, depart_datetime, name, coupe, reserved_seat, common, coupe_price, reserved_seat_price, common_price, train.id, train_station.id\r\n"
 			+ "FROM route_point\r\n" + "INNER JOIN train\r\n" + "ON train.id = route_point.train_id \r\n"
 			+ "INNER JOIN train_station ON train_station.id = route_point.train_station_id WHERE train_number = ?";
@@ -53,7 +59,8 @@ public class DaoRoute {
 				routes.add(route);
 			}
 		} catch (SQLException e) {
-			throw new Exception("Can_not_select_route_point_by_name", e);
+			LOG.error(Messages.ERR_CANNOT_SELECT_ROUTE_POINT_BY_TRAIN_NUMBER, e);
+			throw new DBException(Messages.ERR_CANNOT_SELECT_ROUTE_POINT_BY_TRAIN_NUMBER, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
@@ -76,7 +83,8 @@ public class DaoRoute {
 				return false;
 			}
 		} catch (SQLException e) {
-			return false;
+			LOG.error(Messages.ERR_CANNOT_UPDATE_ROUTE_POINTS, e);
+			throw new DBException(Messages.ERR_CANNOT_UPDATE_ROUTE_POINTS, e);
 		}
 		return true;
 	}
@@ -120,7 +128,8 @@ public class DaoRoute {
 			connection.commit();
 		} catch (SQLException e) {
 			db.rollback(connection);
-			throw new DBException("Can_not_insert_route", e);
+			LOG.error(Messages.ERR_CANNOT_INSERT_ROUTE, e);
+			throw new DBException(Messages.ERR_CANNOT_INSERT_ROUTE, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
@@ -162,7 +171,8 @@ public class DaoRoute {
 			
 		} catch (SQLException e) {
 			db.rollback(connection);
-			throw new DBException("Can_not_insert_route_point", e);
+			LOG.error(Messages.ERR_CANNOT_INSERT_ROUTE_POINT, e);
+			throw new DBException(Messages.ERR_CANNOT_INSERT_ROUTE_POINT, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}

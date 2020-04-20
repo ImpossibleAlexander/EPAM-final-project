@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.Ticket;
 import ua.nure.kaplin.SummaryTask4.db.entity.Train;
@@ -16,8 +18,12 @@ import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
 public class DaoUser {
 	
+	private static final Logger LOG = Logger.getLogger(DBManager.class);
+	
 	private static final String INSERT_USER = "INSERT INTO users (login, email, password, first_name, last_name, role_id) VALUE(?,?,?,?,?,?)";
+	
 	private static final String SELECT_USER_BY_LOGIN = "select * from users WHERE login = ?";
+	
 	private static final String SELECT_USER_TICKETS_BY_USER_ID= "SELECT tickets.id, ticket_number, train_number, departureStation, destinationStation, arrive_datetime, depart_datetime, place,price   \r\n" + 
 			"FROM user_tickets INNER JOIN users ON users.id = user_tickets.user_id \r\n" + 
 			"INNER JOIN tickets ON tickets.id = user_tickets.tickets_id WHERE users.id = ?";
@@ -41,9 +47,10 @@ public class DaoUser {
 			preparedStatement.setInt(k++, user.getRoleId());
 			preparedStatement.executeUpdate();
 			connection.commit();
-		} catch (SQLException ex) {
+		} catch (SQLException e) {
 			db.rollback(connection);
-			throw new DBException(Messages.ERR_CANNOT_INSERT_USER, ex);
+			LOG.error(Messages.ERR_CANNOT_INSERT_USER, e);
+			throw new DBException(Messages.ERR_CANNOT_INSERT_USER, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
@@ -65,25 +72,13 @@ public class DaoUser {
 				user = extractUser(resultSet);
 			}
 			connection.commit();
-		} catch (SQLException ex) {
+		} catch (SQLException e) {
 			db.rollback(connection);
-			throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
+			LOG.error(Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, e);
+			throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
-		return user;
-	}
-	
-	
-	private User extractUser(ResultSet resultSet) throws SQLException {
-		User user = new User();
-		user.setId(resultSet.getLong(1));
-		user.setLogin(resultSet.getString(2));
-		user.setEmail(resultSet.getString(3));
-		user.setPassword(resultSet.getString(4));
-		user.setFirstName(resultSet.getString(5));
-		user.setLastName(resultSet.getString(6));
-		user.setRoleId(resultSet.getInt(7));
 		return user;
 	}
 	
@@ -108,13 +103,26 @@ public class DaoUser {
 				tickets.add(ticket);
 			}
 			connection.commit();
-		} catch (SQLException ex) {
+		} catch (SQLException e) {
 			db.rollback(connection);
-			throw new DBException(Messages.ERR_CANNOT_FIND_USER_BY_USER_ID, ex);
+			LOG.error(Messages.ERR_CANNOT_FIND_USER_BY_USER_ID, e);
+			throw new DBException(Messages.ERR_CANNOT_FIND_USER_BY_USER_ID, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
 		return tickets;
+	}
+	
+	private User extractUser(ResultSet resultSet) throws SQLException {
+		User user = new User();
+		user.setId(resultSet.getLong(1));
+		user.setLogin(resultSet.getString(2));
+		user.setEmail(resultSet.getString(3));
+		user.setPassword(resultSet.getString(4));
+		user.setFirstName(resultSet.getString(5));
+		user.setLastName(resultSet.getString(6));
+		user.setRoleId(resultSet.getInt(7));
+		return user;
 	}
 	
 	private Ticket extractTicket(ResultSet resultSet) throws SQLException {

@@ -66,10 +66,10 @@
 				Станция отправления: <input type="text" name="stationName" required/>
 			</legend>
 			<legend>
-				Дата/Время прибытия: <input type="text" name="destinationDateAndTime" />
+				Дата/Время прибытия: <input type="datetime-local" name="destinationDateAndTime" />
 			</legend>
 			<legend>
-				Дата/Время отправления: <input type="text" name="departureDateAndTime" />
+				Дата/Время отправления: <input type="datetime-local" name="departureDateAndTime" />
 			</legend>
 		</fieldset>	
 				<input type="hidden" name="command" value="createRoutePointCommand">			
@@ -103,7 +103,7 @@
 								<input type="submit" name="update" value="Обновить" class="button-accept">			
 						</td>				
 						<td>		
-							<input type="button" name="delete" value="Удалить" class="button-accept">				
+								<input type="button" name="delete" value="Удалить" class="button-accept">				
 						</td>
 					
 						</tr>

@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -12,12 +15,18 @@ import ua.nure.kaplin.SummaryTask4.DAO.DaoInterfaceTrainStation;
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 import ua.nure.kaplin.SummaryTask4.exception.DBException;
+import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
 public class DaoTrainStation implements DaoInterfaceTrainStation {
 
+	private static final Logger LOG = Logger.getLogger(DBManager.class);
+	
 	private static final String INSERT_STATION = "INSERT INTO train_station (name) VALUE(?)";
+	
 	private static final String SELECT_STATIONS = "SELECT * FROM train_station";
+	
 	private static final String SELECT_STATION_BY_NAME = "SELECT * FROM train_station WHERE name = ?";
+	
 	private static final String SQL_UPDATE_TRAIN_STATION = "UPDATE train_station SET name=? WHERE name=?";
 
 	public void insertStation(TrainStation station) throws Exception {
@@ -35,7 +44,8 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 			connection.commit();
 		} catch (SQLException e) {
 			db.rollback(connection);
-			throw new Exception("Can_not_insert_station", e);
+			LOG.error(Messages.ERR_CANNOT_INSERT_STATION, e);
+			throw new Exception(Messages.ERR_CANNOT_INSERT_STATION, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
@@ -61,7 +71,8 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 			}
 			
 		} catch (SQLException e) {
-			throw new DBException("Can_not_select_station_by_name", e);
+			LOG.error(Messages.ERR_CANNOT_SELECT_STATION_BY_NAME, e);
+			throw new DBException(Messages.ERR_CANNOT_SELECT_STATION_BY_NAME, e);
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
@@ -88,7 +99,8 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 				return false;
 			}
 		} catch (SQLException e) {
-			return false;
+			LOG.error(Messages.ERR_CANNOT_UPDATE_STATION, e);
+			throw new DBException(Messages.ERR_CANNOT_UPDATE_STATION, e);
 		}
 		return true;
 	}
@@ -111,7 +123,8 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 				stations.add(station);
 			}
 		} catch (SQLException e) {
-			throw new Exception("Can_not_select_stations", e);
+			LOG.error(Messages.ERR_CANNOT_SELECT_STATIONS, e);
+			throw new Exception(Messages.ERR_CANNOT_SELECT_STATIONS, e);
 		} finally {
 			db.close(connection, statement, resultSet);
 		}

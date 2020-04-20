@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRoute;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrain;
@@ -15,9 +17,14 @@ import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
 public class CreateRoutePointCommand extends Command{
 
+	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
+		
+		LOG.debug("Command starts");
+		
 		Route route = null;
 		DaoRoute daoRoute = null;
 		DaoTrainStation daoTrainStation = null;
@@ -29,7 +36,6 @@ public class CreateRoutePointCommand extends Command{
 		
 		
 		String page = Path.PAGE_ERROR_PAGE;
-		
 		if(trainNumber == null || departureStationName == null || trainNumber.isEmpty() || departureStationName.isEmpty()) {
 			throw new AppException("Train number/station name cannot be empty");
 		}
@@ -43,16 +49,18 @@ public class CreateRoutePointCommand extends Command{
 		route.setStationName(departureStationName);
 		route.setDestinationDateAndTime(destinationDateAndTime);
 		route.setDepartureDateAndTime(departureDateAndTime);
+		
 		try {
 			route.setTrainId((daoTrain.findTrainByNumber(route.getTrainNumber())).getId());
 			route.setStationId((daoTrainStation.findStationByName(departureStationName).getId()));
 			daoRoute.insertRoutePoint(route);
-			System.out.println(route.getTrainId() + route.getStationId());
+			LOG.trace("Insert route in DB: route --> " + route);
 			page = Path.PAGE_ADMIN_MENU_REDIRECT;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		LOG.debug("Command finished");
 		return page;
 	}
 	

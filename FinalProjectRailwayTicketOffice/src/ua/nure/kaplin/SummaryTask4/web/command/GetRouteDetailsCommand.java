@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRoute;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
@@ -17,10 +19,12 @@ import ua.nure.kaplin.SummaryTask4.db.Role;
 
 public class GetRouteDetailsCommand extends Command {
 
+	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
-
+		LOG.debug("Command starts");
 		HttpSession session = request.getSession();
 		Role userRole = (Role) session.getAttribute("userRole");
 		String page = Path.PAGE_ROUTE_DETAILS;
@@ -37,10 +41,13 @@ public class GetRouteDetailsCommand extends Command {
 				if(trainNumber != null) {
 					request.setAttribute("trainNumber", trainNumber);
 					routes = setRouteBetweenRoutePointsForAdmin(dao.findRouteByTrainNumber(Integer.parseInt(trainNumber)));
+					LOG.trace("Found in DB: routes --> " + routes);
 					request.setAttribute("routes", routes);
+					LOG.trace("Set the request attribute: routes --> " + routes);
 				}
 				if(stationName != null) {
 					request.setAttribute("oldStationName", stationName);
+					LOG.trace("Set the request attribute: oldStationName --> " + stationName);
 				}
 				page = Path.PAGE_ADMIN_MENU;
 			} else {
@@ -48,11 +55,12 @@ public class GetRouteDetailsCommand extends Command {
 				routes = setRouteBetweenRoutePoints(dao.findRouteByTrainNumber(Integer.parseInt(trainNumber)),
 						departureStation, destinationStation);
 				request.setAttribute("routes", routes);
+				LOG.trace("Set the request attribute: routes --> " + routes);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		LOG.debug("Command finished");
 		return page;
 	}
 	
@@ -83,7 +91,6 @@ public class GetRouteDetailsCommand extends Command {
 				routePoints.get(i).setDestinationStationName(routePoints.get(i+1).getStationName());
 			}
 		}
-		
 		return routePoints;
 	}
 

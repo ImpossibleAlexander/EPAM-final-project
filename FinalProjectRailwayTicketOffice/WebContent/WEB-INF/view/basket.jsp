@@ -68,16 +68,26 @@
 						<td>${route.destinationDateAndTime}</td>
 						<td>${route.coupePrice}</td>
 						<td>${route.reservedSeatPrice}</td>
-						<td>${route.commonPrice}</td>
-						<td>
-							<form action="controller" method="get">
-								<input type="hidden" name="command" value="routeDetails">
-								<input type="hidden" name="trainNumber" value="${route.trainNumber}">
-								<input type="hidden" name="departureStation" value="${route.stationName}">
-								<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
-								<input type="submit" value="Подробнее" class="button-accept">
-							</form>
-						</td>
+						<td>${route.commonPrice}</td>						
+							<td>
+							<form action="controller" method="post">
+									<input type="hidden" name="command" value="buyTicket">
+									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
+									<input type="hidden" name="departureStation" value="${route.stationName}">
+									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
+									<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
+									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
+									<select name="place">
+		 								 <option value="coupe">Купе</option>
+		  								<option value="reserved">Плацкарт</option>
+		  								<option value="common">Общий</option>
+									</select>
+									<input type="hidden" name="coupePrice" value="${route.coupePrice}">
+									<input type="hidden" name="reservedSeatPrice" value="${route.reservedSeatPrice}">
+									<input type="hidden" name="commonPrice" value="${route.commonPrice}">
+									<input type="submit" value="Купить" class="button-accept">
+						</form>
+						</td>							
 						<td>
 							<form action="controller" method="get">
 								<input type="hidden" name="command" value="deleteFromBasket">
@@ -86,41 +96,14 @@
 							</form>
 						</td>
 						<td>
-							<form action="controller" method="post">
-									<input type="hidden" name="command" value="buyTicket">
-									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
-									<input type="hidden" name="departureStation" value="${route.stationName}">
-									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
-									<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
-									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
-									<input type="hidden" name="coupePrice" value="${route.coupePrice}">
-									<input type="submit" value="Купить купе" class="button-accept">
+							<form action="controller" method="get">
+								<input type="hidden" name="command" value="routeDetails">
+								<input type="hidden" name="trainNumber" value="${route.trainNumber}">
+								<input type="hidden" name="departureStation" value="${route.stationName}">
+								<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
+								<input type="submit" value="Подробнее" class="button-accept">
 							</form>
-						</td>
-						<td>
-							<form action="controller" method="post">
-									<input type="hidden" name="command" value="buyTicket">
-									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
-									<input type="hidden" name="departureStation" value="${route.stationName}">
-									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
-									<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
-									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
-									<input type="hidden" name="reservedSeatPrice" value="${route.reservedSeatPrice}">
-									<input type="submit" value="Купить плацкарт" class="button-accept">
-							</form>
-						</td>
-						<td>
-							<form action="controller" method="post">
-									<input type="hidden" name="command" value="buyTicket">
-									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
-									<input type="hidden" name="departureStation" value="${route.stationName}">
-									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
-									<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
-									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
-									<input type="hidden" name="commonPrice" value="${route.commonPrice}">
-									<input type="submit" value="Купить общий" class="button-accept">
-							</form>
-						</td>
+						</td>				
 					</tr>
 				</c:forEach>
 			</table>

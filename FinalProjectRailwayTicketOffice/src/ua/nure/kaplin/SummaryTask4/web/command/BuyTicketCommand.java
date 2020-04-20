@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.Ticket;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
@@ -16,10 +18,15 @@ import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTickets;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
 public class BuyTicketCommand extends Command {
+	
+	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
+		
+		LOG.debug("Command starts");
+		
 		DaoTickets dao = null;
 		Ticket ticket = null;
 		String place = null;
@@ -28,6 +35,7 @@ public class BuyTicketCommand extends Command {
 
 		HttpSession session = request.getSession();
 		List<Route> routes = (List<Route>) session.getAttribute("routesForBasket");
+		LOG.trace("Get the session attribute: routesForBasket --> " + routes);
 		
 		String trainNumber = request.getParameter("trainNumber");
 		String departureStation = request.getParameter("departureStation");
@@ -37,28 +45,31 @@ public class BuyTicketCommand extends Command {
 		String coupePrice = request.getParameter("coupePrice");
 		String reservedSeatPrice = request.getParameter("reservedSeatPrice");
 		String commonPrice = request.getParameter("commonPrice");
-
+		String placeFromRequest = request.getParameter("place");
+	
 		User user = (User) session.getAttribute("user");
 		builder = new StringBuilder();
 		builder.append(user.getId()).append(trainNumber);
-
-		if (coupePrice != null) {
+		LOG.trace("Generate ticket number --> " + builder.toString());
+		
+		if (placeFromRequest.contains("coupe")) {
 			price = Integer.parseInt(coupePrice);
 			place = "coupe";
 		}
 
-		if (reservedSeatPrice != null) {
+		if (placeFromRequest.contains("reserved")) {
 			price = Integer.parseInt(reservedSeatPrice);
 			place = "reserved";
 		}
 
-		if (commonPrice != null) {
+		if (placeFromRequest.contains("common")) {
 			price = Integer.parseInt(commonPrice);
 			place = "common";
 		}
+		
+		LOG.trace("Choose place & price --> " + place + " & " + price);
 
 		ticket = new Ticket();
-
 		ticket.setTrainNumber(Integer.parseInt(trainNumber));
 		ticket.setTicketNumber(Integer.parseInt(builder.toString()));
 		ticket.setDepartureStation(departureStation);
@@ -67,11 +78,12 @@ public class BuyTicketCommand extends Command {
 		ticket.setDepartureDateAndTime(departureDateAndTime);
 		ticket.setPlace(place);
 		ticket.setPrice(price);
-
+		LOG.trace("Set ticket: ticket --> " + ticket);
+		
 		try {
 			dao = new DaoTickets();
-			dao.insertTicket(ticket);
-			dao.insertUserTicket((int)(user.getId()), ticket.getTicketNumber());
+			dao.insertTicket(ticket, user);
+			LOG.trace("Insert user ticket in DB: ticket & user --> " + ticket + " & " + user);
 			
 			int counter = 0;
 			for(Route route: routes) {
@@ -80,15 +92,16 @@ public class BuyTicketCommand extends Command {
 				}
 				counter++;
 			}
-			
 			routes.remove(counter);
+			
 			session.setAttribute("routesForBasket", routes);
+			LOG.trace("Set the session attribute: routes --> " + routes);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-
+		LOG.debug("Command finished");
 		return Path.PAGE_BASKET_REDIRECT;
 	}
 

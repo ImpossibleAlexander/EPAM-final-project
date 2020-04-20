@@ -97,13 +97,13 @@
 								Станция отправления: <input type="text" name="stationName" required/>
 							</legend>
 							<legend>
-								Дата/Время отправления: <input type="text" name="departureDateAndTime" required/>
+								Дата/Время отправления: <input type="datetime-local"  name="departureDateAndTime" required/>
 							</legend>
 							<legend>
 								Станция прибытия: <input type="text" name="destinationStationName" required/>
 							</legend>
 							<legend>
-								Дата/Время прибытия: <input type="text" name="destinationDateAndTime" required/>
+								Дата/Время прибытия: <input type="datetime-local" name="destinationDateAndTime" required/>
 							</legend>
 							<legend>
 								Купе (свободно): <input type="text" name="coupe" required/>
@@ -129,8 +129,6 @@
     			</c:when>
 			</c:choose>
 			</div>
-			
-			
 	<div style="width: 450px">
 	<form action="controller" method="get">
 		<input type="hidden" name="command" value="route">

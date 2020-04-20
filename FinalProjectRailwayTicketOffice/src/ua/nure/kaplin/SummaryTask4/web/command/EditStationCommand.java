@@ -6,44 +6,53 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStation;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
 public class EditStationCommand extends Command{
+	
+	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
+		
+		LOG.debug("Command starts");
+		
 		DaoTrainStation dao = null;
-		TrainStation station1 = null;
-		TrainStation station2 = null;
+		TrainStation stationOld = null;
+		TrainStation stationNew = null;
 		String action = request.getParameter("action");
 		String stationName1 = request.getParameter("stationName1");
 		String stationName2 = request.getParameter("stationName2");
 		
 		dao = new DaoTrainStation();
-		station2 = new TrainStation();
+		stationNew = new TrainStation();
 		if("create".equals(action) && !stationName2.isEmpty()) {
-			station2.setStationName(stationName2);
+			stationNew.setStationName(stationName2);
 			try {
-				dao.insertStation(station2);
+				dao.insertStation(stationNew);
+				LOG.trace("Insert station in DB: station --> " + stationNew);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		station1 = new TrainStation();
+		stationOld = new TrainStation();
 		if("update".equals(action) && !stationName2.isEmpty()) {
-			station1.setStationName(stationName1);
-			station2.setStationName(stationName2);
+			stationOld.setStationName(stationName1);
+			stationNew.setStationName(stationName2);
 			try {
-				dao.updateTrainStation(station1, station2);
+				dao.updateTrainStation(stationOld, stationNew);
+				LOG.trace("Update station in DB: station old name/new name --> " + stationOld + " / " + stationNew);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
+		LOG.debug("Command finished");
 		return Path.PAGE_ADMIN_MENU_REDIRECT;
 	}
 	

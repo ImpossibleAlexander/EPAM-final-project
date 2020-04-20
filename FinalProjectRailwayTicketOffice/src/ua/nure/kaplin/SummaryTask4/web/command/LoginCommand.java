@@ -25,6 +25,8 @@ public class LoginCommand extends Command {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
+		LOG.debug("Command starts");
+		
 		HttpSession session = request.getSession();
 		List<Route> routes = null;
 		

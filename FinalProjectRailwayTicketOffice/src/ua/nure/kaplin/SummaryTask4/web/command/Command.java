@@ -9,12 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
-/**
- * Main interface for the Command pattern implementation.
- * 
- * @author D.Kolesnikov
- * 
- */
 public abstract class Command implements Serializable {
 	private static final long serialVersionUID = 8879403039606311780L;
 

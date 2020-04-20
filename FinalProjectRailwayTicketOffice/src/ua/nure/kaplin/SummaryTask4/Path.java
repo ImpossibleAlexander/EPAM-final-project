@@ -1,11 +1,6 @@
 package ua.nure.kaplin.SummaryTask4;
 
-/**
- * Path holder (jsp pages, controller commands).
- * 
- * @author D.Kolesnikov
- * 
- */
+
 public final class Path {
 	
 	// pages
@@ -24,8 +19,5 @@ public final class Path {
 	public static final String PAGE_LOGIN_REDIRECT = "controller?command=mapping&page=login";
 	public static final String PAGE_BASKET_REDIRECT = "controller?command=mapping&page=basket";
 
-	// commands
-	public static final String COMMAND_LIST_ORDERS = "/controller?command=listOrders";
-	public static final String COMMAND_LIST_MENU = "/controller?command=listMenu";
 
 }

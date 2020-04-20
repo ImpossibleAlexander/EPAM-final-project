@@ -8,6 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRoute;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrain;
@@ -17,9 +19,14 @@ import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
 public class GetRouteCommand extends Command {
 
+	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
+	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
+		
+		LOG.debug("Command starts");
+		
 		DaoRoute daoRoute = null;
 		DaoTrain daoTrain = null;
 		String departureStation = request.getParameter("departureStation");
@@ -40,6 +47,7 @@ public class GetRouteCommand extends Command {
 				Route route = setRoute(
 						daoRoute.findRouteByTrainNumber(Integer.parseInt(trainNumber)));
 				routes.add(route);
+				LOG.trace("Found in DB: route --> " + routes);
 			} else {
 				trains = daoTrain.findTrainNumberByStationName(departureStation, arriveStation);
 				for (Train train : trains) {
@@ -47,16 +55,22 @@ public class GetRouteCommand extends Command {
 							daoRoute.findRouteByTrainNumber(train.getTrainNumber()), departureStation, arriveStation));
 					routes.addAll(routesBuf);
 				}
+				LOG.trace("Found in DB: routes --> " + routes);
 			}
+			
+			
 			if (routes.size() == 0) {
 				request.setAttribute("errorMessage", errorMessage);
+				LOG.trace("Set the request attribute: errorMessage --> " + errorMessage);
 				throw new AppException(errorMessage.toString());
 			}
 			request.setAttribute("routes", routes);
+			LOG.trace("Set the request attribute: routes --> " + routes);
 			page = Path.PAGE_MAIN;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		LOG.debug("Command finished");
 		return page;
 	}
 
