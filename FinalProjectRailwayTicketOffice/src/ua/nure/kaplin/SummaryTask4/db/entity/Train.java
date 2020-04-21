@@ -59,5 +59,11 @@ public class Train {
 	public void setCommonPrice(int commonPrice) {
 		this.commonPrice = commonPrice;
 	}
+	@Override
+	public String toString() {
+		return "Train [id=" + id + ", trainNumber=" + trainNumber + ", coupe=" + coupe + ", reservedSeat="
+				+ reservedSeat + ", common=" + common + ", coupePrice=" + coupePrice + ", reservedSeatPrice="
+				+ reservedSeatPrice + ", commonPrice=" + commonPrice + "]";
+	}
 	
 }

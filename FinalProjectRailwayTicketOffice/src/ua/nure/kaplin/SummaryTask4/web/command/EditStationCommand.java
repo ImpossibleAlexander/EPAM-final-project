@@ -22,7 +22,7 @@ public class EditStationCommand extends Command{
 			throws IOException, ServletException, AppException {
 		
 		LOG.debug("Command starts");
-		
+		String page = Path.PAGE_ERROR;
 		DaoTrainStation dao = null;
 		TrainStation stationOld = null;
 		TrainStation stationNew = null;
@@ -37,7 +37,11 @@ public class EditStationCommand extends Command{
 			try {
 				dao.insertStation(stationNew);
 				LOG.trace("Insert station in DB: station --> " + stationNew);
+				page = Path.PAGE_ADMIN_MENU_REDIRECT;
 			} catch (Exception e) {
+				request.setAttribute("errorMessage",  "Can not create station");
+				LOG.trace("Set the request attribute: errorMessage --> " + "Can not create station");
+				LOG.error("Can not create station: ", e);
 				e.printStackTrace();
 			}
 		}
@@ -48,12 +52,15 @@ public class EditStationCommand extends Command{
 			try {
 				dao.updateTrainStation(stationOld, stationNew);
 				LOG.trace("Update station in DB: station old name/new name --> " + stationOld + " / " + stationNew);
+				page = Path.PAGE_ADMIN_MENU_REDIRECT;
 			} catch (Exception e) {
-				e.printStackTrace();
+				request.setAttribute("errorMessage",  "Can not update station");
+				LOG.trace("Set the request attribute: errorMessage --> " + "Can not update station");
+				LOG.error("Can not update station: ", e);
 			}
 		}
 		LOG.debug("Command finished");
-		return Path.PAGE_ADMIN_MENU_REDIRECT;
+		return page;
 	}
 	
 	

@@ -34,9 +34,11 @@ public class LoginCommand extends Command {
 		DaoUser dao = new DaoUser();
 		String login = request.getParameter("login");
 		LOG.trace("Request parameter: login --> " + login);
-
+		String page = Path.PAGE_MAIN_REDIRECT;
 		String password = request.getParameter("password");
 		if (login == null || password == null || login.isEmpty() || password.isEmpty()) {
+			page = Path.PAGE_ERROR;
+			request.setAttribute("errorMessage",  "Login/password cannot be empty");
 			throw new AppException("Login/password cannot be empty");
 		}
 
@@ -44,11 +46,14 @@ public class LoginCommand extends Command {
 		try {
 			user = dao.findUserByLogin(login);
 		} catch (Exception e) {
+			LOG.error("Insert user exception: ", e);
 			e.printStackTrace();
 		}
 		LOG.trace("Found in DB: user --> " + user);
 
 		if (user == null || !password.equals(user.getPassword())) {
+			request.setAttribute("errorMessage",  "Cannot find user with such login/password");
+			page = Path.PAGE_ERROR;
 			throw new AppException("Cannot find user with such login/password");
 		}
 
@@ -69,7 +74,7 @@ public class LoginCommand extends Command {
 		LOG.info("User " + user + " logged as " + userRole.toString().toLowerCase());
 
 		LOG.debug("Command finished");
-		return Path.PAGE_MAIN_REDIRECT;
+		return page;
 	}
 
 }

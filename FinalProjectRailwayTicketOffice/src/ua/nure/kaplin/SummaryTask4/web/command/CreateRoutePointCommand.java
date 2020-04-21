@@ -14,17 +14,18 @@ import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrain;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStation;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
+import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
-public class CreateRoutePointCommand extends Command{
+public class CreateRoutePointCommand extends Command {
 
 	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
-	
+
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
-		
+
 		LOG.debug("Command starts");
-		
+
 		Route route = null;
 		DaoRoute daoRoute = null;
 		DaoTrainStation daoTrainStation = null;
@@ -33,35 +34,33 @@ public class CreateRoutePointCommand extends Command{
 		String departureStationName = request.getParameter("stationName");
 		String destinationDateAndTime = request.getParameter("destinationDateAndTime");
 		String departureDateAndTime = request.getParameter("departureDateAndTime");
-		
-		
-		String page = Path.PAGE_ERROR_PAGE;
-		if(trainNumber == null || departureStationName == null || trainNumber.isEmpty() || departureStationName.isEmpty()) {
-			throw new AppException("Train number/station name cannot be empty");
-		}
-		
+		String page = Path.PAGE_ERROR;
+
 		route = new Route();
 		daoTrain = new DaoTrain();
 		daoTrainStation = new DaoTrainStation();
 		daoRoute = new DaoRoute();
-		
+
 		route.setTrainNumber(Integer.parseInt(trainNumber));
 		route.setStationName(departureStationName);
 		route.setDestinationDateAndTime(destinationDateAndTime);
 		route.setDepartureDateAndTime(departureDateAndTime);
-		
+
 		try {
 			route.setTrainId((daoTrain.findTrainByNumber(route.getTrainNumber())).getId());
 			route.setStationId((daoTrainStation.findStationByName(departureStationName).getId()));
 			daoRoute.insertRoutePoint(route);
 			LOG.trace("Insert route in DB: route --> " + route);
 			page = Path.PAGE_ADMIN_MENU_REDIRECT;
+
 		} catch (Exception e) {
-			e.printStackTrace();
+			request.setAttribute("errorMessage", "Can not create route point");
+			LOG.trace("Set the request attribute: errorMessage --> " + "Can not create route point");
+			LOG.error("Can not create route point", e);
 		}
-		
+
 		LOG.debug("Command finished");
 		return page;
 	}
-	
+
 }

@@ -21,6 +21,7 @@ public class RoutePointUpdateCommand extends Command{
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
 		LOG.debug("Command starts");
+		String page = Path.PAGE_ERROR;
 		DaoRoute daoRoute = null;
 		Route route = null;
 		
@@ -44,11 +45,14 @@ public class RoutePointUpdateCommand extends Command{
 				route.setDepartureDateAndTime(departureDateAndTime);
 				daoRoute.updateRoutePoints(route);
 				LOG.trace("Update route in DB: route --> " + route);
+				page =  Path.PAGE_ADMIN_MENU_REDIRECT;
 			} catch (Exception e) {
-				e.printStackTrace();
+				request.setAttribute("errorMessage",  "Can not update route point");
+				LOG.trace("Set the request attribute: errorMessage --> " + "Can not update route points");
+				LOG.error("Can not update route point: ", e);
 			}
 			LOG.debug("Command finished");
-		return Path.PAGE_ADMIN_MENU_REDIRECT;
+		return page;
 	}
 
 }

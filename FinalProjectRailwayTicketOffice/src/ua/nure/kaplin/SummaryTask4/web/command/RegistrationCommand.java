@@ -22,7 +22,7 @@ public class RegistrationCommand extends Command {
 			throws IOException, ServletException, AppException {
 		
 		LOG.debug("Command starts");
-		
+		String page = Path.PAGE_ERROR;
 		User user = null;
 		DaoUser dao = null;
 		String login = request.getParameter("login");
@@ -46,12 +46,15 @@ public class RegistrationCommand extends Command {
 			try {
 				dao.insertUser(user);
 				LOG.trace("Insert user in DB: user --> " + user);
+				page = Path.PAGE_LOGIN_REDIRECT;
 			} catch (Exception e) {
-				e.printStackTrace();
+				request.setAttribute("errorMessage",  "A user already exists");
+				LOG.trace("Set the request attribute: errorMessage --> " + "A user already existss");
+				LOG.error("A user already exists: ", e);
 			}
 		}
 		LOG.debug("Command finished");
-		return Path.PAGE_LOGIN_REDIRECT;
+		return page;
 	}
 
 }

@@ -47,6 +47,9 @@ public class PageMappingCommand extends Command{
 		case "user_page": 
 			url = Path.PAGE_USER_PAGE;
 			break;
+		case "error_page": 
+			url = Path.PAGE_ERROR;
+			break;
 		default:
 			url = "";
 			break;

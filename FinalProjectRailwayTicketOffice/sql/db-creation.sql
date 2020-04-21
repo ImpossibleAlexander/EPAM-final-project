@@ -15,9 +15,9 @@ CREATE TABLE train_station (
 CREATE TABLE train (
 	id INT PRIMARY KEY AUTO_INCREMENT ,
     train_number INT UNIQUE NOT NULL,
-    coupe INT NOT NULL,
-	reserved_seat INT NOT NULL,
-	common INT NOT NULL,
+    coupe INT NOT NULL CHECK(coupe >= 0),
+	reserved_seat INT NOT NULL CHECK (reserved_seat >= 0),
+	common INT NOT NULL CHECK(common >= 0),
     coupe_price INT NOT NULL,
 	reserved_seat_price INT NOT NULL,
 	common_price INT NOT NULL
@@ -89,7 +89,8 @@ CREATE TABLE users(
 
 CREATE TABLE tickets (
 	id INT PRIMARY KEY AUTO_INCREMENT ,
-    train_number INT UNIQUE NOT NULL,
+    ticket_number INT UNIQUE NOT NULL,
+    train_number INT NOT NULL,
     destinationStation VARCHAR(20) NOT NULL,
     departureStation VARCHAR(20) NOT NULL,
     arrive_datetime datetime,
@@ -111,7 +112,7 @@ insert into users (login, email, password, first_name, last_name, role_id)
 values ('admin', 'admin@ukr.net', 1, 'admin', 'admin', 0);
 
 insert into train (train_number, coupe, reserved_seat, common, coupe_price, reserved_seat_price,common_price) 
-values (4123, 4, 5, 1, 200, 300, 100);
+values (4123, 0, 5, 1, 200, 300, 100);
 
 insert into train (train_number, coupe, reserved_seat, common, coupe_price, reserved_seat_price,common_price) 
 values (5123, 4, 5, 1, 12, 421, 21);

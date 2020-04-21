@@ -16,17 +16,18 @@ import ua.nure.kaplin.SummaryTask4.db.entity.User;
 import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTickets;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
+import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
 public class BuyTicketCommand extends Command {
-	
+
 	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
-		
+
 		LOG.debug("Command starts");
-		
+		String page = Path.PAGE_ERROR;
 		DaoTickets dao = null;
 		Ticket ticket = null;
 		String place = null;
@@ -36,7 +37,7 @@ public class BuyTicketCommand extends Command {
 		HttpSession session = request.getSession();
 		List<Route> routes = (List<Route>) session.getAttribute("routesForBasket");
 		LOG.trace("Get the session attribute: routesForBasket --> " + routes);
-		
+
 		String trainNumber = request.getParameter("trainNumber");
 		String departureStation = request.getParameter("departureStation");
 		String destinationStation = request.getParameter("destinationStation");
@@ -46,12 +47,12 @@ public class BuyTicketCommand extends Command {
 		String reservedSeatPrice = request.getParameter("reservedSeatPrice");
 		String commonPrice = request.getParameter("commonPrice");
 		String placeFromRequest = request.getParameter("place");
-	
+
 		User user = (User) session.getAttribute("user");
 		builder = new StringBuilder();
 		builder.append(user.getId()).append(trainNumber);
 		LOG.trace("Generate ticket number --> " + builder.toString());
-		
+
 		if (placeFromRequest.contains("coupe")) {
 			price = Integer.parseInt(coupePrice);
 			place = "coupe";
@@ -66,7 +67,7 @@ public class BuyTicketCommand extends Command {
 			price = Integer.parseInt(commonPrice);
 			place = "common";
 		}
-		
+
 		LOG.trace("Choose place & price --> " + place + " & " + price);
 
 		ticket = new Ticket();
@@ -79,30 +80,32 @@ public class BuyTicketCommand extends Command {
 		ticket.setPlace(place);
 		ticket.setPrice(price);
 		LOG.trace("Set ticket: ticket --> " + ticket);
-		
+
 		try {
 			dao = new DaoTickets();
 			dao.insertTicket(ticket, user);
 			LOG.trace("Insert user ticket in DB: ticket & user --> " + ticket + " & " + user);
-			
+
 			int counter = 0;
-			for(Route route: routes) {
-				if(route.getTrainNumber() == ticket.getTrainNumber()) {
+			for (Route route : routes) {
+				if (route.getTrainNumber() == ticket.getTrainNumber()) {
 					break;
 				}
 				counter++;
 			}
 			routes.remove(counter);
-			
 			session.setAttribute("routesForBasket", routes);
 			LOG.trace("Set the session attribute: routes --> " + routes);
+			page = Path.PAGE_BASKET_REDIRECT;
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			request.setAttribute("errorMessage",  "No empty seats");
+			LOG.trace("Set the request attribute: errorMessage --> " + "No empty seats");
+			LOG.error("No empty seats: ", e);
 		}
 
 		LOG.debug("Command finished");
-		return Path.PAGE_BASKET_REDIRECT;
+		return page;
 	}
 
 }

@@ -45,10 +45,10 @@
 			<fieldset>
 			<legend><h3>Редактирование станций</h3></legend>
 			<legend>
-				Старое название станции/Станция отправления: <input type="text" name="stationName1" value="${oldStationName}"/>
+				Старое название станции: <input type="text" name="stationName1" value="${oldStationName}"/>
 			</legend>
 			<legend>
-				Новое название станции/Станция прибытия: <input type="text" name="stationName2"/>
+				Новое название станции: <input type="text" name="stationName2"/>
 			</legend>
 		</fieldset>	
 			<input type="button" name="create" value="Добавить" class="button-accept"  onclick="doCommandEditStation('adminEditStation', 'create')">

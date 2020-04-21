@@ -51,7 +51,7 @@ public class Controller extends HttpServlet {
 		LOG.trace("Obtained command --> " + command);
 
 		// execute command and get forward address
-		String forward = Path.PAGE_ERROR_PAGE;
+		String forward = Path.PAGE_ERROR;
 		try {
 			forward = command.execute(request, response);
 		} catch (AppException ex) {
@@ -61,7 +61,7 @@ public class Controller extends HttpServlet {
 
 		LOG.debug("Controller finished, now go to forward address --> " + forward);
 		
-		if(method.contentEquals("GET") || forward.equals("WEB-INF/view/error_page.jsp")) {
+		if(Path.PAGE_ERROR.equals(forward) || method.contentEquals("GET")) {
 			request.getRequestDispatcher(forward).forward(request, response);
 		}else {
 			response.sendRedirect(forward);

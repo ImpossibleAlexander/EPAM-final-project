@@ -19,12 +19,12 @@ public class DaoRoute {
 	
 	private static final String SQL_SELECT_ROUTE_BY_TRAIN_NUMBER = "SELECT train_number, arrive_datetime, depart_datetime, name, coupe, reserved_seat, common, coupe_price, reserved_seat_price, common_price, train.id, train_station.id\r\n"
 			+ "FROM route_point\r\n" + "INNER JOIN train\r\n" + "ON train.id = route_point.train_id \r\n"
-			+ "INNER JOIN train_station ON train_station.id = route_point.train_station_id WHERE train_number = ?";
+			+ "INNER JOIN train_station ON train_station.id = route_point.train_station_id WHERE train_number = ? ORDER BY arrive_datetime";
 
 	private static final String SQL_UPDATE_ROUTE_POINTS = "UPDATE route_point SET arrive_datetime = ?, depart_datetime = ? WHERE train_id = ? AND train_station_id IN (SELECT id FROM train_station WHERE name = ?)";
 	
 	
-	private static final String SQL_INSERT_TRAIN = "insert into train (train_number, coupe, reserved_seat, common, coupe_price, reserved_seat_price,common_price) \r\n" + 
+	private static final String SQL_INSERT_TRAIN = "insert into train (train_number, coupe, reserved_seat, common, coupe_price, reserved_seat_price, common_price) \r\n" + 
 			"values (?, ?, ?, ?, ?, ?, ?);";
 	
 	private static final String SQL_INSERT_DEPARTURE_AND_DESTINATION_STATIONS_OF_ROUTE = "insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values ((SELECT id FROM train WHERE train_number = ?), ?, ?, ?)";

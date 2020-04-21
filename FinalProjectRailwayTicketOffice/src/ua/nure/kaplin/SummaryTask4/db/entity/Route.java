@@ -109,4 +109,13 @@ public class Route {
 	public String getDepartureDateAndTime() {
 		return departureDateAndTime;
 	}
+	@Override
+	public String toString() {
+		return "Route [trainId=" + trainId + ", stationId=" + stationId + ", destinationStationId="
+				+ destinationStationId + ", trainNumber=" + trainNumber + ", stationName=" + stationName
+				+ ", destinationStationName=" + destinationStationName + ", departureDateAndTime="
+				+ departureDateAndTime + ", destinationDateAndTime=" + destinationDateAndTime + ", coupe=" + coupe
+				+ ", reservedSeat=" + reservedSeat + ", common=" + common + ", coupePrice=" + coupePrice
+				+ ", reservedSeatPrice=" + reservedSeatPrice + ", commonPrice=" + commonPrice + "]";
+	}
 }

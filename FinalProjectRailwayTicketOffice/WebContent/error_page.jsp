@@ -8,7 +8,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Error Page</title>
-<link href="resources/style/style2.css" rel="stylesheet" type="text/css"/>
+	<link rel="stylesheet" type="text/css"
+		href="resources/style/navbar.css" />
+	<link rel="stylesheet" type="text/css" href="resources/style/style.css" />
 </head>
 
 	<fmt:setLocale value="${language}"/>

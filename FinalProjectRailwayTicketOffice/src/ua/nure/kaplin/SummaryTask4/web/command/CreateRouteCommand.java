@@ -24,6 +24,7 @@ public class CreateRouteCommand extends Command{
 			throws IOException, ServletException, AppException {
 		
 		LOG.debug("Command starts");
+		String page = Path.PAGE_ERROR;
 		DaoRoute daoRoute = null;
 		DaoTrainStation daoStation = null;
 		Route route = null;
@@ -34,6 +35,7 @@ public class CreateRouteCommand extends Command{
 		String departureStationName = request.getParameter("stationName");
 		String destinationStationName = request.getParameter("destinationStationName");
 		String departureDateAndTime = request.getParameter("departureDateAndTime");
+		String destinationDateAndTime = request.getParameter("destinationDateAndTime");
 		
 		String coupe = request.getParameter("coupe");
 		String reservedSeat = request.getParameter("reservedSeat");
@@ -63,17 +65,19 @@ public class CreateRouteCommand extends Command{
 			route.setStationId(departureStation.getId());
 			route.setDepartureDateAndTime(departureDateAndTime);
 			route.setDestinationStationId(destinationStation.getId());
-			route.setDestinationDateAndTime(departureDateAndTime);
+			route.setDestinationDateAndTime(destinationDateAndTime);
 			LOG.trace("Set route: route --> " + route);
 			
 			daoRoute.insertRoute(route);
 			LOG.trace("Insert route in DB: route --> " + route);
-			
+			page = Path.PAGE_MAIN_REDIRECT;
 		} catch (Exception e) {
-			e.printStackTrace();
+			request.setAttribute("errorMessage",  "Route already exist");
+			LOG.trace("Set the request attribute: errorMessage --> " + "Route already exist");
+			LOG.error("Route already exist: ", e);
 		}
 		LOG.debug("Command finished");
-		return Path.PAGE_MAIN_REDIRECT;
+		return page;
 	}
 	
 }

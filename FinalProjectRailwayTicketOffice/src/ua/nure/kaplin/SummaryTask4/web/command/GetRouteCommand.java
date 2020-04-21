@@ -38,9 +38,8 @@ public class GetRouteCommand extends Command {
 		daoTrain = new DaoTrain();
 		daoRoute = new DaoRoute();
 
-		String page = Path.PAGE_ERROR_PAGE;
-		String errorMessage = "Cannot find route between: " + departureStation + " and " + arriveStation;
-
+		String page = Path.PAGE_ERROR;
+		String errorMessage = "Cannot find route";
 		try {
 
 			if (!trainNumber.isEmpty()) {
@@ -57,18 +56,19 @@ public class GetRouteCommand extends Command {
 				}
 				LOG.trace("Found in DB: routes --> " + routes);
 			}
-			
-			
+					
 			if (routes.size() == 0) {
 				request.setAttribute("errorMessage", errorMessage);
 				LOG.trace("Set the request attribute: errorMessage --> " + errorMessage);
 				throw new AppException(errorMessage.toString());
 			}
+			
 			request.setAttribute("routes", routes);
 			LOG.trace("Set the request attribute: routes --> " + routes);
 			page = Path.PAGE_MAIN;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} 
+		catch (Exception e) {
+			LOG.error("Find route from DB: ", e);
 		}
 		LOG.debug("Command finished");
 		return page;

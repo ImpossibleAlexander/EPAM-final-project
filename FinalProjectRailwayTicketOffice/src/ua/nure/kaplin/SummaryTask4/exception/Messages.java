@@ -54,7 +54,7 @@ public class Messages {
 	
 	public static final String ERR_CANNOT_INSERT_ROUTE = "Can not insert route";
 
-	public static final String ERR_CANNOT_INSERT_ROUTE_POINT = "Can not insert route point";
+	public static final String ERR_CANNOT_INSERT_ROUTE_POINT = "Can not create route point";
 	
 	public static final String ERR_CANNOT_INSERT_TICKET = "Can not insert ticket";
 
@@ -71,4 +71,8 @@ public class Messages {
 	public static final String ERR_CANNOT_SELECT_STATIONS = "Can not select stations";
 	
 	public static final String ERR_CANNOT_UPDATE_STATION = "Can not update station";
+	
+	
+	
+	
 }
