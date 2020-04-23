@@ -30,6 +30,11 @@ public class EditStationCommand extends Command{
 		String stationName1 = request.getParameter("stationName1");
 		String stationName2 = request.getParameter("stationName2");
 		
+		if(("create".equals(action) && stationName1.isEmpty()) || ("delete".equals(action) && stationName1.isEmpty())) {
+			request.setAttribute("errorMessage",  "Name of station cannot be empty");
+			throw new AppException("Name of station cannot be empty");
+		}
+		
 		dao = new DaoTrainStation();
 		stationNew = new TrainStation();
 		if("create".equals(action) && !stationName2.isEmpty()) {
@@ -45,8 +50,9 @@ public class EditStationCommand extends Command{
 				e.printStackTrace();
 			}
 		}
+		
 		stationOld = new TrainStation();
-		if("update".equals(action) && !stationName2.isEmpty()) {
+		if("update".equals(action) && !stationName2.isEmpty() && !stationName1.isEmpty()) {
 			stationOld.setStationName(stationName1);
 			stationNew.setStationName(stationName2);
 			try {
@@ -59,6 +65,20 @@ public class EditStationCommand extends Command{
 				LOG.error("Can not update station: ", e);
 			}
 		}
+		
+		if("delete".equals(action) && !stationName1.isEmpty()) {
+			dao = new DaoTrainStation();
+			try {
+				dao.deleteTrainStation(stationName1);
+				page = Path.PAGE_ADMIN_MENU_REDIRECT;
+			} catch (Exception e) {
+				request.setAttribute("errorMessage", "Can not delete station");
+				LOG.trace("Set the request attribute: errorMessage --> " + "Can not delete station");
+				LOG.error("Can not delete station", e);
+			}
+		}
+		
+		
 		LOG.debug("Command finished");
 		return page;
 	}

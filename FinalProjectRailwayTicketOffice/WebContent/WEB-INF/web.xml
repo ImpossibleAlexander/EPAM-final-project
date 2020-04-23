@@ -59,7 +59,7 @@
 		<filter-class>ua.nure.kaplin.SummaryTask4.web.filter.CommandAccessFilter</filter-class>
 		<init-param>
 			<param-name>admin</param-name>
-			<param-value>adminEditStation routePointUpdateCommand createRoutePointCommand createRouteCommand</param-value>
+			<param-value>adminEditStation routePointUpdateCommand createRoutePointCommand createRouteCommand setValuesForRouteUpdate</param-value>
 		</init-param>
 		<init-param>
 			<param-name>client</param-name>

@@ -24,9 +24,7 @@ public class DaoUser {
 	
 	private static final String SELECT_USER_BY_LOGIN = "select * from users WHERE login = ?";
 	
-	private static final String SELECT_USER_TICKETS_BY_USER_ID= "SELECT tickets.id, ticket_number, train_number, departureStation, destinationStation, arrive_datetime, depart_datetime, place,price   \r\n" + 
-			"FROM user_tickets INNER JOIN users ON users.id = user_tickets.user_id \r\n" + 
-			"INNER JOIN tickets ON tickets.id = user_tickets.tickets_id WHERE users.id = ?";
+	private static final String SELECT_USER_TICKETS_BY_USER_ID= "SELECT tickets.id, ticket_number, train_number, departureStation, destinationStation, arrive_datetime, depart_datetime, place,price FROM tickets WHERE user_id = ?";
 	
 	
 	public void insertUser(User user) throws Exception {

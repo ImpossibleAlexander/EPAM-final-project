@@ -38,6 +38,7 @@
 			</li>		
 		</ul>
 	</nav>
+	<div style="width: 450px">
 		<form action="controller" method="post" id="theForm1">		
 			<input type="hidden" name="command" id="commandId" value="">
 			<input type="hidden" name="action" id="actionId" value="">
@@ -45,7 +46,7 @@
 			<fieldset>
 			<legend><h3>Редактирование станций</h3></legend>
 			<legend>
-				Старое название станции: <input type="text" name="stationName1" value="${oldStationName}"/>
+				Название станции: <input type="text" name="stationName1" value="${oldStationName}"/>
 			</legend>
 			<legend>
 				Новое название станции: <input type="text" name="stationName2"/>
@@ -55,26 +56,29 @@
 			<input type="button" name="update" value="Обновить" class="button-accept"  onclick="doCommandEditStation('adminEditStation', 'update')">
 			<input type="button" name="delete" value="Удалить" class="button-accept"  onclick="doCommandEditStation('adminEditStation', 'delete')">
 		</form>
+		</div>
 		
+		<div style="width: 450px">
 		<form action="controller" method="post">		
 			<fieldset>
 			<legend><h3>Добавление точки маршрута</h3></legend>
 			<legend>
-				№ поезда: <input type="text" name="trainNumber" value="${trainNumber}" required/>
+				№ поезда: <input type="text" name="trainNumber" value="${trainNumber}" required  pattern="^\d+$"/>
 			</legend>
 			<legend>
 				Станция отправления: <input type="text" name="stationName" required/>
 			</legend>
 			<legend>
-				Дата/Время прибытия: <input type="datetime-local" name="destinationDateAndTime" />
+				Дата/Время прибытия: <input type="datetime-local" name="destinationDateAndTime"/>
 			</legend>
 			<legend>
-				Дата/Время отправления: <input type="datetime-local" name="departureDateAndTime" />
+				Дата/Время отправления: <input type="datetime-local" name="departureDateAndTime"/>
 			</legend>
 		</fieldset>	
 				<input type="hidden" name="command" value="createRoutePointCommand">			
 				<input type="submit" name="create" value="Добавить" class="button-accept">	
 		</form>
+		</div>
 		
 		<c:choose>
 		<c:when test="${empty routes}"/> 
@@ -92,7 +96,6 @@
 				<c:forEach var="route" items="${routes}">
 					<form action="controller" method="post">
 						<tr>
-				
 						<td>${route.trainNumber}<input type="hidden" name="trainId" value="${route.trainId}"></td>
 						<td><input type="text" name="stationName" value="${route.stationName}"></td>
 						<td><input type="text" name="destinationDateAndTime" value="${route.destinationDateAndTime}"></td>
@@ -102,12 +105,12 @@
 								<input type="hidden" name="command" value="routePointUpdateCommand">				
 								<input type="submit" name="update" value="Обновить" class="button-accept">			
 						</td>				
-						<td>		
+						<td>
+								<input type="hidden" name="command" value="deleteStation">		
 								<input type="button" name="delete" value="Удалить" class="button-accept">				
 						</td>
-					
-						</tr>
 					</form>
+						</tr>
 					</c:forEach>
 				</table>
 		</c:otherwise>

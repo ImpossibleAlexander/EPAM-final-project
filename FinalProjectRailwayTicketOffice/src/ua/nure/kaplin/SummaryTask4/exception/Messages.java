@@ -72,6 +72,8 @@ public class Messages {
 	
 	public static final String ERR_CANNOT_UPDATE_STATION = "Can not update station";
 	
+	public static final String ERR_DELETE_STATION = "Can not delete station";
+	
 	
 	
 	

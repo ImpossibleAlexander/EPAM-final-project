@@ -18,9 +18,7 @@ public class DaoTickets {
 	private static final Logger LOG = Logger.getLogger(DBManager.class);
 
 	private static final String SQL_INSERT_TICKET = "INSERT INTO tickets (train_number,"
-			+ "ticket_number, destinationStation, departureStation, arrive_datetime, depart_datetime, place, price) VALUES (?,?,?,?,?,?,?,?)";
-
-	private static final String SQL_INSERT_USER_TICKET = "INSERT INTO user_tickets (user_id, tickets_id) VALUES (?, (SELECT id FROM tickets WHERE ticket_number = ?))";
+			+ "ticket_number, destinationStation, departureStation, arrive_datetime, depart_datetime, place, price, user_id) VALUES (?,?,?,?,?,?,?,?,?)";
 
 	private static final String SQL_CHANGE_NUMBER_OF_SEATS_COUPE = "UPDATE train SET coupe = coupe - 1 WHERE train_number = ? ";
 
@@ -62,15 +60,9 @@ public class DaoTickets {
 			preparedStatement2.setString(k++, ticket.getDepartureDateAndTime());
 			preparedStatement2.setString(k++, ticket.getPlace());
 			preparedStatement2.setInt(k++, ticket.getPrice());
-			
-			preparedStatement3 = connection.prepareStatement(SQL_INSERT_USER_TICKET);
-			k = 1;
-			preparedStatement3.setLong(k++, user.getId());
-			preparedStatement3.setInt(k++, ticket.getTicketNumber());
-			
+			preparedStatement2.setLong(k++, user.getId());		
 			preparedStatement1.executeUpdate();
 			preparedStatement2.executeUpdate();
-			preparedStatement3.executeUpdate();
 			connection.commit();
 			
 		} catch (SQLException e) {

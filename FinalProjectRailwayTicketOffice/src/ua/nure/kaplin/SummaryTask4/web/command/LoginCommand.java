@@ -1,6 +1,8 @@
 package ua.nure.kaplin.SummaryTask4.web.command;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,8 @@ public class LoginCommand extends Command {
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
 		LOG.debug("Command starts");
-		
+		StringBuilder builder = null;
+		MessageDigest md5 = null;
 		HttpSession session = request.getSession();
 		List<Route> routes = null;
 		
@@ -51,6 +54,19 @@ public class LoginCommand extends Command {
 		}
 		LOG.trace("Found in DB: user --> " + user);
 
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+			byte[] bytes = md5.digest(password.getBytes());
+			builder = new StringBuilder();
+			for (byte b : bytes) {
+				builder.append(String.format("%02X", b));
+			}
+			password = builder.toString();
+		} catch (NoSuchAlgorithmException e) {
+			LOG.error("Problem with password encryption: ", e);
+		}
+		
+		
 		if (user == null || !password.equals(user.getPassword())) {
 			request.setAttribute("errorMessage",  "Cannot find user with such login/password");
 			page = Path.PAGE_ERROR;

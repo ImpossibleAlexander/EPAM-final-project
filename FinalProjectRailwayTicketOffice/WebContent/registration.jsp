@@ -23,11 +23,11 @@
           <span data-placeholder="Email"></span>
         </div>
         <div class="txtb">
-          <input type="password" name="password" required/>
+          <input type="password"  name="password" required size="30" minlength="6"/>
           <span data-placeholder="Password"></span>
         </div>
 		 <div class="txtb">
-          <input type="password" name="passwordConfirm" required/>
+          <input type="password" name="passwordConfirm" required size="30" minlength="6" />
           <span data-placeholder="Password"></span>
         </div>
 		<div class="txtb">

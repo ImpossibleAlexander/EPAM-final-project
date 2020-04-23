@@ -67,7 +67,7 @@ CREATE TABLE users(
 	email VARCHAR(40) NOT NULL UNIQUE,
 	
 -- not null string columns	
-	password VARCHAR(20) NOT NULL,
+	password VARCHAR(100) NOT NULL,
 	first_name VARCHAR(20) NOT NULL,
 	last_name VARCHAR(20) NOT NULL,
 	
@@ -109,7 +109,7 @@ CREATE TABLE user_tickets (
 );
 
 insert into users (login, email, password, first_name, last_name, role_id) 
-values ('admin', 'admin@ukr.net', 1, 'admin', 'admin', 0);
+values ('admin', 'admin@ukr.net', '21232F297A57A5A743894A0E4A801FC3', 'admin', 'admin', 0);
 
 insert into train (train_number, coupe, reserved_seat, common, coupe_price, reserved_seat_price,common_price) 
 values (4123, 0, 5, 1, 200, 300, 100);
@@ -121,16 +121,16 @@ insert into train (train_number, coupe, reserved_seat, common, coupe_price, rese
 values (1241, 4, 5, 1, 12, 421, 21);
 
 insert into train_station (name) 
-values ("Test1");
+values ("Харьков");
 
 insert into train_station (name) 
-values ("Test2");
+values ("Киев");
 
 insert into train_station (name) 
-values ("Test3");
+values ("Львов");
 
 insert into train_station (name) 
-values ("Test4");
+values ("Мариуполь");
 
 insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values (1, 1, NULL, '2020-02-02 14:14:00');
 insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values (1, 2, '2020-05-05 15:32:00', NULL);

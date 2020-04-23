@@ -28,6 +28,8 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 	private static final String SELECT_STATION_BY_NAME = "SELECT * FROM train_station WHERE name = ?";
 	
 	private static final String SQL_UPDATE_TRAIN_STATION = "UPDATE train_station SET name=? WHERE name=?";
+	
+	private static final String SQL_DELETE_TRAIN_STATION = "DELETE FROM train_station WHERE name =?";
 
 	public void insertStation(TrainStation station) throws Exception {
 		DBManager db = DBManager.getInstance();
@@ -60,7 +62,7 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 		ResultSet resultSet = null;
 		try {
 			connection = db.getConnection();
-			connection.setAutoCommit(true);
+			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(SELECT_STATION_BY_NAME);
 			preparedStatement.setString(1, name);
 			resultSet = preparedStatement.executeQuery();
@@ -89,19 +91,24 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 		DBManager db = DBManager.getInstance();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		try {
 			connection = db.getConnection();
-			connection.setAutoCommit(true);
+			connection.setAutoCommit(false);
 			preparedStatement = connection.prepareStatement(SQL_UPDATE_TRAIN_STATION);
 			preparedStatement.setString(1, trainStationAfterUpdate.getStationName());
 			preparedStatement.setString(2, trainStationBeforeUpdate.getStationName());
 			if (preparedStatement.executeUpdate() != 1) {
+				connection.commit();
 				return false;
 			}
+			connection.commit();
 		} catch (SQLException e) {
 			LOG.error(Messages.ERR_CANNOT_UPDATE_STATION, e);
 			throw new DBException(Messages.ERR_CANNOT_UPDATE_STATION, e);
 		}
+		 finally {
+				db.close(connection, preparedStatement, resultSet);}
 		return true;
 	}
 
@@ -114,9 +121,10 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 		ResultSet resultSet = null;
 		try {
 			connection = db.getConnection();
-			connection.setAutoCommit(true);
+			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(SELECT_STATIONS);
+			connection.commit();
 			while (resultSet.next()) {
 				TrainStation station = new TrainStation();
 				station.setStationName(resultSet.getString(2));
@@ -130,5 +138,28 @@ public class DaoTrainStation implements DaoInterfaceTrainStation {
 		}
 		return stations;
 	}
-
+	
+	public boolean deleteTrainStation(String name) throws Exception {
+		DBManager db = DBManager.getInstance();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		boolean status = false;
+		try {
+			connection = db.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(SQL_DELETE_TRAIN_STATION);
+			preparedStatement.setString(1, name);
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			status = false;
+			LOG.error(Messages.ERR_DELETE_STATION, e);
+			throw new DBException(Messages.ERR_DELETE_STATION, e);
+		}
+		 finally {
+				db.close(connection, preparedStatement, resultSet);
+		 }
+		return status;
+	}
 }

@@ -53,7 +53,7 @@
 
     .txtb span::after{
       content: '';
-      position: absolute;
+      position: static;
       width: 0%;
       height: 2px;
       background: linear-gradient(120deg,#3498db,#8e44ad);
@@ -62,9 +62,6 @@
 
     .focus + span::before{
       top: -5px;
-    }
-    .focus + span::after{
-      width: 100%;
     }
 
     .regbtn{

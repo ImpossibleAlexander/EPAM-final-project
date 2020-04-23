@@ -17,6 +17,7 @@
     class="ua.nure.kaplin.SummaryTask4.db.bean.TrainStationBean"/>
     
 	<c:set var="userRole" scope="page" value="${sessionScope.userRole}"/>
+	<c:set var="route" scope="page" value="${route}"/>
 	<nav>
 		<ul>
 			<li>
@@ -91,37 +92,39 @@
 						<fieldset>
 						<legend><h3>Добавление/Редактирование поезда</h3></legend>
 							<legend>
-								№ поезда: <input type="text" name="trainNumber" required/>
+								№ поезда: <input type="text" name="trainNumber" required value="${route.trainNumber}" pattern="^\d+$"/>
 							</legend>
 							<legend>
-								Станция отправления: <input type="text" name="stationName" required/>
+								Станция отправления: <input type="text" name="stationName" required value="${route.stationName}"/>
 							</legend>
 							<legend>
-								Дата/Время отправления: <input type="datetime-local"  name="departureDateAndTime" required/>
+								Дата/Время отправления: <input type="datetime"  name="departureDateAndTime" required value="${route.departureDateAndTime}" 
+								placeholder="ГГГГ-ММ-ДД чч:мм" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
 							</legend>
 							<legend>
-								Станция прибытия: <input type="text" name="destinationStationName" required/>
+								Станция прибытия: <input type="text" name="destinationStationName" required value="${route.destinationStationName}"/>
 							</legend>
 							<legend>
-								Дата/Время прибытия: <input type="datetime-local" name="destinationDateAndTime" required/>
+								Дата/Время прибытия: <input type="datetime" name="destinationDateAndTime" required value="${route.destinationDateAndTime}" 
+								placeholder="ГГГГ-ММ-ДД чч:мм" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
 							</legend>
 							<legend>
-								Купе (свободно): <input type="text" name="coupe" required/>
+								Купе (свободно): <input type="text" name="coupe" required value="${route.coupe}"/>
 							</legend>
 							<legend>
-								Плацкарт (свободно): <input type="text" name="reservedSeat" required/>
+								Плацкарт (свободно): <input type="text" name="reservedSeat" required value="${route.reservedSeat}"/>
 							</legend>
 							<legend>
-								Общий (свободно): <input type="text" name="common" required/>
+								Общий (свободно): <input type="text" name="common" required value="${route.common}"/>
 							</legend>
 							<legend>
-								Стоимость (купе): <input type="text" name="coupePrice" required/>
+								Стоимость (купе): <input type="text" name="coupePrice" required value="${route.coupePrice}"/>
 							</legend>
 							<legend>
-								Стоимость (плацкарт): <input type="text" name="reservedSeatPrice" required/>
+								Стоимость (плацкарт): <input type="text" name="reservedSeatPrice" required value="${route.reservedSeatPrice}"/>
 							</legend>
 							<legend>
-								Стоимость (общий): <input type="text" name="commonPrice" required/>
+								Стоимость (общий): <input type="text" name="commonPrice" required value="${route.commonPrice}"/>
 							</legend>
 						</fieldset>
 						<br /> <input type="submit" value="Добавить" class="button-accept">
@@ -165,7 +168,8 @@
 					<th>Стоимость (общий)</th>
 				</tr>
 				<c:forEach var="route" items="${routes}">
-
+					<c:choose>
+						<c:when test="${!empty route.departureDateAndTime && !empty route.destinationDateAndTime}"> 
 					<tr>
 						<td>${route.trainNumber}</td>
 						<td>${route.stationName}</td>
@@ -200,13 +204,36 @@
 									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
 									<input type="hidden" name="coupePrice" value="${route.coupePrice}">
 									<input type="hidden" name="reservedSeatPrice" value="${route.reservedSeatPrice}">
-									<input type="hidden" name="commonPrice" value="${route.commonPrice}">
+									<input type="hidden" name="commonPrice" value="${route.common}">
 									<input type="submit" value="Добавить в корзину" class="button-accept">
+								</form>
+								</td>
+		    				</c:when>
+		    					<c:when test="${userRole == 'ADMIN'}">	  	
+		  			  			<td>
+								<form action="controller" method="get">
+									<input type="hidden" name="command" value="setValuesForRouteUpdate">
+									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
+									<input type="hidden" name="departureStation" value="${route.stationName}">
+									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
+									<input type="hidden" name="destinationStationName" value="${route.destinationStationName}">
+									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
+									
+									<input type="hidden" name="coupe" value="${route.coupe}">
+									<input type="hidden" name="reservedSeat" value="${route.reservedSeat}">
+									<input type="hidden" name=common value="${route.common}">
+									
+									<input type="hidden" name="coupePrice" value="${route.coupePrice}">
+									<input type="hidden" name="reservedSeatPrice" value="${route.reservedSeatPrice}">
+									<input type="hidden" name="commonPrice" value="${route.commonPrice}">
+									<input type="submit" value="Выбрать" class="button-accept">
 								</form>
 								</td>
 		    				</c:when>
 						</c:choose>
 					</tr>
+							</c:when>
+						</c:choose>
 				</c:forEach>
 			</table>
 		</c:otherwise>
