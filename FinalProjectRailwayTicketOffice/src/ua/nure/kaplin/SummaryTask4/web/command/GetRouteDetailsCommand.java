@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRoute;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRouteImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 import ua.nure.kaplin.SummaryTask4.db.Role;
@@ -33,7 +33,7 @@ public class GetRouteDetailsCommand extends Command {
 		String departureStation = request.getParameter("departureStation");
 		String destinationStation = request.getParameter("destinationStation");
 		List<Route> routes = null;
-		DaoRoute dao = new DaoRoute();
+		DaoRouteImpl dao = new DaoRouteImpl();
 
 		try {
 			if (userRole == Role.ADMIN) {

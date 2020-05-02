@@ -7,13 +7,14 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.kaplin.SummaryTask4.DAO.DaoTicket;
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.Ticket;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
 import ua.nure.kaplin.SummaryTask4.exception.DBException;
 import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
-public class DaoTickets {
+public class DaoTicketsImpl implements DaoTicket{
 
 	private static final Logger LOG = Logger.getLogger(DBManager.class);
 

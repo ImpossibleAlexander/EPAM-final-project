@@ -7,12 +7,14 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRoute;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrain;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRouteImpl;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainImpl;
+import ua.nure.kaplin.SummaryTask4.db.Role;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.Train;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
@@ -27,27 +29,29 @@ public class GetRouteCommand extends Command {
 		
 		LOG.debug("Command starts");
 		
-		DaoRoute daoRoute = null;
-		DaoTrain daoTrain = null;
+		HttpSession session = request.getSession();
+		
+		DaoRouteImpl daoRoute = null;
+		DaoTrainImpl daoTrain = null;
 		String departureStation = request.getParameter("departureStation");
 		String trainNumber = request.getParameter("trainNumber");
 		String arriveStation = request.getParameter("arrivalStation");
 		List<Route> routes = new ArrayList<Route>();
 		List<Route> routesBuf;
 		List<Train> trains = new ArrayList<Train>();
-		daoTrain = new DaoTrain();
-		daoRoute = new DaoRoute();
-
-		String page = Path.PAGE_ERROR;
-		String errorMessage = "Cannot find route";
+		daoTrain = new DaoTrainImpl();
+		daoRoute = new DaoRouteImpl();
+		
+		String page = null;
+		
 		try {
-
-			if (!trainNumber.isEmpty()) {
+			if (!trainNumber.isEmpty() && arriveStation.isEmpty() && departureStation.isEmpty()) {
 				Route route = setRoute(
 						daoRoute.findRouteByTrainNumber(Integer.parseInt(trainNumber)));
 				routes.add(route);
 				LOG.trace("Found in DB: route --> " + routes);
-			} else {
+			}
+			else {
 				trains = daoTrain.findTrainNumberByStationName(departureStation, arriveStation);
 				for (Train train : trains) {
 					routesBuf = new ArrayList<Route>(setRouteDestinationDeparture(
@@ -57,15 +61,23 @@ public class GetRouteCommand extends Command {
 				LOG.trace("Found in DB: routes --> " + routes);
 			}
 					
+			if(session.getAttribute("userRole") != null && session.getAttribute("userRole").equals(Role.ADMIN)) {
+				page = Path.PAGE_ADMIN_MAIN_PAGE;
+			}
+			else {
+				page = Path.PAGE_MAIN;
+			}
+			
 			if (routes.size() == 0) {
-				request.setAttribute("errorMessage", errorMessage);
-				LOG.trace("Set the request attribute: errorMessage --> " + errorMessage);
-				throw new AppException(errorMessage.toString());
+				page = Path.PAGE_ERROR;
+				request.setAttribute("errorMessage", "Cannot find route");
+				LOG.trace("Set the request attribute: errorMessage --> " + "Cannot find route");
+				throw new AppException("Cannot find route");
 			}
 			
 			request.setAttribute("routes", routes);
 			LOG.trace("Set the request attribute: routes --> " + routes);
-			page = Path.PAGE_MAIN;
+			
 		} 
 		catch (Exception e) {
 			LOG.error("Find route from DB: ", e);
@@ -95,6 +107,7 @@ public class GetRouteCommand extends Command {
 		route.setCoupePrice(routePoints.get(0).getCoupePrice());
 		route.setReservedSeatPrice(routePoints.get(0).getReservedSeatPrice());
 		route.setCommonPrice(routePoints.get(0).getCommonPrice());
+		route.setTrainStatus(routePoints.get(0).getTrainStatus());
 		resultRoute.add(route);
 		return resultRoute;
 	}

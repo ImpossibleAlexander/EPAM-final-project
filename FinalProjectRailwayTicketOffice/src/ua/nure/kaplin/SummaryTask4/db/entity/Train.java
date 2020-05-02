@@ -9,7 +9,7 @@ public class Train {
 	private int coupePrice;
 	private int reservedSeatPrice;
 	private int commonPrice;
-	
+	private String trainStatus;
 	public int getId() {
 		return id;
 	}
@@ -58,6 +58,13 @@ public class Train {
 	}
 	public void setCommonPrice(int commonPrice) {
 		this.commonPrice = commonPrice;
+	}
+	
+	public String getTrainStatus() {
+		return trainStatus;
+	}
+	public void setTrainStatus(String trainStatus) {
+		this.trainStatus = trainStatus;
 	}
 	@Override
 	public String toString() {

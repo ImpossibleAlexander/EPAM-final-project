@@ -1,6 +1,8 @@
 package ua.nure.kaplin.SummaryTask4.web.command;
 
 
+import static org.mockito.Matchers.intThat;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,6 +22,7 @@ public class SetValuesForRouteUpdate extends Command{
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
 		Route route = null;
+		String trainId = request.getParameter("trainId");
 		String trainNumber = request.getParameter("trainNumber");
 		String departureStation = request.getParameter("departureStation");
 		String destinationStation = request.getParameter("destinationStationName");
@@ -31,9 +34,10 @@ public class SetValuesForRouteUpdate extends Command{
 		String coupePrice = request.getParameter("coupePrice");
 		String reservedSeatPrice = request.getParameter("reservedSeatPrice");
 		String commonPrice = request.getParameter("commonPrice");
+		String trainStatus = request.getParameter("trainStatus");
 
 		route = new Route();
-
+		route.setTrainId(Integer.parseInt(trainId));
 		route.setTrainNumber(Integer.parseInt(trainNumber));
 		route.setDestinationDateAndTime(destinationDateAndTime);
 		route.setDepartureDateAndTime(departureDateAndTime);
@@ -47,10 +51,11 @@ public class SetValuesForRouteUpdate extends Command{
 		route.setCoupePrice(Integer.parseInt(coupePrice));
 		route.setReservedSeatPrice(Integer.parseInt(reservedSeatPrice));
 		route.setCommonPrice(Integer.parseInt(commonPrice));
+		route.setTrainStatus(trainStatus);
 		request.setAttribute("route", route);
 
 		
-		return Path.PAGE_MAIN;
+		return Path.PAGE_ADMIN_MAIN_PAGE;
 	}
 
 }

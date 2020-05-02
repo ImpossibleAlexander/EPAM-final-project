@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.kaplin.SummaryTask4.DAO.DaoUser;
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.Ticket;
 import ua.nure.kaplin.SummaryTask4.db.entity.Train;
@@ -16,7 +17,7 @@ import ua.nure.kaplin.SummaryTask4.db.entity.User;
 import ua.nure.kaplin.SummaryTask4.exception.DBException;
 import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
-public class DaoUser {
+public class DaoUserImpl implements DaoUser{
 	
 	private static final Logger LOG = Logger.getLogger(DBManager.class);
 	

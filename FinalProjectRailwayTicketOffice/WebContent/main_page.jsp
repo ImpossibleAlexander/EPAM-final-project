@@ -26,13 +26,6 @@
 			<li>
 				<a href="main_page.jsp">Контакты</a>
 			</li>
-			<li>
-				<c:choose>
-  			  	<c:when test="${userRole == 'ADMIN'}">
-       				 <a href="controller?command=mapping&page=admin">Редактировать</a>
-    			</c:when>
-			</c:choose>
-			</li>
 				<c:choose>
     			<c:when test="${userRole == 'CLIENT'}">
     				<li>
@@ -42,8 +35,7 @@
        				 <a href="controller?command=mapping&page=user_page">Личный кабинет</a>
        				</li>
     			</c:when>
-			</c:choose>
-			
+			</c:choose>		
 			<li style="float: right">
 				<c:choose>
   			  	<c:when test="${userRole == 'ADMIN'||userRole == 'CLIENT'}">
@@ -57,85 +49,24 @@
 		</ul>
 	</nav>
 	
-	
 	<div>
-		<table border="1" width="200px" cellpadding="5" align="right" >
+		<table border="1" width="200px" cellpadding="5" align="right"  style="background-color: white">
 							<tr>
 								<th><h3>Станции</h3></th>
 							</tr>
 							<c:forEach var="station" items="${trainStationBean.getStations()}">
 			
 								<tr>
-									<td>${station.stationName}</td>
-										<c:choose>
-			  			  					<c:when test="${userRole == 'ADMIN'}">
-			  			  					<td>
-			       								<form action="controller" method="get">
-													<input type="hidden" name="command" value="routeDetails">
-													<input type="hidden" name="stationName" value="${station.stationName}">
-													<input type="submit" value="Редактировать" class="button-accept">																														
-												</form>
-												</td>
-			    							</c:when>
-			    						</c:choose>							
+									<td>${station.stationName}</td>						
 								</tr>
 							</c:forEach>
 				</table>
 	</div>
 	
-	<div>
-		<div style="width: 450px">
-			<c:choose>
-  			  	<c:when test="${userRole == 'ADMIN'}">
-       				 <form action="controller" method="post">
-						<input type="hidden" name="command" value="createRouteCommand">
-						<fieldset>
-						<legend><h3>Добавление/Редактирование поезда</h3></legend>
-							<legend>
-								№ поезда: <input type="text" name="trainNumber" required value="${route.trainNumber}" pattern="^\d+$"/>
-							</legend>
-							<legend>
-								Станция отправления: <input type="text" name="stationName" required value="${route.stationName}"/>
-							</legend>
-							<legend>
-								Дата/Время отправления: <input type="datetime"  name="departureDateAndTime" required value="${route.departureDateAndTime}" 
-								placeholder="ГГГГ-ММ-ДД чч:мм" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
-							</legend>
-							<legend>
-								Станция прибытия: <input type="text" name="destinationStationName" required value="${route.destinationStationName}"/>
-							</legend>
-							<legend>
-								Дата/Время прибытия: <input type="datetime" name="destinationDateAndTime" required value="${route.destinationDateAndTime}" 
-								placeholder="ГГГГ-ММ-ДД чч:мм" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
-							</legend>
-							<legend>
-								Купе (свободно): <input type="text" name="coupe" required value="${route.coupe}"/>
-							</legend>
-							<legend>
-								Плацкарт (свободно): <input type="text" name="reservedSeat" required value="${route.reservedSeat}"/>
-							</legend>
-							<legend>
-								Общий (свободно): <input type="text" name="common" required value="${route.common}"/>
-							</legend>
-							<legend>
-								Стоимость (купе): <input type="text" name="coupePrice" required value="${route.coupePrice}"/>
-							</legend>
-							<legend>
-								Стоимость (плацкарт): <input type="text" name="reservedSeatPrice" required value="${route.reservedSeatPrice}"/>
-							</legend>
-							<legend>
-								Стоимость (общий): <input type="text" name="commonPrice" required value="${route.commonPrice}"/>
-							</legend>
-						</fieldset>
-						<br /> <input type="submit" value="Добавить" class="button-accept">
-					</form>
-    			</c:when>
-			</c:choose>
-			</div>
 	<div style="width: 450px">
 	<form action="controller" method="get">
 		<input type="hidden" name="command" value="route">
-		<fieldset>
+		<fieldset style="background-color: white">
 			<legend><h3>Поиск поезда</h3></legend>
 			<legend>
 				№ поезда: <input type="text" name="trainNumber" />
@@ -150,10 +81,11 @@
 		<br /> <input type="submit" value="Найти" class="button-accept">
 	</form>
 	</div>
+	
 	<c:choose>
 		<c:when test="${empty routes}"/> 
 		<c:otherwise>
-			<table border="1" width="10%" cellpadding="5">
+			<table border="1" width="10%" cellpadding="5" style="background-color: white">
 				<tr>
 					<th>№ поезда</th>
 					<th>Станция отправления</th>
@@ -166,10 +98,14 @@
 					<th>Стоимость (купе)</th>
 					<th>Стоимость (плацкарт)</th>
 					<th>Стоимость (общий)</th>
+					<th>Статус поезда</th>
 				</tr>
 				<c:forEach var="route" items="${routes}">
-					<c:choose>
-						<c:when test="${!empty route.departureDateAndTime && !empty route.destinationDateAndTime}"> 
+					<c:if test = "${(empty route.departureDateAndTime && empty route.destinationDateAndTime) 
+												|| (empty route.departureDateAndTime || empty route.destinationDateAndTime)}">
+								<c:redirect url="controller?command=mapping&page=error_page&errorMessage=cannotFindRoute" />
+					</c:if>
+			
 					<tr>
 						<td>${route.trainNumber}</td>
 						<td>${route.stationName}</td>
@@ -182,6 +118,7 @@
 						<td>${route.coupePrice}</td>
 						<td>${route.reservedSeatPrice}</td>
 						<td>${route.commonPrice}</td>
+						<td>${route.trainStatus}</td>
 						<td>
 							<form action="controller" method="get">
 								<input type="hidden" name="command" value="routeDetails">
@@ -209,36 +146,13 @@
 								</form>
 								</td>
 		    				</c:when>
-		    					<c:when test="${userRole == 'ADMIN'}">	  	
-		  			  			<td>
-								<form action="controller" method="get">
-									<input type="hidden" name="command" value="setValuesForRouteUpdate">
-									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
-									<input type="hidden" name="departureStation" value="${route.stationName}">
-									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
-									<input type="hidden" name="destinationStationName" value="${route.destinationStationName}">
-									<input type="hidden" name="destinationDateAndTime" value="${route.destinationDateAndTime}">
-									
-									<input type="hidden" name="coupe" value="${route.coupe}">
-									<input type="hidden" name="reservedSeat" value="${route.reservedSeat}">
-									<input type="hidden" name=common value="${route.common}">
-									
-									<input type="hidden" name="coupePrice" value="${route.coupePrice}">
-									<input type="hidden" name="reservedSeatPrice" value="${route.reservedSeatPrice}">
-									<input type="hidden" name="commonPrice" value="${route.commonPrice}">
-									<input type="submit" value="Выбрать" class="button-accept">
-								</form>
-								</td>
-		    				</c:when>
 						</c:choose>
 					</tr>
-							</c:when>
-						</c:choose>
 				</c:forEach>
 			</table>
 		</c:otherwise>
 	</c:choose>
-	</div>
+
 	
 	
 </body>

@@ -14,7 +14,7 @@
 	<nav>
 		<ul>
 			<li>
-				<a href="main_page.jsp">Расписание</a>
+				<a href="controller?command=mapping&page=admin_main_page">Расписание</a>
 			</li>
 			<li>
 				<a href="main_page.jsp">Контакты</a>
@@ -43,7 +43,7 @@
 			<input type="hidden" name="command" id="commandId" value="">
 			<input type="hidden" name="action" id="actionId" value="">
 			
-			<fieldset>
+			<fieldset style="background-color: white">
 			<legend><h3>Редактирование станций</h3></legend>
 			<legend>
 				Название станции: <input type="text" name="stationName1" value="${oldStationName}"/>
@@ -60,7 +60,7 @@
 		
 		<div style="width: 450px">
 		<form action="controller" method="post">		
-			<fieldset>
+			<fieldset style="background-color: white">
 			<legend><h3>Добавление точки маршрута</h3></legend>
 			<legend>
 				№ поезда: <input type="text" name="trainNumber" value="${trainNumber}" required  pattern="^\d+$"/>
@@ -84,7 +84,7 @@
 		<c:when test="${empty routes}"/> 
 		<c:otherwise>
 		
-			<table border="1" width="10%" cellpadding="5">
+			<table border="1" width="10%" cellpadding="5" style="background-color: white">
 				<tr>
 					<th>№ поезда</th>
 					<th>Пункт отправления</th>
@@ -115,7 +115,6 @@
 				</table>
 		</c:otherwise>
 	</c:choose>
-<a href="javascript:history.back()">вернуться</a>
 
 <script language="javascript">
 function doCommandEditStation(command, action) {

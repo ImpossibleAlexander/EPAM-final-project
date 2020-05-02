@@ -7,7 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStation;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStationImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;

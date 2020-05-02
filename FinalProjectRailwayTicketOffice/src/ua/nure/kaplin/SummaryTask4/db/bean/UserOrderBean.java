@@ -2,7 +2,7 @@ package ua.nure.kaplin.SummaryTask4.db.bean;
 
 import java.util.List;
 
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUser;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUserImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.Ticket;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
 
@@ -20,8 +20,7 @@ public class UserOrderBean {
 
 	public List<Ticket> findUserTickets() {
 		List<Ticket> tickets = null;
-		DaoUser dao = new DaoUser();
-		System.out.println(getUser().getId());
+		DaoUserImpl dao = new DaoUserImpl();
 		try {
 			tickets = dao.findUserTicketsByUserId(getUser().getId());
 		} catch (Exception e) {

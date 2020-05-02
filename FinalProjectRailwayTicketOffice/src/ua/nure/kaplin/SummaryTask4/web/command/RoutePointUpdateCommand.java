@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRoute;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRouteImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
@@ -22,7 +22,7 @@ public class RoutePointUpdateCommand extends Command{
 			throws IOException, ServletException, AppException {
 		LOG.debug("Command starts");
 		String page = Path.PAGE_ERROR;
-		DaoRoute daoRoute = null;
+		DaoRouteImpl daoRoute = null;
 		Route route = null;
 		
 		String trainId = request.getParameter("trainId");
@@ -31,7 +31,7 @@ public class RoutePointUpdateCommand extends Command{
 		String departureDateAndTime = request.getParameter("departureDateAndTime");
 				
 			try {
-				daoRoute = new DaoRoute();
+				daoRoute = new DaoRouteImpl();
 				route = new Route();
 				route.setTrainId(Integer.parseInt(trainId));
 				route.setStationName(departureStationName);

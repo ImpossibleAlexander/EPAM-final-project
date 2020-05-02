@@ -1,9 +1,5 @@
 package ua.nure.kaplin.SummaryTask4.db.entity;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 public class Route {
 	private int trainId;
 	private int stationId;
@@ -19,6 +15,7 @@ public class Route {
 	private int coupePrice;
 	private int reservedSeatPrice;
 	private int commonPrice;
+	private String trainStatus;
 	
 	
 	public int getTrainId() {
@@ -109,6 +106,13 @@ public class Route {
 	public String getDepartureDateAndTime() {
 		return departureDateAndTime;
 	}
+	
+	public String getTrainStatus() {
+		return trainStatus;
+	}
+	public void setTrainStatus(String trainStatus) {
+		this.trainStatus = trainStatus;
+	}
 	@Override
 	public String toString() {
 		return "Route [trainId=" + trainId + ", stationId=" + stationId + ", destinationStationId="
@@ -116,6 +120,6 @@ public class Route {
 				+ ", destinationStationName=" + destinationStationName + ", departureDateAndTime="
 				+ departureDateAndTime + ", destinationDateAndTime=" + destinationDateAndTime + ", coupe=" + coupe
 				+ ", reservedSeat=" + reservedSeat + ", common=" + common + ", coupePrice=" + coupePrice
-				+ ", reservedSeatPrice=" + reservedSeatPrice + ", commonPrice=" + commonPrice + "]";
+				+ ", reservedSeatPrice=" + reservedSeatPrice + ", commonPrice=" + commonPrice + ", trainStatus=" + trainStatus + "]";
 	}
 }

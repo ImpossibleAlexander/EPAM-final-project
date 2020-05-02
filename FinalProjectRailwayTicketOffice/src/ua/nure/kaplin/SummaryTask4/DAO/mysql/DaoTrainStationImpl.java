@@ -11,13 +11,13 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import ua.nure.kaplin.SummaryTask4.DAO.DaoInterfaceTrainStation;
+import ua.nure.kaplin.SummaryTask4.DAO.DaoTrainStation;
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 import ua.nure.kaplin.SummaryTask4.exception.DBException;
 import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
-public class DaoTrainStation implements DaoInterfaceTrainStation {
+public class DaoTrainStationImpl implements DaoTrainStation {
 
 	private static final Logger LOG = Logger.getLogger(DBManager.class);
 	

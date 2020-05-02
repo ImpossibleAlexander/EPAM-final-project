@@ -40,7 +40,6 @@ public class AddToBasketCommand extends Command{
 	    String reservedSeatPrice = request.getParameter("reservedSeatPrice");
 	    String commonPrice = request.getParameter("commonPrice");
 	    
-	    
 	    route.setTrainNumber(Integer.parseInt(trainNumber));
 	    route.setStationName(departureStation);
 	    route.setDestinationStationName(destinationStation);

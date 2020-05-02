@@ -1,11 +1,10 @@
 USE final_project; 
 DROP TABLE IF EXISTS route_point;
 DROP TABLE IF EXISTS train_station;
-DROP TABLE IF EXISTS train;
 DROP TABLE IF EXISTS roles;
-DROP TABLE IF EXISTS user_tickets;
-DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS tickets;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS train;
 
 CREATE TABLE train_station (
 	id INT PRIMARY KEY AUTO_INCREMENT ,
@@ -20,7 +19,8 @@ CREATE TABLE train (
 	common INT NOT NULL CHECK(common >= 0),
     coupe_price INT NOT NULL,
 	reserved_seat_price INT NOT NULL,
-	common_price INT NOT NULL
+	common_price INT NOT NULL,
+    status_of_train VARCHAR(8) DEFAULT 'active'
 );
 
 CREATE TABLE route_point (
@@ -96,20 +96,15 @@ CREATE TABLE tickets (
     arrive_datetime datetime,
     depart_datetime datetime,
     place VARCHAR(15) NOT NULL,
-    price INT NOT NULL
-);
-
-
-CREATE TABLE user_tickets (
-	user_id INT,
+    price INT NOT NULL,
+    user_id INT,
 	FOREIGN KEY (user_id)  REFERENCES users (id) ON DELETE CASCADE ON UPDATE cascade,
-	tickets_id INT,
-	FOREIGN KEY (tickets_id)  REFERENCES tickets (id) ON DELETE CASCADE ON UPDATE cascade,
-	PRIMARY KEY (user_id, tickets_id)
+    FOREIGN KEY (id)  REFERENCES train (id) ON DELETE CASCADE ON UPDATE cascade
 );
+
 
 insert into users (login, email, password, first_name, last_name, role_id) 
-values ('admin', 'admin@ukr.net', '21232F297A57A5A743894A0E4A801FC3', 'admin', 'admin', 0);
+values ('admin', 'admin@ukr.net', 'E10ADC3949BA59ABBE56E057F20F883E', 'admin', 'admin', 0);
 
 insert into train (train_number, coupe, reserved_seat, common, coupe_price, reserved_seat_price,common_price) 
 values (4123, 0, 5, 1, 200, 300, 100);
@@ -121,16 +116,16 @@ insert into train (train_number, coupe, reserved_seat, common, coupe_price, rese
 values (1241, 4, 5, 1, 12, 421, 21);
 
 insert into train_station (name) 
-values ("’‡¸ÍÓ‚");
+values ("–•–∞—Ä—å–∫–æ–≤");
 
 insert into train_station (name) 
-values (" ËÂ‚");
+values ("–ö–∏–µ–≤");
 
 insert into train_station (name) 
-values ("À¸‚Ó‚");
+values ("–õ—å–≤–æ–≤");
 
 insert into train_station (name) 
-values ("Ã‡ËÛÔÓÎ¸");
+values ("–ú–∞—Ä–∏—É–ø–æ–ª—å");
 
 insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values (1, 1, NULL, '2020-02-02 14:14:00');
 insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values (1, 2, '2020-05-05 15:32:00', NULL);

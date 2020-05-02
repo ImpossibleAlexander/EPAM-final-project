@@ -14,7 +14,7 @@ import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.Ticket;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTickets;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTicketsImpl;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
@@ -28,7 +28,7 @@ public class BuyTicketCommand extends Command {
 
 		LOG.debug("Command starts");
 		String page = Path.PAGE_ERROR;
-		DaoTickets dao = null;
+		DaoTicketsImpl dao = null;
 		Ticket ticket = null;
 		String place = null;
 		StringBuilder builder = null;
@@ -82,7 +82,7 @@ public class BuyTicketCommand extends Command {
 		LOG.trace("Set ticket: ticket --> " + ticket);
 
 		try {
-			dao = new DaoTickets();
+			dao = new DaoTicketsImpl();
 			dao.insertTicket(ticket, user);
 			LOG.trace("Insert user ticket in DB: ticket & user --> " + ticket + " & " + user);
 
@@ -99,9 +99,9 @@ public class BuyTicketCommand extends Command {
 			page = Path.PAGE_BASKET_REDIRECT;
 			
 		} catch (Exception e) {
-			request.setAttribute("errorMessage",  "No empty seats");
 			LOG.trace("Set the request attribute: errorMessage --> " + "No empty seats");
 			LOG.error("No empty seats: ", e);
+			throw new AppException("No empty seats");
 		}
 
 		LOG.debug("Command finished");

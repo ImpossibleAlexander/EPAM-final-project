@@ -9,12 +9,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import ua.nure.kaplin.SummaryTask4.DAO.DaoTrain;
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
-import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.Train;
+import ua.nure.kaplin.SummaryTask4.exception.DBException;
 import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
-public class DaoTrain {
+public class DaoTrainImpl implements DaoTrain{
 	
 	private static final Logger LOG = Logger.getLogger(DBManager.class);
 
@@ -24,7 +25,10 @@ public class DaoTrain {
 			+ "	WHERE name = ? OR name = ? GROUP BY train_number;";
 
 	private static final String SQL_SELECT_TRAIN_BY_NUMBER = "SELECT * FROM train WHERE train_number = ?";
+	
+	private static final String SQL_UPDATE_TRAIN_BY_NUMBER = "UPDATE train SET train_number = ?, coupe = ?, reserved_seat = ?, common = ?, coupe_price = ?, reserved_seat_price = ?, common_price = ?, status_of_train = ? WHERE id = ?";
 
+	@Override
 	public List<Train> findTrainNumberByStationName(String departureStation, String arriveStation) throws Exception {
 		List<Train> trains = new ArrayList<Train>();
 		DBManager db = DBManager.getInstance();
@@ -54,6 +58,7 @@ public class DaoTrain {
 		return trains;
 	}
 
+	@Override
 	public Train findTrainByNumber(int number) throws Exception {
 		DBManager db = DBManager.getInstance();
 		Train train = null;
@@ -78,6 +83,35 @@ public class DaoTrain {
 			db.close(connection, preparedStatement, resultSet);
 		}
 		return train;
+	}
+
+	@Override
+	public boolean updateTrain(Train train) throws Exception {
+		DBManager db = DBManager.getInstance();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		try {
+			connection = db.getConnection();
+			connection.setAutoCommit(true);
+			preparedStatement = connection.prepareStatement(SQL_UPDATE_TRAIN_BY_NUMBER);
+			int k = 1;
+			preparedStatement.setInt(k++, train.getTrainNumber());
+			preparedStatement.setInt(k++, train.getCoupe());
+			preparedStatement.setInt(k++, train.getReservedSeat());
+			preparedStatement.setInt(k++, train.getCommon());
+			preparedStatement.setInt(k++, train.getCoupePrice());
+			preparedStatement.setInt(k++, train.getReservedSeatPrice());
+			preparedStatement.setInt(k++, train.getCommonPrice());
+			preparedStatement.setString(k++, train.getTrainStatus());
+			preparedStatement.setInt(k++, train.getId());
+			if (preparedStatement.executeUpdate() != 1) {
+				return false;
+			}
+		} catch (SQLException e) {
+			LOG.error(Messages.ERR_UPDATE_TRAIN, e);
+			throw new DBException(Messages.ERR_UPDATE_TRAIN, e);
+		}
+		return true;
 	}
 	
 }

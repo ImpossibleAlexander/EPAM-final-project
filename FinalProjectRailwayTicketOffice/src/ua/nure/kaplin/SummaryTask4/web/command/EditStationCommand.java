@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStation;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStationImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
@@ -23,7 +23,7 @@ public class EditStationCommand extends Command{
 		
 		LOG.debug("Command starts");
 		String page = Path.PAGE_ERROR;
-		DaoTrainStation dao = null;
+		DaoTrainStationImpl dao = null;
 		TrainStation stationOld = null;
 		TrainStation stationNew = null;
 		String action = request.getParameter("action");
@@ -35,7 +35,7 @@ public class EditStationCommand extends Command{
 			throw new AppException("Name of station cannot be empty");
 		}
 		
-		dao = new DaoTrainStation();
+		dao = new DaoTrainStationImpl();
 		stationNew = new TrainStation();
 		if("create".equals(action) && !stationName2.isEmpty()) {
 			stationNew.setStationName(stationName2);
@@ -67,7 +67,7 @@ public class EditStationCommand extends Command{
 		}
 		
 		if("delete".equals(action) && !stationName1.isEmpty()) {
-			dao = new DaoTrainStation();
+			dao = new DaoTrainStationImpl();
 			try {
 				dao.deleteTrainStation(stationName1);
 				page = Path.PAGE_ADMIN_MENU_REDIRECT;

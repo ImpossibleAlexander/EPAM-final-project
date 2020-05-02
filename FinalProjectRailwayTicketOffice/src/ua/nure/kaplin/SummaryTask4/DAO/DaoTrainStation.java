@@ -4,7 +4,7 @@ import java.util.List;
 
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 
-public interface DaoInterfaceTrainStation {
+public interface DaoTrainStation {
 	
 	public TrainStation findStationByName(String login) throws Exception;
 

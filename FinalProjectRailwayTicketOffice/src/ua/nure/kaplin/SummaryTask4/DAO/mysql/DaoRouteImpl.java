@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ua.nure.kaplin.SummaryTask4.DAO.DaoRoute;
 import ua.nure.kaplin.SummaryTask4.db.DBManager;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.exception.DBException;
@@ -13,11 +15,11 @@ import ua.nure.kaplin.SummaryTask4.exception.Messages;
 
 import org.apache.log4j.Logger;
 
-public class DaoRoute {
+public class DaoRouteImpl implements DaoRoute{
 	
 	private static final Logger LOG = Logger.getLogger(DBManager.class);
 	
-	private static final String SQL_SELECT_ROUTE_BY_TRAIN_NUMBER = "SELECT train_number, arrive_datetime, depart_datetime, name, coupe, reserved_seat, common, coupe_price, reserved_seat_price, common_price, train.id, train_station.id\r\n"
+	private static final String SQL_SELECT_ROUTE_BY_TRAIN_NUMBER = "SELECT train_number, arrive_datetime, depart_datetime, name, coupe, reserved_seat, common, coupe_price, reserved_seat_price, common_price, train.id, train_station.id, status_of_train\r\n"
 			+ "FROM route_point\r\n" + "INNER JOIN train\r\n" + "ON train.id = route_point.train_id \r\n"
 			+ "INNER JOIN train_station ON train_station.id = route_point.train_station_id WHERE train_number = ? ORDER BY arrive_datetime";
 
@@ -28,7 +30,7 @@ public class DaoRoute {
 			"values (?, ?, ?, ?, ?, ?, ?);";
 	
 	private static final String SQL_INSERT_DEPARTURE_AND_DESTINATION_STATIONS_OF_ROUTE = "insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values ((SELECT id FROM train WHERE train_number = ?), ?, ?, ?)";
-	
+
 	
 	public List<Route> findRouteByTrainNumber(int trainNumber) throws Exception {
 		List<Route> routes = new ArrayList<Route>();
@@ -56,6 +58,8 @@ public class DaoRoute {
 				route.setCommonPrice(resultSet.getInt(10));
 				route.setTrainId(resultSet.getInt(11));
 				route.setStationId(resultSet.getInt(12));
+				System.out.println(resultSet.getString(13) + "    wafmmamvmamvmklamlfmlamdl-----------");
+				route.setTrainStatus(resultSet.getString(13));
 				routes.add(route);
 			}
 		} catch (SQLException e) {
@@ -177,5 +181,6 @@ public class DaoRoute {
 			db.close(connection, preparedStatement, resultSet);
 		}
 	}
+
 
 }

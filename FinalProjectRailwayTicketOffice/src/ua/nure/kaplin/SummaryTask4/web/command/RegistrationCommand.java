@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUser;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUserImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 
@@ -27,7 +27,7 @@ public class RegistrationCommand extends Command {
 		String page = Path.PAGE_ERROR;
 		request.setAttribute("errorMessage", "Passwords do not match");
 		User user = null;
-		DaoUser dao = null;
+		DaoUserImpl dao = null;
 		StringBuilder builder = null;
 		MessageDigest md5 = null;
 		String login = request.getParameter("login");
@@ -41,7 +41,7 @@ public class RegistrationCommand extends Command {
 		if (password.equals(passwordConfirm)) {
 
 			user = new User();
-			dao = new DaoUser();
+			dao = new DaoUserImpl();
 			user.setLogin(login);
 			user.setEmail(email);
 			user.setLastName(surname);

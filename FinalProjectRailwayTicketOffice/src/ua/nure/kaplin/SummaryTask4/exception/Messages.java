@@ -6,35 +6,14 @@ public class Messages {
 		// no op
 	}
 	
-	public static final String ERR_CANNOT_OBTAIN_USER_ORDER_BEANS = "Cannot obtain user order beans";
 
 	public static final String ERR_CANNOT_OBTAIN_CONNECTION = "Cannot obtain a connection from the pool";
-
-	public static final String ERR_CANNOT_OBTAIN_CATEGORIES = "Cannot obtain categories";
-
-	public static final String ERR_CANNOT_OBTAIN_MENU_ITEMS = "Cannot obtain menu items";
-
-	public static final String ERR_CANNOT_OBTAIN_MENU_ITEMS_BY_ORDER = "Cannot obtain menu items by order";
-
-	public static final String ERR_CANNOT_OBTAIN_MENU_ITEMS_BY_IDENTIFIERS = "Cannot obtain menu items by its identifiers";
-
-	public static final String ERR_CANNOT_OBTAIN_ORDERS = "Cannot obtain orders";
-
-	public static final String ERR_CANNOT_OBTAIN_ORDERS_BY_STATUS_ID = "Cannot obtain orders by status id";
-
-	public static final String ERR_CANNOT_OBTAIN_ORDERS_BY_IDENTIFIERS = "Cannot obtain orders by its identifiers";
-
-	public static final String ERR_CANNOT_OBTAIN_ORDERS_BY_USER_AND_STATUS_ID = "Cannot obtain orders by user and status id";
-
-	public static final String ERR_CANNOT_OBTAIN_USER_BY_ID = "Cannot obtain a user by its id";
 
 	public static final String ERR_CANNOT_OBTAIN_USER_BY_LOGIN = "Cannot obtain a user by its login";
 
 	public static final String ERR_CANNOT_UPDATE_USER = "Cannot update a user";
 	
 	public static final String ERR_CANNOT_INSERT_USER = "Cannot insert a user";
-	
-	public static final String ERR_CANNOT_FIND_USER_BY_USER_ID = "Cannot find a user by id";
 
 	public static final String ERR_CANNOT_CLOSE_CONNECTION = "Cannot close a connection";
 
@@ -45,8 +24,6 @@ public class Messages {
 	public static final String ERR_CANNOT_ROLLBACK_TRANSACTION = "Cannot rollback transaction";
 
 	public static final String ERR_CANNOT_OBTAIN_DATA_SOURCE = "Cannot obtain the data source";
-	
-	public static final String ERR_CANNOT_CLOSE_DELEGATING_CALLABLE_STATEMENT = "Can not close DelegatingCallableStatement";
 	
 	public static final String ERR_CANNOT_UPDATE_ROUTE_POINTS = "Can not update route points";
 	
@@ -74,7 +51,9 @@ public class Messages {
 	
 	public static final String ERR_DELETE_STATION = "Can not delete station";
 	
+	public static final String ERR_UPDATE_TRAIN = "Can not update train";
 	
+	public static final String ERR_CANNOT_CLOSE_DELEGATING_CALLABLE_STATEMENT = "Can not close delegating callable statement";
 	
-	
+	public static final String ERR_CANNOT_FIND_USER_BY_USER_ID = "Can not find user by user id";
 }

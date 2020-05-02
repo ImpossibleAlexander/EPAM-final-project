@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUser;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUserImpl;
 import ua.nure.kaplin.SummaryTask4.db.Role;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
@@ -34,7 +34,7 @@ public class LoginCommand extends Command {
 		List<Route> routes = null;
 		
 		// obtain login and password from a request
-		DaoUser dao = new DaoUser();
+		DaoUserImpl dao = new DaoUserImpl();
 		String login = request.getParameter("login");
 		LOG.trace("Request parameter: login --> " + login);
 		String page = Path.PAGE_MAIN_REDIRECT;
@@ -85,6 +85,10 @@ public class LoginCommand extends Command {
 		if (userRole == Role.CLIENT) {
 			routes = new ArrayList<Route>();
 			session.setAttribute("routesForBasket", routes);
+		}
+		
+		if (userRole == Role.ADMIN) {
+			page = Path.PAGE_MAIN_FOR_ADMIN_REDIRECT;
 		}
 
 		LOG.info("User " + user + " logged as " + userRole.toString().toLowerCase());

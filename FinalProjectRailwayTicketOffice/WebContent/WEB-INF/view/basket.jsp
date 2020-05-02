@@ -58,6 +58,7 @@
 					<th>Стоимость (купе)</th>
 					<th>Стоимость (плацкарт)</th>
 					<th>Стоимость (общий)</th>
+
 				</tr>
 				<c:forEach var="route" items="${routesForBasket}">
 					<tr>
@@ -68,10 +69,11 @@
 						<td>${route.destinationDateAndTime}</td>
 						<td>${route.coupePrice}</td>
 						<td>${route.reservedSeatPrice}</td>
-						<td>${route.commonPrice}</td>						
+						<td>${route.commonPrice}</td>							
 							<td>
 							<form action="controller" method="post">
 									<input type="hidden" name="command" value="buyTicket">
+									<input type="hidden" name="quantity">
 									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
 									<input type="hidden" name="departureStation" value="${route.stationName}">
 									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">

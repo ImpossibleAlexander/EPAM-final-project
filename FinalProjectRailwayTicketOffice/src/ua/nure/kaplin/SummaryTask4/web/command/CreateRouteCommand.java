@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import ua.nure.kaplin.SummaryTask4.Path;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRoute;
-import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStation;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoRouteImpl;
+import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStationImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
@@ -25,8 +25,8 @@ public class CreateRouteCommand extends Command{
 		
 		LOG.debug("Command starts");
 		String page = Path.PAGE_ERROR;
-		DaoRoute daoRoute = null;
-		DaoTrainStation daoStation = null;
+		DaoRouteImpl daoRoute = null;
+		DaoTrainStationImpl daoStation = null;
 		Route route = null;
 		TrainStation departureStation = null;
 		TrainStation destinationStation = null;
@@ -47,8 +47,8 @@ public class CreateRouteCommand extends Command{
 		
 		try {
 			route = new Route();
-			daoStation = new DaoTrainStation();
-			daoRoute = new DaoRoute();
+			daoStation = new DaoTrainStationImpl();
+			daoRoute = new DaoRouteImpl();
 			departureStation = new TrainStation();
 			destinationStation = new TrainStation();
 			departureStation = daoStation.findStationByName(departureStationName);
@@ -70,7 +70,7 @@ public class CreateRouteCommand extends Command{
 			
 			daoRoute.insertRoute(route);
 			LOG.trace("Insert route in DB: route --> " + route);
-			page = Path.PAGE_MAIN_REDIRECT;
+			page = Path.PAGE_MAIN_FOR_ADMIN_REDIRECT;
 		} catch (Exception e) {
 			request.setAttribute("errorMessage",  "Route already exist");
 			LOG.trace("Set the request attribute: errorMessage --> " + "Route already exist");
