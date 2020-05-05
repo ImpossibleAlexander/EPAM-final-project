@@ -28,6 +28,7 @@ public class CommandContainer {
 		commands.put("deleteFromBasket", new DeleteFromBasketCommand());
 		commands.put("setValuesForRouteUpdate", new SetValuesForRouteUpdate());
 		commands.put("updateTrain", new UpdateTrainInfoCommand());
+		commands.put("changeLanguage", new ChangeLanguageCommand());
 		LOG.debug("Command container was successfully initialized");
 		LOG.trace("Number of commands --> " + commands.size());
 	}

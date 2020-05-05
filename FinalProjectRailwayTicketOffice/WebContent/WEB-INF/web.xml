@@ -71,14 +71,9 @@
 		</init-param>
 		<init-param>
 			<param-name>out-of-control</param-name>
-			<param-value>login route routeDetails mapping registerUser</param-value>
+			<param-value>login route routeDetails mapping registerUser changeLanguage</param-value>
 		</init-param> 
 	</filter>
-	
-	<filter-mapping>
-		<filter-name>CommandAccessFilter</filter-name>
-		<servlet-name>Controller</servlet-name>
-	</filter-mapping>
 	
 	<!--============================================================
 	Context listener

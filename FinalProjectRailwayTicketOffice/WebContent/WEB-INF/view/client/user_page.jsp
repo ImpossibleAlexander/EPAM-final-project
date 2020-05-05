@@ -1,6 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+	<fmt:setLocale value="${sessionScope.language}"/>
+	<fmt:setBundle basename='property'/>
 
 <html>
 <head>
@@ -21,52 +24,49 @@
 		<nav>
 		<ul>
 			<li>
-				<a href="main_page.jsp">Расписание</a>
+				<a href="main_page.jsp"><fmt:message key='timetable'/></a>
 			</li>
-			<li>
-				<a href="main_page.jsp">Контакты</a>
-			</li>
-
-    		<li>
-       			<a href="controller?command=mapping&page=basket">Корзина</a>
-       		</li>
-       		<li>
-       			<a class="active" href="#">Личный кабинет</a>
-       		</li>	
+				<c:choose>
+    			<c:when test="${userRole == 'CLIENT'}">
+    				<li>
+       				 <a href="controller?command=mapping&page=basket"><fmt:message key='basket'/></a>
+       				</li>
+       				<li>
+       				 <a class="active" href="controller?command=mapping&page=user_page"><fmt:message key='user_page'/></a>
+       				</li>
+    			</c:when>
+			</c:choose>		
 			<li style="float: right">
 				<c:choose>
   			  	<c:when test="${userRole == 'CLIENT'}">
-       				<a href="controller?command=logout">Выйти</a>
+       				<a href="controller?command=logout"><fmt:message key='logout'/></a>
     			</c:when>
-   			 	<c:otherwise>
-        			<a href="login.jsp">Войти</a>
-   				 </c:otherwise>
 			</c:choose>
-			</li>		
+			</li>			
 		</ul>
 	</nav>
 	
 	<div style="margin: auto; text-align: center">	
 	<c:choose>
 		<c:when test="${empty userOrderBean.findUserTickets()}">	
-			<h3>Билетов нет</h3>
+			<h3><fmt:message key='no_tickets'/></h3>
 		</c:when> 
 		<c:otherwise>
 			<table border="1" width="10%" cellpadding="5" align="center">
 				<tr>
-					<th>№ поезда</th>
-					<th>№ билета</th>
-					<th>Станция отправления</th>
-					<th>Дата/Время отправления</th>
-					<th>Станция прибытия</th>
-					<th>Дата/Время прибытия</th>
-					<th>Место</th>
-					<th>Стоимость</th>
+					<th><fmt:message key='ticket_number'/></th>
+					<th><fmt:message key='train_number'/></th>
+					<th><fmt:message key='departure_station'/></th>
+					<th><fmt:message key='dep_date_and_time'/></th>
+					<th><fmt:message key='arrival_station'/></th>
+					<th><fmt:message key='dest_date_and_time'/></th>
+					<th><fmt:message key='place'/></th>
+					<th><fmt:message key='price'/></th>
 				</tr>
 				<c:forEach var="ticket" items="${userOrderBean.findUserTickets()}">
 					<tr>
-						<td>${ticket.trainNumber}</td>
 						<td>${ticket.ticketNumber}</td>
+						<td>${ticket.trainNumber}</td>
 						<td>${ticket.departureStation}</td>
 						<td>${ticket.departureDateAndTime}</td>
 						<td>${ticket.destinationStation}</td>
@@ -79,7 +79,7 @@
 								<input type="hidden" name="trainNumber" value="${ticket.trainNumber}">
 								<input type="hidden" name="departureStation" value="${ticket.departureStation}">
 								<input type="hidden" name="destinationStation" value="${ticket.destinationStation}">
-								<input type="submit" value="Подробнее" class="button-accept">
+								<input type="submit" value="<fmt:message key='details'/>" class="button-accept">
 							</form>
 						</td>
 					</tr>

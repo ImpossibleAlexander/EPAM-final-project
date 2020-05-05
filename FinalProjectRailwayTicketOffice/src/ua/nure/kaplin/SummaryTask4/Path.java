@@ -11,8 +11,8 @@ public final class Path {
 	public static final String PAGE_REGISTRATION= "/registration.jsp";
 	public static final String PAGE_ROUTE_DETAILS= "/routeDetails.jsp";
 	public static final String PAGE_MAIN= "/main_page.jsp";
-	public static final String PAGE_BASKET= "/WEB-INF/view/basket.jsp";
-	public static final String PAGE_USER_PAGE= "/WEB-INF/view/user_page.jsp";
+	public static final String PAGE_BASKET= "/WEB-INF/view/client/basket.jsp";
+	public static final String PAGE_USER_PAGE= "/WEB-INF/view/client/user_page.jsp";
 	
 	// path for redirect
 	public static final String PAGE_MAIN_REDIRECT = "controller?command=mapping&page=main_page";

@@ -1,12 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+	<fmt:setLocale value="${sessionScope.language}"/>
+	<fmt:setBundle basename='property'/>
 <html>
 <head>
 
 	<meta charset="UTF-8">
-	<title>Расписание</title>
+	<title>Timetable</title>
 	<link rel="stylesheet" type="text/css"
 		href="resources/style/navbar.css" />
 	<link rel="stylesheet" type="text/css" href="resources/style/style.css" />
@@ -21,21 +23,24 @@
 	<nav>
 		<ul>
 			<li>
-				<a class="active" href="#">Расписание</a>
-			</li>
-			<li>
-				<a href="main_page.jsp">Контакты</a>
+				<a class="active" href="controller?command=mapping&page=admin_main_page"><fmt:message key='timetable'/></a>
 			</li>
 			<li>	
-       				 <a href="controller?command=mapping&page=admin">Редактировать</a>
-			</li>	
+       				 <a href="controller?command=mapping&page=admin"><fmt:message key='edit'/></a>
+			</li>
+				<li>
+       				 <a href="controller?command=changeLanguage&language=en">English</a>
+       				</li>		
+       				<li>
+       				 <a href="controller?command=changeLanguage&language=ru">Русский</a>
+       			</li>	
 			<li style="float: right">
 				<c:choose>
   			  	<c:when test="${userRole == 'ADMIN'}">
-       				<a href="controller?command=logout">Выйти</a>
+       				<a href="controller?command=logout"><fmt:message key='logout'/></a>
     			</c:when>
    			 	<c:otherwise>
-        			<a href="login.jsp">Войти</a>
+        			<a href="login.jsp"><fmt:message key='login'/></a>
    				 </c:otherwise>
 			</c:choose>
 			</li>		
@@ -46,8 +51,7 @@
 	<div>
 		<table border="1" width="200px" cellpadding="5" align="right" style="background-color: white">
 							<tr>
-								<th><h3>Станции</h3></th>
-								<th><h3>Редактировать</h3></th>
+								<th><h3><fmt:message key='stations'/></h3></th>
 							</tr>
 							<c:forEach var="station" items="${trainStationBean.getStations()}">
 			
@@ -59,7 +63,7 @@
 			       								<form action="controller" method="get">
 													<input type="hidden" name="command" value="routeDetails">
 													<input type="hidden" name="stationName" value="${station.stationName}">
-													<input type="submit" value="Выбрать" class="button-accept">																														
+													<input type="submit" value="<fmt:message key='edit'/>" class="button-accept">																														
 												</form>
 												</td>
 			    							</c:when>
@@ -75,51 +79,51 @@
        				 	<input type="hidden" name="command" id="commandId" value="">
 						<input type="hidden" name="trainID" value="${route.trainId}" >		
 						<fieldset style="background-color: white">
-						<legend><h3>Добавление/Редактирование поезда</h3></legend>
+						<legend><h3><fmt:message key='adding_editing'/></h3></legend>
 							<legend>
-								№ поезда: <input type="text" name="trainNumber" required value="${route.trainNumber}" pattern="^\d+$"/>
+								<fmt:message key='train_number'/>: <input type="text" name="trainNumber" required value="${route.trainNumber}" pattern="^\d+$"/>
 							</legend>
 							<legend>
-								Станция отправления: <input type="text" name="stationName" required value="${route.stationName}"/>
+								<fmt:message key='departure_station'/>: <input type="text" name="stationName" required value="${route.stationName}"/>
 							</legend>
 							<legend>
-								Дата/Время отправления: <input type="datetime"  name="departureDateAndTime" required value="${route.departureDateAndTime}" 
-								placeholder="ГГГГ-ММ-ДД чч:мм" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
+								<fmt:message key='dep_date_and_time'/>: <input type="datetime"  name="departureDateAndTime" required value="${route.departureDateAndTime}" 
+								placeholder="<fmt:message key='time_format'/>" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
 							</legend>
 							<legend>
-								Станция прибытия: <input type="text" name="destinationStationName" required value="${route.destinationStationName}"/>
+								<fmt:message key='arrival_station'/>: <input type="text" name="destinationStationName" required value="${route.destinationStationName}"/>
 							</legend>
 							<legend>
-								Дата/Время прибытия: <input type="datetime" name="destinationDateAndTime" required value="${route.destinationDateAndTime}" 
-								placeholder="ГГГГ-ММ-ДД чч:мм" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
+								<fmt:message key='dest_date_and_time'/>: <input type="datetime" name="destinationDateAndTime" required value="${route.destinationDateAndTime}" 
+								placeholder="<fmt:message key='time_format'/>" pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
 							</legend>
 							<legend>
-								Купе (свободно): <input type="text" name="coupe" required value="${route.coupe}"/>
+								<fmt:message key='coupe'/>: <input type="text" name="coupe" required value="${route.coupe}"/>
 							</legend>
 							<legend>
-								Плацкарт (свободно): <input type="text" name="reservedSeat" required value="${route.reservedSeat}"/>
+								<fmt:message key='reserved_seat'/>: <input type="text" name="reservedSeat" required value="${route.reservedSeat}"/>
 							</legend>
 							<legend>
-								Общий (свободно): <input type="text" name="common" required value="${route.common}"/>
+								<fmt:message key='common'/>: <input type="text" name="common" required value="${route.common}"/>
 							</legend>
 							<legend>
-								Стоимость (купе): <input type="text" name="coupePrice" required value="${route.coupePrice}"/>
+								<fmt:message key='price_coupe'/>: <input type="text" name="coupePrice" required value="${route.coupePrice}"/>
 							</legend>
 							<legend>
-								Стоимость (плацкарт): <input type="text" name="reservedSeatPrice" required value="${route.reservedSeatPrice}"/>
+								<fmt:message key='price_reserved_seat'/>: <input type="text" name="reservedSeatPrice" required value="${route.reservedSeatPrice}"/>
 							</legend>
 							<legend>
-								Стоимость (общий): <input type="text" name="commonPrice" required value="${route.commonPrice}"/>
+								<fmt:message key='price_reserved_seat'/>: <input type="text" name="commonPrice" required value="${route.commonPrice}"/>
 							</legend>
 							<legend>
-								Статус (ACTIVE): <input type="radio" name="trainStatus"  value="active" <c:if test = "${route.trainStatus == 'active'}">checked</c:if>/>
+								<fmt:message key='status'/>(<fmt:message key='active'/>): <input type="radio" name="trainStatus"  value="active" <c:if test = "${route.trainStatus == 'active'}">checked</c:if>/>
 							</legend>
 							<legend>
-								Статус (CANCELED): <input type="radio" name="trainStatus"  value="canceled" <c:if test = "${route.trainStatus == 'canceled'}">checked</c:if>/>
+								<fmt:message key='status'/> (<fmt:message key='canceled'/>): <input type="radio" name="trainStatus"  value="canceled" <c:if test = "${route.trainStatus == 'canceled'}">checked</c:if>/>
 							</legend>
 						</fieldset>
-						<input type="button" name="create" value="Create" class="button-accept"  onclick="doCommand('createRouteCommand')">
-						<input type="button" name="update" value="Update" class="button-accept"  onclick="doCommand('updateTrain')">
+						<input type="button" name="create" value="<fmt:message key='create'/>" class="button-accept"  onclick="doCommand('createRouteCommand')">
+						<input type="button" name="update" value="<fmt:message key='update'/>" class="button-accept"  onclick="doCommand('updateTrain')">
 					</form>
 			</div>
 
@@ -127,18 +131,18 @@
 	<form action="controller" method="get">
 		<input type="hidden" name="command" value="route">
 		<fieldset style="background-color: white">
-			<legend><h3>Поиск поезда</h3></legend>
+			<legend><h3><fmt:message key='train_search'/></h3></legend>
 			<legend>
-				№ поезда: <input type="text" name="trainNumber" />
+				<fmt:message key='train_number'/>: <input type="text" name="trainNumber" />
 			</legend>
 			<legend>
-				Станция отправления: <input type="text" name="departureStation" />
+				<fmt:message key='departure_station'/>: <input type="text" name="departureStation" />
 			</legend>
 			<legend>
-				Станция прибытия: <input type="text" name="arrivalStation" />
+				<fmt:message key='arrival_station'/>: <input type="text" name="arrivalStation" />
 			</legend>
 		</fieldset>
-		<br /> <input type="submit" value="Найти" class="button-accept">
+		<br /> <input type="submit" value="<fmt:message key='button_search'/>" class="button-accept">
 	</form>
 	</div>
 	<c:choose>
@@ -146,18 +150,18 @@
 		<c:otherwise>
 			<table border="1" width="10%" cellpadding="5" style="background-color: white">
 				<tr>
-					<th>№ поезда</th>
-					<th>Станция отправления</th>
-					<th>Дата/Время отправления</th>
-					<th>Станция прибытия</th>
-					<th>Дата/Время прибытия</th>
-					<th>Купе (свободно)</th>
-					<th>Плацкарт (свободно)</th>
-					<th>Общий (свободно)</th>
-					<th>Стоимость (купе)</th>
-					<th>Стоимость (плацкарт)</th>
-					<th>Стоимость (общий)</th>
-					<th>Статус поезда</th>
+					<th><fmt:message key='train_number'/></th>
+					<th><fmt:message key='departure_station'/></th>
+					<th><fmt:message key='dep_date_and_time'/></th>
+					<th><fmt:message key='arrival_station'/></th>
+					<th><fmt:message key='dest_date_and_time'/></th>
+					<th><fmt:message key='coupe'/></th>
+					<th><fmt:message key='reserved_seat'/></th>
+					<th><fmt:message key='common'/></th>
+					<th><fmt:message key='price_coupe'/></th>
+					<th><fmt:message key='price_reserved_seat'/></th>
+					<th><fmt:message key='price_common'/></th>
+					<th><fmt:message key='train_status'/></th>
 				</tr>
 				<c:forEach var="route" items="${routes}">
 					<c:if test = "${(empty route.departureDateAndTime && empty route.destinationDateAndTime) 
@@ -183,7 +187,7 @@
 								<input type="hidden" name="trainNumber" value="${route.trainNumber}">
 								<input type="hidden" name="departureStation" value="${route.stationName}">
 								<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
-								<input type="submit" value="Подробнее" class="button-accept">
+								<input type="submit" value="<fmt:message key='details'/>" class="button-accept">
 							</form>
 						</td>
 
@@ -207,7 +211,7 @@
 									
 									<input type="hidden" name="trainStatus" value="${route.trainStatus}">
 												
-									<input type="submit" value="Выбрать" class="button-accept">
+									<input type="submit" value="<fmt:message key='choose'/>" class="button-accept">
 								</form>
 								</td>
 								</tr>

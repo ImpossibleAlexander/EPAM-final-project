@@ -1,12 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+	
+	<fmt:setLocale value="${sessionScope.language}"/>
+	<fmt:setBundle basename='property'/>
+	
 <html>
 <head>
 
 	<meta charset="UTF-8">
-	<title>Расписание</title>
+	<title>Timetable</title>
 	<link rel="stylesheet" type="text/css"
 		href="resources/style/navbar.css" />
 	<link rel="stylesheet" type="text/css" href="resources/style/style.css" />
@@ -18,31 +22,35 @@
     
 	<c:set var="userRole" scope="page" value="${sessionScope.userRole}"/>
 	<c:set var="route" scope="page" value="${route}"/>
+	
 	<nav>
 		<ul>
 			<li>
-				<a class="active" href="#">Расписание</a>
-			</li>
-			<li>
-				<a href="main_page.jsp">Контакты</a>
+				<a class="active" href="main_page.jsp"><fmt:message key='timetable'/></a>
 			</li>
 				<c:choose>
     			<c:when test="${userRole == 'CLIENT'}">
     				<li>
-       				 <a href="controller?command=mapping&page=basket">Корзина</a>
+       				 <a href="controller?command=mapping&page=basket"><fmt:message key='basket'/></a>
        				</li>
        				<li>
-       				 <a href="controller?command=mapping&page=user_page">Личный кабинет</a>
+       				 <a href="controller?command=mapping&page=user_page"><fmt:message key='user_page'/></a>
        				</li>
-    			</c:when>
-			</c:choose>		
+    			</c:when> 		
+			</c:choose>
+			<li>
+				<select>
+		 						<option onclick="changeLanguage('changeLanguage', 'en')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option onclick="changeLanguage('changeLanguage', 'ru')" <c:if test =  "${sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				</select>
+			</li>			
 			<li style="float: right">
 				<c:choose>
   			  	<c:when test="${userRole == 'ADMIN'||userRole == 'CLIENT'}">
-       				<a href="controller?command=logout">Выйти</a>
+       				<a href="controller?command=logout"><fmt:message key='logout'/></a>
     			</c:when>
    			 	<c:otherwise>
-        			<a href="login.jsp">Войти</a>
+        			<a href="login.jsp"><fmt:message key='login'/></a>
    				 </c:otherwise>
 			</c:choose>
 			</li>		
@@ -52,10 +60,9 @@
 	<div>
 		<table border="1" width="200px" cellpadding="5" align="right"  style="background-color: white">
 							<tr>
-								<th><h3>Станции</h3></th>
+								<th><h3><fmt:message key='stations'/></h3></th>
 							</tr>
 							<c:forEach var="station" items="${trainStationBean.getStations()}">
-			
 								<tr>
 									<td>${station.stationName}</td>						
 								</tr>
@@ -67,38 +74,43 @@
 	<form action="controller" method="get">
 		<input type="hidden" name="command" value="route">
 		<fieldset style="background-color: white">
-			<legend><h3>Поиск поезда</h3></legend>
+			<legend><h3><fmt:message key='train_search'/></h3></legend>
 			<legend>
-				№ поезда: <input type="text" name="trainNumber" />
+				<fmt:message key='train_search'/>: <input type="text" name="trainNumber" />
 			</legend>
 			<legend>
-				Станция отправления: <input type="text" name="departureStation" />
+				<fmt:message key='departure_station'/>: <input type="text" name="departureStation" />
 			</legend>
 			<legend>
-				Станция прибытия: <input type="text" name="arrivalStation" />
+				<fmt:message key='arrival_station'/>: <input type="text" name="arrivalStation" />
 			</legend>
 		</fieldset>
-		<br /> <input type="submit" value="Найти" class="button-accept">
+		<br /> <input type="submit" value="<fmt:message key='button_search'/>" class="button-accept">
 	</form>
 	</div>
+	
+	<form action="controller" method="get" id="theForm">
+		<input type="hidden" name="command" id="commandId" value="">
+		<input type="hidden" name="language" id="languageId" value="">
+	</form>
 	
 	<c:choose>
 		<c:when test="${empty routes}"/> 
 		<c:otherwise>
 			<table border="1" width="10%" cellpadding="5" style="background-color: white">
 				<tr>
-					<th>№ поезда</th>
-					<th>Станция отправления</th>
-					<th>Дата/Время отправления</th>
-					<th>Станция прибытия</th>
-					<th>Дата/Время прибытия</th>
-					<th>Купе (свободно)</th>
-					<th>Плацкарт (свободно)</th>
-					<th>Общий (свободно)</th>
-					<th>Стоимость (купе)</th>
-					<th>Стоимость (плацкарт)</th>
-					<th>Стоимость (общий)</th>
-					<th>Статус поезда</th>
+					<th><fmt:message key='train_number'/></th>
+					<th><fmt:message key='departure_station'/></th>
+					<th><fmt:message key='dep_date_and_time'/></th>
+					<th><fmt:message key='arrival_station'/></th>
+					<th><fmt:message key='dest_date_and_time'/></th>
+					<th><fmt:message key='coupe'/></th>
+					<th><fmt:message key='reserved_seat'/></th>
+					<th><fmt:message key='common'/></th>
+					<th><fmt:message key='price_coupe'/></th>
+					<th><fmt:message key='price_reserved_seat'/></th>
+					<th><fmt:message key='price_common'/></th>
+					<th><fmt:message key='train_status'/></th>
 				</tr>
 				<c:forEach var="route" items="${routes}">
 					<c:if test = "${(empty route.departureDateAndTime && empty route.destinationDateAndTime) 
@@ -125,7 +137,7 @@
 								<input type="hidden" name="trainNumber" value="${route.trainNumber}">
 								<input type="hidden" name="departureStation" value="${route.stationName}">
 								<input type="hidden" name="destinationStation" value="${route.destinationStationName}">
-								<input type="submit" value="Подробнее" class="button-accept">
+								<input type="submit" value="<fmt:message key='details'/>" class="button-accept">
 							</form>
 						</td>
 						
@@ -142,7 +154,7 @@
 									<input type="hidden" name="coupePrice" value="${route.coupePrice}">
 									<input type="hidden" name="reservedSeatPrice" value="${route.reservedSeatPrice}">
 									<input type="hidden" name="commonPrice" value="${route.common}">
-									<input type="submit" value="Добавить в корзину" class="button-accept">
+									<input type="submit" value="<fmt:message key='add_to_basket'/>" class="button-accept">
 								</form>
 								</td>
 		    				</c:when>
@@ -153,7 +165,13 @@
 		</c:otherwise>
 	</c:choose>
 
-	
+	<script language="javascript">
+		function changeLanguage(command, language) {
+		    document.getElementById('commandId').value = command;
+		    document.getElementById('languageId').value = language;
+		    document.getElementById('theForm').submit();
+		}
+	</script>
 	
 </body>
 </html>

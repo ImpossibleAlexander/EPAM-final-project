@@ -21,6 +21,7 @@ public class ContextListener implements ServletContextListener {
 		log("Servlet context initialization starts");
 
 		ServletContext servletContext = event.getServletContext();
+		
 		initLog4J(servletContext);
 		initCommandContainer();
 	
