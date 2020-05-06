@@ -14,15 +14,13 @@
 		href="resources/style/navbar.css" />
 	<link rel="stylesheet" type="text/css" href="resources/style/style.css" />
 </head>
-
-	<fmt:setLocale value="${language}"/>
-	<fmt:setBundle basename='property'/>
 	
 <body>
 <div style="text-align: center">
-		<h2>Сообщение</h2>
-		<h3>${errorMessage}</h3>
-		<a href="javascript:history.back()">вернуться</a>
+		<h2><fmt:message key='message'/></h2>
+		<h3><fmt:message key='${errorMessage}'/></h3>
+		<a href="javascript:history.back()"><fmt:message
+					key='history_back' /></a>
 </div>
 </body>
 </html>

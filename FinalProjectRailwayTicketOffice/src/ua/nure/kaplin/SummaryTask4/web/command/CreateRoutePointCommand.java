@@ -54,7 +54,7 @@ public class CreateRoutePointCommand extends Command {
 			page = Path.PAGE_ADMIN_MENU_REDIRECT;
 
 		} catch (Exception e) {
-			request.setAttribute("errorMessage", "Can not create route point");
+			request.setAttribute("errorMessage", "can_not_create_route_point");
 			LOG.trace("Set the request attribute: errorMessage --> " + "Can not create route point");
 			LOG.error("Can not create route point", e);
 		}

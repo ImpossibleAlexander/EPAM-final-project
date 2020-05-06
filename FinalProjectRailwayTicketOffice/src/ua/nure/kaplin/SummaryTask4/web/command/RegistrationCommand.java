@@ -37,9 +37,7 @@ public class RegistrationCommand extends Command {
 		String surname = request.getParameter("surname");
 		String name = request.getParameter("name");
 
-		
 		if (password.equals(passwordConfirm)) {
-
 			user = new User();
 			dao = new DaoUserImpl();
 			user.setLogin(login);
@@ -56,22 +54,26 @@ public class RegistrationCommand extends Command {
 					builder.append(String.format("%02X", b));
 				}
 				user.setPassword(builder.toString());
-				
+
 			} catch (NoSuchAlgorithmException e1) {
 				request.setAttribute("errorMessage", "Can not create user, contact with the administrator");
-				LOG.trace("Set the request attribute: errorMessage --> " + "Can not create user, contact with the administrator");
+				LOG.trace("Set the request attribute: errorMessage --> "
+						+ "Can not create user, contact with the administrator");
 				LOG.error("Problem with password encryption: ", e1);
 			}
 
 			try {
 				dao.insertUser(user);
 				LOG.trace("Insert user in DB: user --> " + user);
-				page = Path.PAGE_LOGIN_REDIRECT;
+				page = Path.PAGE_REG_SUCCESS;
 			} catch (Exception e) {
-				request.setAttribute("errorMessage", "A user already exists");
+				request.setAttribute("errorMessage", "user_already_exists");
 				LOG.trace("Set the request attribute: errorMessage --> " + "A user already existss");
 				LOG.error("A user already exists: ", e);
 			}
+		}
+		else {
+			throw new AppException("different_passwords");
 		}
 		LOG.debug("Command finished");
 		return page;

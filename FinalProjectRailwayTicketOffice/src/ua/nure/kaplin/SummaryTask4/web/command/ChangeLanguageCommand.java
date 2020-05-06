@@ -17,6 +17,7 @@ public class ChangeLanguageCommand extends Command{
 			throws IOException, ServletException, AppException {
 		HttpSession session = request.getSession();
 		String language = request.getParameter("language");
+		String url = request.getParameter("url");
 		
 		if("en".equals(language)) {
 			session.setAttribute("language", "en");
@@ -25,7 +26,7 @@ public class ChangeLanguageCommand extends Command{
 			session.setAttribute("language", "ru");
 		}
 		
-		return Path.PAGE_MAIN;
+		return url;
 	}
 	
 }

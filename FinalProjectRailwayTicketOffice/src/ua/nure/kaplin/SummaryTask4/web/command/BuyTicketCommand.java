@@ -97,11 +97,11 @@ public class BuyTicketCommand extends Command {
 			session.setAttribute("routesForBasket", routes);
 			LOG.trace("Set the session attribute: routes --> " + routes);
 			page = Path.PAGE_BASKET_REDIRECT;
-			
+
 		} catch (Exception e) {
 			LOG.trace("Set the request attribute: errorMessage --> " + "No empty seats");
 			LOG.error("No empty seats: ", e);
-			throw new AppException("No empty seats");
+			throw new AppException("no_empty_seats");
 		}
 
 		LOG.debug("Command finished");

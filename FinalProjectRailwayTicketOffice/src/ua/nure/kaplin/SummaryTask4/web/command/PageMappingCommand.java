@@ -25,7 +25,7 @@ public class PageMappingCommand extends Command{
 		page = getJsp(page);
 		
 		if(errorMessage != null && "cannotFindRoute".equals(errorMessage)) {
-			throw new AppException("Cannot find route");
+			throw new AppException("cannot_find_route");
 		}
 		
 		LOG.trace("Get path to the jsp: page --> " + page);

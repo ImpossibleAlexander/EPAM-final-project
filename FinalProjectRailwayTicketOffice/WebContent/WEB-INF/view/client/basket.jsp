@@ -34,11 +34,11 @@
     			</c:when>
 			</c:choose>
 				<li>
-       				 <a href="controller?command=changeLanguage&language=en">English</a>
-       			</li>		
-       			<li>
-       				 <a href="controller?command=changeLanguage&language=ru">Русский</a>
-       			</li>			
+				<select>
+		 						<option onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=basket')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=basket')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				</select>
+			</li>			
 			<li style="float: right">
 				<c:choose>
   			  	<c:when test="${userRole == 'CLIENT'}">
@@ -48,6 +48,12 @@
 			</li>		
 		</ul>
 	</nav>
+	
+		<form action="controller" method="get" id="theForm">
+		<input type="hidden" name="command" id="commandId" value="">
+		<input type="hidden" name="language" id="languageId" value="">
+		<input type="hidden" name="url" id="urlId" value="">
+		</form>
 	
 	<div style="margin: auto; text-align: center">	
 	<c:choose>
@@ -79,7 +85,6 @@
 							<td>
 							<form action="controller" method="post">
 									<input type="hidden" name="command" value="buyTicket">
-									<input type="hidden" name="quantity">
 									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
 									<input type="hidden" name="departureStation" value="${route.stationName}">
 									<input type="hidden" name="departureDateAndTime" value="${route.departureDateAndTime}">
@@ -118,5 +123,15 @@
 		</c:otherwise>
 	</c:choose>	
 	</div>
+	
+	<script language="javascript">
+	function changeLanguage(command, language, url) {
+	    document.getElementById('commandId').value = command;
+	    document.getElementById('languageId').value = language;
+	    document.getElementById('urlId').value = url;
+	    document.getElementById('theForm').submit();
+	}
+	</script>
+	
 </body>
 </html>

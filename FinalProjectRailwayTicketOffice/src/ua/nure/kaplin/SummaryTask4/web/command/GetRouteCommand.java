@@ -45,9 +45,14 @@ public class GetRouteCommand extends Command {
 		String page = null;
 		
 		try {
-			if (!trainNumber.isEmpty() && arriveStation.isEmpty() && departureStation.isEmpty()) {
+			if (trainNumber != null && !trainNumber.isEmpty() && arriveStation.isEmpty() && departureStation.isEmpty()) {
 				Route route = setRoute(
 						daoRoute.findRouteByTrainNumber(Integer.parseInt(trainNumber)));
+				if(route == null) {
+					page = Path.PAGE_ERROR;
+					request.setAttribute("errorMessage", "cannot_find_route");
+					throw new AppException("cannot_find_route");
+				}
 				routes.add(route);
 				LOG.trace("Found in DB: route --> " + routes);
 			}
@@ -70,9 +75,9 @@ public class GetRouteCommand extends Command {
 			
 			if (routes.size() == 0) {
 				page = Path.PAGE_ERROR;
-				request.setAttribute("errorMessage", "Cannot find route");
+				request.setAttribute("errorMessage", "cannot_find_route");
 				LOG.trace("Set the request attribute: errorMessage --> " + "Cannot find route");
-				throw new AppException("Cannot find route");
+				throw new AppException("cannot_find_route");
 			}
 			
 			request.setAttribute("routes", routes);
@@ -113,10 +118,13 @@ public class GetRouteCommand extends Command {
 	}
 
 	private Route setRoute(List<Route> routePoints) {
-		Route routeEnd = routePoints.get(routePoints.size()-1);				
-		routePoints.get(0).setDestinationStationName(routeEnd.getStationName());
-		routePoints.get(0).setDestinationDateAndTime(routeEnd.getDestinationDateAndTime());	
-		return routePoints.get(0);
+		if(routePoints.size() != 0) {
+			Route routeEnd = routePoints.get(routePoints.size()-1);				
+			routePoints.get(0).setDestinationStationName(routeEnd.getStationName());
+			routePoints.get(0).setDestinationDateAndTime(routeEnd.getDestinationDateAndTime());
+			return routePoints.get(0);
+		}
+		return null;
 	}
 
 }

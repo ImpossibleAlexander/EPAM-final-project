@@ -122,4 +122,28 @@ public class Route {
 				+ ", reservedSeat=" + reservedSeat + ", common=" + common + ", coupePrice=" + coupePrice
 				+ ", reservedSeatPrice=" + reservedSeatPrice + ", commonPrice=" + commonPrice + ", trainStatus=" + trainStatus + "]";
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + trainId;
+		result = prime * result + trainNumber;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Route other = (Route) obj;
+		if (trainId != other.trainId)
+			return false;
+		if (trainNumber != other.trainNumber)
+			return false;
+		return true;
+	}
+	
 }

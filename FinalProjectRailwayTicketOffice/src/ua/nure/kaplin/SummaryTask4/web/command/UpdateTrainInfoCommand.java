@@ -36,6 +36,18 @@ public class UpdateTrainInfoCommand extends Command{
 		String commonPrice = request.getParameter("commonPrice");
 		String trainStatus = request.getParameter("trainStatus");
 		
+		if(trainID == null || trainID.isEmpty()
+				||trainNumber == null || trainNumber.isEmpty()
+				||coupe == null || coupe.isEmpty()
+				||reservedSeat == null || reservedSeat.isEmpty()
+				||common == null || common.isEmpty()
+				||coupePrice == null || coupePrice.isEmpty()
+				||reservedSeatPrice == null || reservedSeatPrice.isEmpty()
+				||commonPrice == null || commonPrice.isEmpty()
+				||trainStatus == null || trainStatus.isEmpty()) {
+				throw new AppException("empty_fields");
+			}
+		
 		train = new Train();
 		train.setId(Integer.parseInt(trainID));
 		train.setTrainNumber(Integer.parseInt(trainNumber));
@@ -46,11 +58,13 @@ public class UpdateTrainInfoCommand extends Command{
 		train.setReservedSeatPrice(Integer.parseInt(reservedSeatPrice));
 		train.setCommonPrice(Integer.parseInt(commonPrice));
 		train.setTrainStatus(trainStatus);
-		dao = new DaoTrainImpl();
+		
+		dao = new DaoTrainImpl();		
 		try {
 			dao.updateTrain(train);
 			page = Path.PAGE_MAIN_FOR_ADMIN_REDIRECT;
 		} catch (Exception e) {
+			request.setAttribute("errorMessage", "cannot_update_train_info");
 			LOG.error("Update train: ", e);
 		}
 		return page;

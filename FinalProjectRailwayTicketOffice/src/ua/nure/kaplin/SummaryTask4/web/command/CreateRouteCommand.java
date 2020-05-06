@@ -45,6 +45,19 @@ public class CreateRouteCommand extends Command{
 		String reservedSeatPrice = request.getParameter("reservedSeatPrice");
 		String commonPrice = request.getParameter("commonPrice");
 		
+		if(trainNumber == null || trainNumber.isEmpty()
+			|| departureStationName == null || departureStationName.isEmpty()
+			||destinationStationName == null || destinationStationName.isEmpty()
+			||departureDateAndTime == null || departureDateAndTime.isEmpty()
+			||destinationDateAndTime == null || destinationDateAndTime.isEmpty()
+			||coupe == null || coupe.isEmpty()
+			||reservedSeat == null || reservedSeat.isEmpty()
+			||common == null || common.isEmpty()
+			||coupePrice == null || coupePrice.isEmpty()
+			||reservedSeatPrice == null || reservedSeatPrice.isEmpty()
+			||commonPrice == null || commonPrice.isEmpty()) {
+			throw new AppException("empty_fields");
+		}
 		try {
 			route = new Route();
 			daoStation = new DaoTrainStationImpl();
@@ -72,7 +85,7 @@ public class CreateRouteCommand extends Command{
 			LOG.trace("Insert route in DB: route --> " + route);
 			page = Path.PAGE_MAIN_FOR_ADMIN_REDIRECT;
 		} catch (Exception e) {
-			request.setAttribute("errorMessage",  "Route already exist");
+			request.setAttribute("errorMessage",  "route_already_exist");
 			LOG.trace("Set the request attribute: errorMessage --> " + "Route already exist");
 			LOG.error("Route already exist: ", e);
 		}

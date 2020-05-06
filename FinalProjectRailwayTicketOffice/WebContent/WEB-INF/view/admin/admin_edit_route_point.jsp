@@ -22,12 +22,12 @@
 			<li>	
        			<a class="active" href="controller?command=mapping&page=admin"><fmt:message key='edit'/></a>
 			</li>
-			<li>
-       				 <a href="controller?command=changeLanguage&language=en">English</a>
-       				</li>		
-       				<li>
-       				 <a href="controller?command=changeLanguage&language=ru">Русский</a>
-       				</li>	
+				<li>
+				<select>
+		 						<option onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=admin')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=admin')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				</select>
+			</li>	
 			<li style="float: right">
 				<c:choose>
   			  	<c:when test="${userRole == 'ADMIN'}">
@@ -40,9 +40,16 @@
 			</li>		
 		</ul>
 	</nav>
+	
+		<form action="controller" method="get" id="theForm">
+		<input type="hidden" name="command" id="commandId" value="">
+		<input type="hidden" name="language" id="languageId" value="">
+		<input type="hidden" name="url" id="urlId" value="">
+		</form>
+	
 	<div style="width: 450px">
 		<form action="controller" method="post" id="theForm1">		
-			<input type="hidden" name="command" id="commandId" value="">
+			<input type="hidden" name="command" id="commandEditStationId" value="">
 			<input type="hidden" name="action" id="actionId" value="">
 			
 			<fieldset style="background-color: white">
@@ -65,16 +72,16 @@
 			<fieldset style="background-color: white">
 			<legend><h3><fmt:message key='add_route_point'/></h3></legend>
 			<legend>
-				<fmt:message key='train_number'/>: <input type="text" name="trainNumber" value="${trainNumber}" required  pattern="^\d+$"/>
+				<fmt:message key='train_number'/>: <input type="text" name="trainNumber" value="${trainNumber}" required  pattern="^\d+$" oninvalid="this.setCustomValidity('<fmt:message key='invalid_train_number'/>')" oninput="setCustomValidity('')"/>
 			</legend>
 			<legend>
-				<fmt:message key='departure_station'/>: <input type="text" name="stationName" required/>
+				<fmt:message key='departure_station'/>: <input type="text" name="stationName" required oninvalid="this.setCustomValidity('<fmt:message key='empty_field'/>')" oninput="setCustomValidity('')"/>
 			</legend>
 			<legend>
-				<fmt:message key='dest_date_and_time'/>: <input type="datetime-local" name="destinationDateAndTime"/>
+				<fmt:message key='dest_date_and_time'/>: <input type="datetime-local" name="destinationDateAndTime" required oninvalid="this.setCustomValidity('<fmt:message key='empty_field'/>')" oninput="setCustomValidity('')"/>
 			</legend>
 			<legend>
-				<fmt:message key='dep_date_and_time'/>: <input type="datetime-local" name="departureDateAndTime"/>
+				<fmt:message key='dep_date_and_time'/>: <input type="datetime-local" name="departureDateAndTime" required oninvalid="this.setCustomValidity('<fmt:message key='empty_field'/>')" oninput="setCustomValidity('')"/>
 			</legend>
 		</fieldset>	
 				<input type="hidden" name="command" value="createRoutePointCommand">			
@@ -96,7 +103,7 @@
 				</tr>
 				<c:forEach var="route" items="${routes}">
 					<form action="controller" method="post">
-						<tr>
+					<tr>
 						<td>${route.trainNumber}<input type="hidden" name="trainId" value="${route.trainId}"></td>
 						<td><input type="text" name="stationName" value="${route.stationName}"></td>
 						<td><input type="text" name="destinationDateAndTime" value="${route.destinationDateAndTime}"></td>
@@ -110,18 +117,24 @@
 								<input type="hidden" name="command" value="deleteStation">		
 								<input type="button" name="" value="<fmt:message key='delete'/>" class="button-accept">				
 						</td>
-					</form>
 						</tr>
-					</c:forEach>
+					</form>
+					</c:forEach>	
 				</table>
 		</c:otherwise>
 	</c:choose>
 
 <script language="javascript">
 function doCommandEditStation(command, action) {
-    document.getElementById('commandId').value = command;
+    document.getElementById('commandEditStationId').value = command;
     document.getElementById('actionId').value = action;
     document.getElementById('theForm1').submit();
+}
+function changeLanguage(command, language, url) {
+    document.getElementById('commandId').value = command;
+    document.getElementById('languageId').value = language;
+    document.getElementById('urlId').value = url;
+    document.getElementById('theForm').submit();
 }
 </script>
 

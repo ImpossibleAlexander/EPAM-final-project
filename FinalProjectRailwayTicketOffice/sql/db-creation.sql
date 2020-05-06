@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS tickets;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS train;
+DROP trigger IF EXISTS changeNumberOfPlaces;
 
 CREATE TABLE train_station (
 	id INT PRIMARY KEY AUTO_INCREMENT ,
@@ -89,7 +90,7 @@ CREATE TABLE users(
 
 CREATE TABLE tickets (
 	id INT PRIMARY KEY AUTO_INCREMENT ,
-    ticket_number INT UNIQUE NOT NULL,
+    ticket_number INT NOT NULL,
     train_number INT NOT NULL,
     destinationStation VARCHAR(20) NOT NULL,
     departureStation VARCHAR(20) NOT NULL,
@@ -138,3 +139,18 @@ insert into route_point (train_id, train_station_id, arrive_datetime, depart_dat
 insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values (3, 2, '2020-04-04 13:32:00', '2020-04-04 14:32:00');
 insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values (3, 3, '2020-05-05 15:32:00', '2020-05-05 18:32:00');
 insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values (3, 4, '2020-07-14 15:32:00', NULL);
+            
+DELIMITER |
+CREATE TRIGGER changeNumberOfPlaces
+BEFORE INSERT ON tickets 
+  FOR EACH ROW BEGIN
+     IF(NEW.place = 'coupe') 
+		THEN UPDATE train SET coupe = coupe - 1 WHERE train_number = NEW.train_number;
+	END IF;
+	IF(NEW.place = 'reserved') 
+		THEN UPDATE train SET reserved_seat = reserved_seat - 1 WHERE train_number = NEW.train_number;
+	END IF;
+    IF(NEW.place = 'common') 
+		THEN UPDATE train SET common = common - 1 WHERE train_number = NEW.train_number;
+	END IF;
+END;

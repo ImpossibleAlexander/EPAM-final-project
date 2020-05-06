@@ -35,7 +35,13 @@
        				 <a class="active" href="controller?command=mapping&page=user_page"><fmt:message key='user_page'/></a>
        				</li>
     			</c:when>
-			</c:choose>		
+			</c:choose>
+			<li>
+				<select>
+		 						<option onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=user_page')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=user_page')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				</select>
+			</li>		
 			<li style="float: right">
 				<c:choose>
   			  	<c:when test="${userRole == 'CLIENT'}">
@@ -45,7 +51,11 @@
 			</li>			
 		</ul>
 	</nav>
-	
+	<form action="controller" method="get" id="theForm">
+		<input type="hidden" name="command" id="commandId" value="">
+		<input type="hidden" name="language" id="languageId" value="">
+		<input type="hidden" name="url" id="urlId" value="">
+	</form>
 	<div style="margin: auto; text-align: center">	
 	<c:choose>
 		<c:when test="${empty userOrderBean.findUserTickets()}">	
@@ -88,5 +98,13 @@
 		</c:otherwise>
 	</c:choose>	
 	</div>
+		<script language="javascript">
+			function changeLanguage(command, language, url) {
+			    document.getElementById('commandId').value = command;
+			    document.getElementById('languageId').value = language;
+			    document.getElementById('urlId').value = url;
+			    document.getElementById('theForm').submit();
+			}
+		</script>
 </body>
 </html>

@@ -47,7 +47,7 @@ public class RoutePointUpdateCommand extends Command{
 				LOG.trace("Update route in DB: route --> " + route);
 				page =  Path.PAGE_ADMIN_MENU_REDIRECT;
 			} catch (Exception e) {
-				request.setAttribute("errorMessage",  "Can not update route point");
+				request.setAttribute("errorMessage",  "can_not_update_route_point");
 				LOG.trace("Set the request attribute: errorMessage --> " + "Can not update route points");
 				LOG.error("Can not update route point: ", e);
 			}

@@ -41,8 +41,7 @@ public class LoginCommand extends Command {
 		String password = request.getParameter("password");
 		if (login == null || password == null || login.isEmpty() || password.isEmpty()) {
 			page = Path.PAGE_ERROR;
-			request.setAttribute("errorMessage",  "Login/password cannot be empty");
-			throw new AppException("Login/password cannot be empty");
+			throw new AppException("login_password_cannot_be_empty");
 		}
 
 		User user = null;
@@ -70,7 +69,7 @@ public class LoginCommand extends Command {
 		if (user == null || !password.equals(user.getPassword())) {
 			request.setAttribute("errorMessage",  "Cannot find user with such login/password");
 			page = Path.PAGE_ERROR;
-			throw new AppException("Cannot find user with such login/password");
+			throw new AppException("cannot_find_user");
 		}
 
 		Role userRole = Role.getRole(user);

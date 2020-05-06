@@ -13,10 +13,10 @@
 	<link rel="stylesheet" type="text/css" href="resources/style/style.css" />
 </head>
 <body>
-		<nav class="two">
+<nav>
 		<ul>
 			<li>
-				<a class="active" href="main_page.jsp"><fmt:message key='timetable'/></a>
+				<a href="main_page.jsp"><fmt:message key='timetable'/></a>
 			</li>
 				<c:choose>
     			<c:when test="${userRole == 'CLIENT'}">
@@ -28,25 +28,24 @@
        				</li>
     			</c:when>
 			</c:choose>
-					<li>
-       				 <a href="controller?command=changeLanguage&language=en">English</a>
-       				</li>		
-       				<li>
-       				 <a href="controller?command=changeLanguage&language=ru">Русский</a>
-       				</li>			
+			<li>
+       				 <a class="active" href="routeDetails"><fmt:message key='route_details'/></a>
+       				</li>
+			<li>
+				<select>
+		 						<option onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=user_page')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=user_page')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				</select>
+			</li>		
 			<li style="float: right">
 				<c:choose>
-  			  	<c:when test="${userRole == 'ADMIN'||userRole == 'CLIENT'}">
+  			  	<c:when test="${userRole == 'CLIENT'}">
        				<a href="controller?command=logout"><fmt:message key='logout'/></a>
     			</c:when>
-   			 	<c:otherwise>
-        			<a href="login.jsp"><fmt:message key='login'/></a>
-   				 </c:otherwise>
 			</c:choose>
-			</li>
+			</li>			
 		</ul>
 	</nav>
-
 	<div style="margin: auto; text-align: center">
 		<table border="1" width="10%" cellpadding="5"  align="center">
 				<tr>

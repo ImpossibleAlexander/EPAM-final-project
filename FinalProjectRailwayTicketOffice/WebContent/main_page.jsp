@@ -40,8 +40,8 @@
 			</c:choose>
 			<li>
 				<select>
-		 						<option onclick="changeLanguage('changeLanguage', 'en')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
-		  						<option onclick="changeLanguage('changeLanguage', 'ru')" <c:if test =  "${sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+		 						<option onclick="changeLanguageMainPage('changeLanguage', 'en', 'main_page.jsp')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option onclick="changeLanguageMainPage('changeLanguage', 'ru', 'main_page.jsp')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
 				</select>
 			</li>			
 			<li style="float: right">
@@ -70,14 +70,11 @@
 				</table>
 	</div>
 	
-	<div style="width: 450px">
+	<div style="width: 450px;">
 	<form action="controller" method="get">
 		<input type="hidden" name="command" value="route">
 		<fieldset style="background-color: white">
 			<legend><h3><fmt:message key='train_search'/></h3></legend>
-			<legend>
-				<fmt:message key='train_search'/>: <input type="text" name="trainNumber" />
-			</legend>
 			<legend>
 				<fmt:message key='departure_station'/>: <input type="text" name="departureStation" />
 			</legend>
@@ -92,6 +89,7 @@
 	<form action="controller" method="get" id="theForm">
 		<input type="hidden" name="command" id="commandId" value="">
 		<input type="hidden" name="language" id="languageId" value="">
+		<input type="hidden" name="url" id="urlId" value="">
 	</form>
 	
 	<c:choose>
@@ -166,9 +164,10 @@
 	</c:choose>
 
 	<script language="javascript">
-		function changeLanguage(command, language) {
+		function changeLanguageMainPage(command, language, url) {
 		    document.getElementById('commandId').value = command;
 		    document.getElementById('languageId').value = language;
+		    document.getElementById('urlId').value = url;
 		    document.getElementById('theForm').submit();
 		}
 	</script>
