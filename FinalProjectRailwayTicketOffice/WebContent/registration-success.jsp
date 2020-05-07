@@ -16,7 +16,7 @@
 <form  class="login-form">
 				 <h1><fmt:message key='registration_success'/>!</h1>
 				 <div class="logbtn">
-		         <a href="login.jsp" style="color: #FFFFFF"><h1><fmt:message key='login'/></a>
+		         <a href="login.jsp" style="color: #FFFFFF; text-align: center"><h1><fmt:message key='login'/></a>
 		         </div>			
 </form>
 </body>

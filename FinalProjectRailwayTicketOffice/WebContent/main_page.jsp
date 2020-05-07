@@ -34,14 +34,14 @@
        				 <a href="controller?command=mapping&page=basket"><fmt:message key='basket'/></a>
        				</li>
        				<li>
-       				 <a href="controller?command=mapping&page=user_page"><fmt:message key='user_page'/></a>
+       				 <a  href="controller?command=mapping&page=user_page"><fmt:message key='user_page'/></a>
        				</li>
     			</c:when> 		
 			</c:choose>
 			<li>
-				<select>
-		 						<option onclick="changeLanguageMainPage('changeLanguage', 'en', 'main_page.jsp')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
-		  						<option onclick="changeLanguageMainPage('changeLanguage', 'ru', 'main_page.jsp')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				<select onchange="changeLanguage('changeLanguage', this.value, 'main_page.jsp')">
+		 						<option value="en" <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option value="ru" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
 				</select>
 			</li>			
 			<li style="float: right">
@@ -75,6 +75,10 @@
 		<input type="hidden" name="command" value="route">
 		<fieldset style="background-color: white">
 			<legend><h3><fmt:message key='train_search'/></h3></legend>
+			<legend>
+						<fmt:message key='train_number' />
+						: <input type="text" name="trainNumber"  pattern="^\d+$" oninvalid="this.setCustomValidity('<fmt:message key='invalid_train_number'/>')" oninput="setCustomValidity('')"/>
+					</legend>
 			<legend>
 				<fmt:message key='departure_station'/>: <input type="text" name="departureStation" />
 			</legend>
@@ -142,7 +146,7 @@
 						<c:choose>
 		  			  	<c:when test="${userRole == 'CLIENT'}">	  	
 		  			  			<td>
-								<form action="controller" method="post">
+								<form action="controller" method="get">
 									<input type="hidden" name="command" value="addToBasket">
 									<input type="hidden" name="trainNumber" value="${route.trainNumber}">
 									<input type="hidden" name="departureStation" value="${route.stationName}">
@@ -164,7 +168,7 @@
 	</c:choose>
 
 	<script language="javascript">
-		function changeLanguageMainPage(command, language, url) {
+		function changeLanguage(command, language, url) {
 		    document.getElementById('commandId').value = command;
 		    document.getElementById('languageId').value = language;
 		    document.getElementById('urlId').value = url;

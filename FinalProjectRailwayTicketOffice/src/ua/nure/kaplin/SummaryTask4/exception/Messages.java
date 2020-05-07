@@ -56,4 +56,6 @@ public class Messages {
 	public static final String ERR_CANNOT_CLOSE_DELEGATING_CALLABLE_STATEMENT = "Can not close delegating callable statement";
 	
 	public static final String ERR_CANNOT_FIND_USER_BY_USER_ID = "Can not find user by user id";
+	
+	public static final String ERR_CANNOT_DELETE_ROUTE_POINT = "Can not find user by user id";
 }

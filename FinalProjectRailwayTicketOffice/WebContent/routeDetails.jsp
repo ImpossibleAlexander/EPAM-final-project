@@ -29,12 +29,12 @@
     			</c:when>
 			</c:choose>
 			<li>
-       				 <a class="active" href="routeDetails"><fmt:message key='route_details'/></a>
+       				 <a class="active"><fmt:message key='route_details'/></a>
        				</li>
 			<li>
-				<select>
-		 						<option onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=user_page')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
-		  						<option onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=user_page')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				<select onchange="changeLanguage('changeLanguage', this.value, 'route_details.jsp')">
+		 						<option value="en" <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option value="ru" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
 				</select>
 			</li>		
 			<li style="float: right">
@@ -67,5 +67,20 @@
 			</table>			
 		<a href="javascript:history.back()"><fmt:message key='history_back'/></a>
 	</div>
+	
+	<form action="controller" method="get" id="theForm">
+		<input type="hidden" name="command" id="commandId" value="">
+		<input type="hidden" name="language" id="languageId" value="">
+		<input type="hidden" name="url" id="urlId" value="">
+	</form>
+	
+		<script language="javascript">
+		function changeLanguage(command, language, url) {
+		    document.getElementById('commandId').value = command;
+		    document.getElementById('languageId').value = language;
+		    document.getElementById('urlId').value = url;
+		    document.getElementById('theForm').submit();
+		}
+	</script>
 </body>
 </html>

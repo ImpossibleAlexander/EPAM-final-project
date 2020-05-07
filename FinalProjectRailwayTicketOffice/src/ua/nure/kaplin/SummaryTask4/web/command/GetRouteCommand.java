@@ -56,6 +56,22 @@ public class GetRouteCommand extends Command {
 				routes.add(route);
 				LOG.trace("Found in DB: route --> " + routes);
 			}
+			else if (trainNumber != null 
+					&& departureStation != null 
+					&& arriveStation != null 
+					&& !departureStation.isEmpty()
+					&& !trainNumber.isEmpty() 
+					&& !arriveStation.isEmpty()) {
+					Train train =daoTrain.findTrainByNumber(Integer.parseInt(trainNumber));
+					if(train == null) {
+						page = Path.PAGE_ERROR;
+						request.setAttribute("errorMessage", "cannot_find_route");
+						LOG.trace("Set the request attribute: errorMessage --> " + "Cannot find route");
+						throw new AppException("cannot_find_route");
+					}
+					routes = new ArrayList<Route>(setRouteDestinationDeparture(
+							daoRoute.findRouteByTrainNumber(Integer.parseInt(trainNumber)), departureStation, arriveStation));
+			}
 			else {
 				trains = daoTrain.findTrainNumberByStationName(departureStation, arriveStation);
 				for (Train train : trains) {

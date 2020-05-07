@@ -9,4 +9,5 @@ public interface DaoRoute {
 	boolean updateRoutePoints(Route route) throws Exception;
 	void insertRoute(Route route) throws Exception;
 	void insertRoutePoint(Route route) throws Exception;
+	boolean deleteRoutePoint(int trainNumber, String stationName) throws Exception;
 }

@@ -37,9 +37,9 @@
     			</c:when>
 			</c:choose>
 			<li>
-				<select>
-		 						<option onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=user_page')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
-		  						<option onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=user_page')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				<select onchange="changeLanguage('changeLanguage', this.value, 'controller?command=mapping&page=user_page')">
+		 						<option value="en" <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option value="ru" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
 				</select>
 			</li>		
 			<li style="float: right">

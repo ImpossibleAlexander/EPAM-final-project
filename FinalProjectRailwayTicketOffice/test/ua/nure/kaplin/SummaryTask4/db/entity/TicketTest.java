@@ -1,5 +1,6 @@
 package ua.nure.kaplin.SummaryTask4.db.entity;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -54,5 +55,25 @@ public class TicketTest {
 	@Test
 	public void getDestinationStation() {
 		assertTrue("test1".equals(ticket.getDestinationStation()));
+	}
+	@Test
+	public void equalsTest() {
+		Ticket ticket2 = ticket;
+		assertTrue(ticket.equals(ticket2));
+		assertFalse(ticket.equals(null));
+
+		ticket2 = new Ticket();
+		ticket2.setTicketNumber(2);
+		assertFalse(ticket.equals(ticket2));
+
+		ticket2.setTicketNumber(1);
+		assertTrue(ticket.equals(ticket2));
+		
+		TrainStation station = new TrainStation();
+		assertFalse(ticket.equals(station));
+	}
+	@Test
+	public void hashCodeTest() {
+		assertTrue(ticket.hashCode() == 32);
 	}
 }

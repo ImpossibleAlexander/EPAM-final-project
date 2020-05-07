@@ -14,15 +14,16 @@ import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoTrainStationImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.Route;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStation;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
+import ua.nure.kaplin.SummaryTask4.validator.FieldsValidator;
 
-public class CreateRouteCommand extends Command{
-	
+public class CreateRouteCommand extends Command {
+
 	private static final Logger LOG = Logger.getLogger(CommandContainer.class);
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
-		
+
 		LOG.debug("Command starts");
 		String page = Path.PAGE_ERROR;
 		DaoRouteImpl daoRoute = null;
@@ -30,33 +31,34 @@ public class CreateRouteCommand extends Command{
 		Route route = null;
 		TrainStation departureStation = null;
 		TrainStation destinationStation = null;
-		
+		FieldsValidator validator = null;
+
 		String trainNumber = request.getParameter("trainNumber");
 		String departureStationName = request.getParameter("stationName");
 		String destinationStationName = request.getParameter("destinationStationName");
 		String departureDateAndTime = request.getParameter("departureDateAndTime");
 		String destinationDateAndTime = request.getParameter("destinationDateAndTime");
-		
+
 		String coupe = request.getParameter("coupe");
 		String reservedSeat = request.getParameter("reservedSeat");
 		String common = request.getParameter("common");
-		
+
 		String coupePrice = request.getParameter("coupePrice");
 		String reservedSeatPrice = request.getParameter("reservedSeatPrice");
 		String commonPrice = request.getParameter("commonPrice");
-		
-		if(trainNumber == null || trainNumber.isEmpty()
-			|| departureStationName == null || departureStationName.isEmpty()
-			||destinationStationName == null || destinationStationName.isEmpty()
-			||departureDateAndTime == null || departureDateAndTime.isEmpty()
-			||destinationDateAndTime == null || destinationDateAndTime.isEmpty()
-			||coupe == null || coupe.isEmpty()
-			||reservedSeat == null || reservedSeat.isEmpty()
-			||common == null || common.isEmpty()
-			||coupePrice == null || coupePrice.isEmpty()
-			||reservedSeatPrice == null || reservedSeatPrice.isEmpty()
-			||commonPrice == null || commonPrice.isEmpty()) {
+
+		if (trainNumber == null || trainNumber.isEmpty() || departureStationName == null
+				|| departureStationName.isEmpty() || destinationStationName == null || destinationStationName.isEmpty()
+				|| departureDateAndTime == null || departureDateAndTime.isEmpty() || destinationDateAndTime == null
+				|| destinationDateAndTime.isEmpty() || coupe == null || coupe.isEmpty() || reservedSeat == null
+				|| reservedSeat.isEmpty() || common == null || common.isEmpty() || coupePrice == null
+				|| coupePrice.isEmpty() || reservedSeatPrice == null || reservedSeatPrice.isEmpty()
+				|| commonPrice == null || commonPrice.isEmpty()) {
 			throw new AppException("empty_fields");
+		}
+		validator = new FieldsValidator();
+		if(!validator.validateDate(departureDateAndTime) || !validator.validateDate(destinationDateAndTime) ) {
+			throw new AppException("invalid_date_time");
 		}
 		try {
 			route = new Route();
@@ -66,12 +68,13 @@ public class CreateRouteCommand extends Command{
 			destinationStation = new TrainStation();
 			departureStation = daoStation.findStationByName(departureStationName);
 			destinationStation = daoStation.findStationByName(destinationStationName);
-			LOG.trace("Select departure and destination stations from DB: departure & destination --> " + departureStation + " & " + destinationStation);
-			
+			LOG.trace("Select departure and destination stations from DB: departure & destination --> "
+					+ departureStation + " & " + destinationStation);
+
 			route.setTrainNumber(Integer.parseInt(trainNumber));
 			route.setCoupe(Integer.parseInt(coupe));
 			route.setReservedSeat(Integer.parseInt(reservedSeat));
-			route.setCommon(Integer.parseInt(common));	
+			route.setCommon(Integer.parseInt(common));
 			route.setCoupePrice(Integer.parseInt(coupePrice));
 			route.setReservedSeat(Integer.parseInt(reservedSeatPrice));
 			route.setCommonPrice(Integer.parseInt(commonPrice));
@@ -80,17 +83,18 @@ public class CreateRouteCommand extends Command{
 			route.setDestinationStationId(destinationStation.getId());
 			route.setDestinationDateAndTime(destinationDateAndTime);
 			LOG.trace("Set route: route --> " + route);
-			
+
 			daoRoute.insertRoute(route);
 			LOG.trace("Insert route in DB: route --> " + route);
 			page = Path.PAGE_MAIN_FOR_ADMIN_REDIRECT;
+			request.setAttribute("message", "success");
 		} catch (Exception e) {
-			request.setAttribute("errorMessage",  "route_already_exist");
+			request.setAttribute("errorMessage", "route_already_exist");
 			LOG.trace("Set the request attribute: errorMessage --> " + "Route already exist");
 			LOG.error("Route already exist: ", e);
 		}
 		LOG.debug("Command finished");
 		return page;
 	}
-	
+
 }

@@ -1,7 +1,6 @@
 package ua.nure.kaplin.SummaryTask4.web.command;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +21,7 @@ public class UpdateTrainInfoCommand extends Command{
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
-		
+		LOG.debug("Command starts");
 		String page = Path.PAGE_ERROR;
 		Train train = null;
 		DaoTrainImpl dao = null;
@@ -67,6 +66,7 @@ public class UpdateTrainInfoCommand extends Command{
 			request.setAttribute("errorMessage", "cannot_update_train_info");
 			LOG.error("Update train: ", e);
 		}
+		LOG.debug("Command finished");
 		return page;
 	}
 	

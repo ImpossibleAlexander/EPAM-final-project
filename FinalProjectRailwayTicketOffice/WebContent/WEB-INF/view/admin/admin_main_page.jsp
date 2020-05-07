@@ -26,12 +26,11 @@
 						key='timetable' /></a></li>
 			<li><a href="controller?command=mapping&page=admin"><fmt:message
 						key='edit' /></a></li>
-			<li><select>
-					<option
-						onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=admin_main_page')"
+			<li><select
+				onchange="changeLanguage('changeLanguage', this.value, 'controller?command=mapping&page=admin_main_page')">
+					<option value="en"
 						<c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
-					<option
-						onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=admin_main_page')"
+					<option value="ru"
 						<c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
 			</select></li>
 			<li style="float: right"><c:choose>
@@ -45,8 +44,9 @@
 		</ul>
 	</nav>
 
+
 	<form action="controller" method="get" id="theForm">
-		<input type="hidden" name="command" id="commandLanId" value="">
+		<input type="hidden" name="command" id="commandId" value="">
 		<input type="hidden" name="language" id="languageId" value="">
 		<input type="hidden" name="url" id="urlId" value="">
 	</form>
@@ -93,32 +93,30 @@
 					</legend>
 					<legend>
 						<fmt:message key='train_number' />
-						: <input type="text" name="trainNumber" required 
+						: <input type="text" name="trainNumber"
 							value="${route.trainNumber}" pattern="^\d+$" />
 					</legend>
 					<legend>
 						<fmt:message key='departure_station' />
-						: <input type="text" name="stationName" required
+						: <input type="text" name="stationName"
 							value="${route.stationName}" />
 					</legend>
 					<legend>
 						<fmt:message key='dep_date_and_time' />
-						: <input type="datetime" name="departureDateAndTime" 
+						: <input type="datetime" name="departureDateAndTime"
 							value="${route.departureDateAndTime}"
-							placeholder="<fmt:message key='time_format'/>"
-							required pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]" />
+							placeholder="<fmt:message key='time_format'/>" />
 					</legend>
 					<legend>
 						<fmt:message key='arrival_station' />
-						: <input type="text" name="destinationStationName" 
-							value="${route.destinationStationName}" required/>
+						: <input type="text" name="destinationStationName"
+							value="${route.destinationStationName}" />
 					</legend>
 					<legend>
 						<fmt:message key='dest_date_and_time' />
 						: <input type="datetime" name="destinationDateAndTime"
 							value="${route.destinationDateAndTime}"
-							placeholder="<fmt:message key='time_format'/>"
-							required pattern="\d[0-9]\d[0-9]-\d[0-9]-\d[0-9]\s\d[0-9]:\d[0-9]:\d[0-9]"/>
+							placeholder="<fmt:message key='time_format'/>" />
 					</legend>
 					<legend>
 						<fmt:message key='coupe' />
@@ -127,26 +125,24 @@
 					<legend>
 						<fmt:message key='reserved_seat' />
 						: <input type="text" name="reservedSeat"
-							value="${route.reservedSeat}" required/>
+							value="${route.reservedSeat}" />
 					</legend>
 					<legend>
 						<fmt:message key='common' />
-						: <input type="text" name="common" required
-							value="${route.common}" />
+						: <input type="text" name="common" value="${route.common}" />
 					</legend>
 					<legend>
 						<fmt:message key='price_coupe' />
-						: <input type="text" name="coupePrice" required
-							value="${route.coupePrice}" />
+						: <input type="text" name="coupePrice" value="${route.coupePrice}" />
 					</legend>
 					<legend>
 						<fmt:message key='price_reserved_seat' />
-						: <input type="text" name="reservedSeatPrice" required
+						: <input type="text" name="reservedSeatPrice"
 							value="${route.reservedSeatPrice}" />
 					</legend>
 					<legend>
 						<fmt:message key='price_reserved_seat' />
-						: <input type="text" name="commonPrice" required
+						: <input type="text" name="commonPrice"
 							value="${route.commonPrice}" />
 					</legend>
 					<legend>
@@ -183,15 +179,17 @@
 					</legend>
 					<legend>
 						<fmt:message key='train_number' />
-						: <input type="text" name="trainNumber"  pattern="^\d+$" oninvalid="this.setCustomValidity('<fmt:message key='invalid_train_number'/>')" oninput="setCustomValidity('')"/>
+						: <input type="text" name="trainNumber" pattern="^\d+$"
+							oninvalid="this.setCustomValidity('<fmt:message key='invalid_train_number'/>')"
+							oninput="setCustomValidity('')" />
 					</legend>
 					<legend>
 						<fmt:message key='departure_station' />
-						: <input type="text" name="departureStation"/>
+						: <input type="text" name="departureStation" />
 					</legend>
 					<legend>
 						<fmt:message key='arrival_station' />
-						: <input type="text" name="arrivalStation"/>
+						: <input type="text" name="arrivalStation" />
 					</legend>
 				</fieldset>
 				<br /> <input type="submit"
@@ -291,10 +289,10 @@
 			document.getElementById('theForm1').submit();
 		}
 		function changeLanguage(command, language, url) {
-			document.getElementById('commandLanId').value = command;
-			document.getElementById('languageId').value = language;
-			document.getElementById('urlId').value = url;
-			document.getElementById('theForm').submit();
+		    document.getElementById('commandId').value = command;
+		    document.getElementById('languageId').value = language;
+		    document.getElementById('urlId').value = url;
+		    document.getElementById('theForm').submit();
 		}
 	</script>
 

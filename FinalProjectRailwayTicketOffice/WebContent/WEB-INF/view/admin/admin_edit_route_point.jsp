@@ -23,9 +23,9 @@
        			<a class="active" href="controller?command=mapping&page=admin"><fmt:message key='edit'/></a>
 			</li>
 				<li>
-				<select>
-		 						<option onclick="changeLanguage('changeLanguage', 'en', 'controller?command=mapping&page=admin')"  <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
-		  						<option onclick="changeLanguage('changeLanguage', 'ru', 'controller?command=mapping&page=admin')" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
+				<select onchange="changeLanguage('changeLanguage', this.value, 'controller?command=mapping&page=admin')">
+		 						<option value="en" <c:if test = "${sessionScope.language == 'en'}">selected</c:if>>English</option>
+		  						<option value="ru" <c:if test =  "${empty sessionScope.language || sessionScope.language == 'ru'}">selected</c:if>>Русский</option>
 				</select>
 			</li>	
 			<li style="float: right">
@@ -41,11 +41,11 @@
 		</ul>
 	</nav>
 	
-		<form action="controller" method="get" id="theForm">
+	<form action="controller" method="get" id="theForm">
 		<input type="hidden" name="command" id="commandId" value="">
 		<input type="hidden" name="language" id="languageId" value="">
 		<input type="hidden" name="url" id="urlId" value="">
-		</form>
+	</form>
 	
 	<div style="width: 450px">
 		<form action="controller" method="post" id="theForm1">		
@@ -113,10 +113,6 @@
 								<input type="hidden" name="command" value="routePointUpdateCommand">				
 								<input type="submit" name="update" value="<fmt:message key='update'/>" class="button-accept">			
 						</td>				
-						<td>
-								<input type="hidden" name="command" value="deleteStation">		
-								<input type="button" name="" value="<fmt:message key='delete'/>" class="button-accept">				
-						</td>
 						</tr>
 					</form>
 					</c:forEach>	

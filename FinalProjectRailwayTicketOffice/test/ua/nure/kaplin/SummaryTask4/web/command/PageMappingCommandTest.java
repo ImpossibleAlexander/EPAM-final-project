@@ -94,4 +94,25 @@ public class PageMappingCommandTest  extends Mockito{
 			
 			assertTrue(Path.PAGE_ERROR.equals(command.execute(request, response)));
 		}
+		
+		@Test
+		public void getMappingAdminMainPage() throws ServletException, IOException, AppException {
+				
+			HttpServletRequest request = mock(HttpServletRequest.class);
+			HttpServletResponse response = mock(HttpServletResponse.class);
+			
+			when(request.getParameter("page")).thenReturn("admin_main_page");
+			
+			assertTrue(Path.PAGE_ADMIN_MAIN_PAGE.equals(command.execute(request, response)));
+		}
+		
+		@Test(expected = AppException.class)
+		public void getMappingAppException() throws ServletException, IOException, AppException {
+				
+			HttpServletRequest request = mock(HttpServletRequest.class);
+			HttpServletResponse response = mock(HttpServletResponse.class);
+			
+			when(request.getParameter("errorMessage")).thenReturn("cannotFindRoute");
+			command.execute(request, response);
+		}
 }

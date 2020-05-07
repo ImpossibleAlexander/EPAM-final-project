@@ -20,14 +20,14 @@ public class PageMappingCommand extends Command{
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException, AppException {
 		LOG.debug("Command starts");
-		String page = (String) request.getParameter("page");
-		String errorMessage = (String) request.getParameter("errorMessage");
-		page = getJsp(page);
+		String page = request.getParameter("page");
+		String errorMessage = request.getParameter("errorMessage");
 		
 		if(errorMessage != null && "cannotFindRoute".equals(errorMessage)) {
 			throw new AppException("cannot_find_route");
 		}
 		
+		page = getJsp(page);
 		LOG.trace("Get path to the jsp: page --> " + page);
 		LOG.debug("Command finished");
 		return page;

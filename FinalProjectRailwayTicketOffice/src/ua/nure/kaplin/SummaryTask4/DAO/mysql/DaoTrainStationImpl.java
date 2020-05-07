@@ -30,7 +30,8 @@ public class DaoTrainStationImpl implements DaoTrainStation {
 	private static final String SQL_UPDATE_TRAIN_STATION = "UPDATE train_station SET name=? WHERE name=?";
 	
 	private static final String SQL_DELETE_TRAIN_STATION = "DELETE FROM train_station WHERE name =?";
-
+	
+	@Override
 	public void insertStation(TrainStation station) throws Exception {
 		DBManager db = DBManager.getInstance();
 		Connection connection = null;
@@ -80,13 +81,7 @@ public class DaoTrainStationImpl implements DaoTrainStation {
 		}
 		return station;
 	}
-
 	@Override
-	public TrainStation findStationById(int id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public boolean updateTrainStation(TrainStation trainStationBeforeUpdate, TrainStation trainStationAfterUpdate) throws Exception {
 		DBManager db = DBManager.getInstance();
 		Connection connection = null;
@@ -139,6 +134,7 @@ public class DaoTrainStationImpl implements DaoTrainStation {
 		return stations;
 	}
 	
+	@Override
 	public boolean deleteTrainStation(String name) throws Exception {
 		DBManager db = DBManager.getInstance();
 		Connection connection = null;

@@ -14,6 +14,7 @@ import ua.nure.kaplin.SummaryTask4.Path;
 import ua.nure.kaplin.SummaryTask4.DAO.mysql.DaoUserImpl;
 import ua.nure.kaplin.SummaryTask4.db.entity.User;
 import ua.nure.kaplin.SummaryTask4.exception.AppException;
+import ua.nure.kaplin.SummaryTask4.validator.FieldsValidator;
 
 public class RegistrationCommand extends Command {
 
@@ -30,6 +31,7 @@ public class RegistrationCommand extends Command {
 		DaoUserImpl dao = null;
 		StringBuilder builder = null;
 		MessageDigest md5 = null;
+		FieldsValidator validator= null;
 		String login = request.getParameter("login");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -38,6 +40,13 @@ public class RegistrationCommand extends Command {
 		String name = request.getParameter("name");
 
 		if (password.equals(passwordConfirm)) {
+			if(password.length() <6) {
+				throw new AppException("password_less_than_6_characters");
+			}
+			validator = new FieldsValidator();
+			if(!validator.validateFieldEmail(email)) {
+				throw new AppException("invalid_email");
+			}
 			user = new User();
 			dao = new DaoUserImpl();
 			user.setLogin(login);
@@ -71,8 +80,7 @@ public class RegistrationCommand extends Command {
 				LOG.trace("Set the request attribute: errorMessage --> " + "A user already existss");
 				LOG.error("A user already exists: ", e);
 			}
-		}
-		else {
+		} else {
 			throw new AppException("different_passwords");
 		}
 		LOG.debug("Command finished");

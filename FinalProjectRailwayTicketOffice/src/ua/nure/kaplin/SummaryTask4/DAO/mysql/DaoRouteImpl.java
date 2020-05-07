@@ -31,7 +31,9 @@ public class DaoRouteImpl implements DaoRoute{
 	
 	private static final String SQL_INSERT_DEPARTURE_AND_DESTINATION_STATIONS_OF_ROUTE = "insert into route_point (train_id, train_station_id, arrive_datetime, depart_datetime) values ((SELECT id FROM train WHERE train_number = ?), ?, ?, ?)";
 
-	
+	private static final String SQL_DELETE_ROUTE_POINT = "DELETE FROM route_point WHERE train_id = (SELECT id FROM train WHERE train_number = ?) AND train_station_id = (SELECT id FROM train_station WHERE name = ?)";
+
+	@Override
 	public List<Route> findRouteByTrainNumber(int trainNumber) throws Exception {
 		List<Route> routes = new ArrayList<Route>();
 		DBManager db = DBManager.getInstance();
@@ -58,7 +60,6 @@ public class DaoRouteImpl implements DaoRoute{
 				route.setCommonPrice(resultSet.getInt(10));
 				route.setTrainId(resultSet.getInt(11));
 				route.setStationId(resultSet.getInt(12));
-				System.out.println(resultSet.getString(13) + "    wafmmamvmamvmklamlfmlamdl-----------");
 				route.setTrainStatus(resultSet.getString(13));
 				routes.add(route);
 			}
@@ -70,7 +71,7 @@ public class DaoRouteImpl implements DaoRoute{
 		}
 		return routes;
 	}
-
+	@Override
 	public boolean updateRoutePoints(Route route) throws Exception {
 		DBManager db = DBManager.getInstance();
 		Connection connection = null;
@@ -92,7 +93,7 @@ public class DaoRouteImpl implements DaoRoute{
 		}
 		return true;
 	}
-
+	@Override
 	public void insertRoute(Route route) throws Exception {
 		DBManager db = DBManager.getInstance();
 		Connection connection = null;
@@ -138,7 +139,7 @@ public class DaoRouteImpl implements DaoRoute{
 			db.close(connection, preparedStatement, resultSet);
 		}
 	}
-	
+	@Override
 	public void insertRoutePoint(Route route) throws Exception {
 		DBManager db = DBManager.getInstance();
 		Connection connection = null;
@@ -180,6 +181,33 @@ public class DaoRouteImpl implements DaoRoute{
 		} finally {
 			db.close(connection, preparedStatement, resultSet);
 		}
+	}
+
+	@Override
+	public boolean deleteRoutePoint(int trainNumber, String stationName) throws Exception {
+		DBManager db = DBManager.getInstance();
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		boolean status = false;
+		try {
+			connection = db.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(SQL_DELETE_ROUTE_POINT);
+			int k = 1;
+			preparedStatement.setInt(k++, trainNumber);
+			preparedStatement.setString(k++, stationName);
+			preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			status = false;
+			LOG.error(Messages.ERR_CANNOT_DELETE_ROUTE_POINT, e);
+			throw new DBException(Messages.ERR_CANNOT_DELETE_ROUTE_POINT, e);
+		}
+		 finally {
+				db.close(connection, preparedStatement, resultSet);
+		 }
+		return status;
 	}
 
 

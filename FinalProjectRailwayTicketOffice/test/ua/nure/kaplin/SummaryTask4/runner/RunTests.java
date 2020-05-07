@@ -9,6 +9,7 @@ import ua.nure.kaplin.SummaryTask4.db.entity.TicketTest;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainStationTest;
 import ua.nure.kaplin.SummaryTask4.db.entity.TrainTest;
 import ua.nure.kaplin.SummaryTask4.db.entity.UserTest;
+import ua.nure.kaplin.SummaryTask4.validator.FieldsValidatorTest;
 import ua.nure.kaplin.SummaryTask4.web.command.PageMappingCommandTest;
 
 @RunWith(Suite.class)
@@ -18,6 +19,7 @@ import ua.nure.kaplin.SummaryTask4.web.command.PageMappingCommandTest;
 	PageMappingCommandTest.class,
 	TrainTest.class,
 	TrainStationTest.class,
-	UserTest.class
+	UserTest.class,
+	FieldsValidatorTest.class
 	})
 public class RunTests {}
