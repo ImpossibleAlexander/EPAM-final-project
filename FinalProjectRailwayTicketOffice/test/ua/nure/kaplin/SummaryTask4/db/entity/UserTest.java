@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.booleanThat;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class UserTest {
@@ -64,23 +65,37 @@ public class UserTest {
 		user2 = new User();
 		user2.setLogin("log");
 		assertFalse(user.equals(user2));
-		
+
 		user2.setLogin(null);
 		assertFalse(user.equals(user2));
-		
+
 		user.setLogin(null);
 		user2.setLogin("log");
 		assertFalse(user.equals(user2));
-		
+
 		TrainStation station = new TrainStation();
 		assertFalse(user.equals(station));
-		
+
 		user.setLogin("log");
 		user2.setLogin("log");
 		assertTrue(user.equals(user2));
 	}
+
 	@Test
-	public void hashCodeTest() {
+	public void hashCodeTest1() {
 		assertTrue(user.hashCode() == 3208);
+	}
+	
+	@Test
+	public void hashCodeTest2() {
+		user.setLogin(null);
+		assertTrue(user.hashCode() == 31);
+	}
+
+	@Test
+	public void toStringTest() {
+		String expected = "User [login=" + user.getLogin() + ", firstName=" + user.getFirstName() + ", lastName="
+				+ user.getLastName() + ", roleId=" + user.getRoleId() + "]";
+		Assert.assertEquals(expected, user.toString());
 	}
 }

@@ -3,6 +3,7 @@ package ua.nure.kaplin.SummaryTask4.db.entity;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TrainTest {
@@ -78,12 +79,21 @@ public class TrainTest {
 
 		train2.setTrainNumber(1);
 		assertTrue(train.equals(train2));
-		
+
 		TrainStation station = new TrainStation();
 		assertFalse(train.equals(station));
 	}
+
 	@Test
 	public void hashCodeTest() {
 		assertTrue(train.hashCode() == 32);
+	}
+
+	@Test
+	public void toStringTest() {
+		String expected = "Train [id=" + train.getId() + ", trainNumber=" + train.getTrainNumber() + ", coupe=" + train.getCoupe()
+				+ ", reservedSeat=" + train.getReservedSeat() + ", common=" + train.getCommon() + ", coupePrice=" + train.getCoupePrice()
+				+ ", reservedSeatPrice=" + train.getReservedSeatPrice() + ", commonPrice=" + train.getCommonPrice() + "]";
+		Assert.assertEquals(expected, train.toString());
 	}
 }

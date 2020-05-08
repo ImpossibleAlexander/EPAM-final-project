@@ -81,7 +81,7 @@
 				<fmt:message key='dest_date_and_time'/>: <input type="datetime-local" name="destinationDateAndTime" required oninvalid="this.setCustomValidity('<fmt:message key='empty_field'/>')" oninput="setCustomValidity('')"/>
 			</legend>
 			<legend>
-				<fmt:message key='dep_date_and_time'/>: <input type="datetime-local" name="departureDateAndTime" required oninvalid="this.setCustomValidity('<fmt:message key='empty_field'/>')" oninput="setCustomValidity('')"/>
+				<fmt:message key='dep_date_and_time'/>: <input type="datetime-local" name="departureDateAndTime" />
 			</legend>
 		</fieldset>	
 				<input type="hidden" name="command" value="createRoutePointCommand">			
